@@ -14,9 +14,16 @@ Design screens for the **GrowthHub** workspace marketplace
 | 03 | [Venue detail](venue.html) | One venue, twelve bookable spaces, availability calendar, booking card |
 | 04 | [Customer dashboard](dashboard.html) | Membership, meeting-hours ledger, bookings, invoices, wishlist |
 | 05 | [Membership plans](membership.html) | The paid benefits tier for people without an office |
+| 06 | [Homepage — rebuilt](homepage-v2.html) | The corrected brand; the tower as hero, navigation and inventory browser |
 
 Each page is a single self-contained HTML file — no build step, no external
 requests. The filters, tabs, calendars and booking calculator all work.
+
+**Screen 06 replaces screen 01.** The first homepage used the wrong pink
+(`#C3405D` rather than the logo's `#D2758B`), a system UI font, and reduced the
+speech-bubble mark to a plain blob. Screen 06 corrects all three: the mark is
+real SVG geometry, the palette is derived from the logo with every contrast
+ratio computed, and the type is Rubik. Screen 01 is kept only for comparison.
 
 Screens 01–04 are designs. **Screen 05 is a capture of the working
 application** — the real `/membership` page as a signed-out visitor sees it,
