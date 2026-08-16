@@ -1,0 +1,689 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>GrowthHub — Customer Dashboard Design</title>
+<meta name="robots" content="noindex">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Cpath d='M4 4h24v24H4z' fill='%23C3405D'/%3E%3C/svg%3E">
+</head>
+<body>
+<style>
+:root{
+  --ink:#1A1719;--ink-2:#4A3F44;--muted:#7A6B71;
+  --paper:#FFFFFF;--shell:#F8F3F4;--line:#E9DFE2;--line-2:#D6C7CC;
+  --rose:#C3405D;--rose-deep:#8E2E44;--rose-wash:#FCEFF2;
+  --night:#231B1E;--night-ink:#F4EDEF;--night-muted:#B3A0A6;
+  --amber:#986229;--amber-lt:#C67F35;--amber-wash:#FBF2E8;
+  --green:#38715B;--green-wash:#EAF3EF;
+  --sans:"Segoe UI Variable Display","Segoe UI",-apple-system,BlinkMacSystemFont,"Helvetica Neue",Arial,sans-serif;
+  --serif:"Iowan Old Style","Palatino Linotype",Palatino,"Book Antiqua",Georgia,serif;
+  --mono:"Cascadia Mono","SF Mono",ui-monospace,Consolas,"Liberation Mono",monospace;
+  --pad:clamp(18px,4vw,44px);--maxw:1240px;
+}
+*{box-sizing:border-box;}
+body{margin:0;background:var(--shell);color:var(--ink);font-family:var(--sans);font-size:16px;line-height:1.55;-webkit-font-smoothing:antialiased;overflow-x:hidden;}
+.bound{max-width:var(--maxw);margin:0 auto;padding-left:var(--pad);padding-right:var(--pad);}
+a{color:inherit;}
+button{font:inherit;color:inherit;cursor:pointer;}
+:focus-visible{outline:2.5px solid var(--rose);outline-offset:2px;border-radius:2px;}
+.num{font-family:var(--mono);font-variant-numeric:tabular-nums;}
+h1,h2,h3{margin:0;text-wrap:balance;}
+
+header.nav{border-bottom:1px solid var(--line);background:var(--paper);position:sticky;top:0;z-index:60;}
+.nav-in{display:flex;align-items:center;gap:22px;height:68px;}
+.logo{display:flex;align-items:center;gap:9px;text-decoration:none;flex:none;}
+.logo .bubble{width:25px;height:25px;background:var(--rose);border-radius:50% 50% 3px 50%;flex:none;}
+.logo b{font-weight:700;letter-spacing:-.035em;font-size:1.14rem;}
+.logo b span{color:var(--rose);}
+.nav-links{display:none;gap:22px;flex:1;}
+@media (min-width:960px){.nav-links{display:flex;}}
+.nav-links a{text-decoration:none;font-size:.92rem;font-weight:550;color:var(--ink-2);padding:6px 0;border-bottom:2px solid transparent;}
+.nav-links a:hover{color:var(--ink);}
+.nav-right{display:flex;align-items:center;gap:8px;margin-left:auto;}
+.lang{font-family:var(--mono);font-size:11px;letter-spacing:.08em;border:1px solid var(--line-2);background:none;padding:6px 10px;border-radius:2px;color:var(--ink-2);}
+.avatar{width:36px;height:36px;border-radius:50%;background:var(--rose);color:#fff;display:grid;place-items:center;font-weight:700;font-size:.85rem;letter-spacing:.02em;border:none;}
+
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;padding:10px 16px;border-radius:2px;border:1.5px solid transparent;font-weight:640;font-size:.9rem;text-decoration:none;white-space:nowrap;background:none;}
+.btn-primary{background:var(--rose);color:#fff;border-color:var(--rose);}
+.btn-primary:hover{background:var(--rose-deep);border-color:var(--rose-deep);}
+.btn-outline{border-color:var(--line-2);color:var(--ink);background:var(--paper);}
+.btn-outline:hover{border-color:var(--ink);}
+.btn-sm{padding:7px 12px;font-size:.84rem;}
+.btn-danger{border-color:var(--rose-wash);color:var(--rose-deep);background:var(--paper);border:1.5px solid #F2D3DB;}
+.btn-danger:hover{background:var(--rose-wash);}
+
+/* dashboard layout */
+.dash{display:grid;gap:26px;padding:30px 0 70px;align-items:start;}
+@media (min-width:960px){.dash{grid-template-columns:242px minmax(0,1fr);}}
+
+/* sidebar */
+.side{background:var(--paper);border:1px solid var(--line);}
+@media (min-width:960px){.side{position:sticky;top:86px;}}
+.side-user{padding:18px;border-bottom:1px solid var(--line);display:flex;gap:12px;align-items:center;}
+.side-user .avatar{width:44px;height:44px;font-size:1rem;flex:none;}
+.side-user b{display:block;font-weight:650;font-size:.98rem;letter-spacing:-.014em;line-height:1.25;}
+.side-user span{font-family:var(--mono);font-size:10px;letter-spacing:.07em;color:var(--muted);text-transform:uppercase;}
+.memchip{display:inline-block;font-family:var(--mono);font-size:9.5px;letter-spacing:.07em;background:var(--amber-wash);color:var(--amber);padding:2px 7px;border-radius:2px;margin-top:4px;font-weight:600;text-transform:uppercase;}
+.side nav{display:flex;flex-direction:column;padding:8px;}
+@media (max-width:959px){.side nav{flex-direction:row;flex-wrap:wrap;gap:4px;}}
+.snav{display:flex;align-items:center;gap:10px;padding:10px 12px;border:none;background:none;text-align:left;font-size:.93rem;font-weight:560;color:var(--ink-2);border-radius:2px;width:100%;}
+@media (max-width:959px){.snav{width:auto;}}
+.snav:hover{background:var(--shell);color:var(--ink);}
+.snav[aria-current="true"]{background:var(--rose-wash);color:var(--rose-deep);font-weight:650;}
+.snav .cnt{margin-left:auto;font-family:var(--mono);font-size:10px;background:var(--shell);color:var(--muted);padding:2px 7px;border-radius:2px;}
+.snav[aria-current="true"] .cnt{background:#F2D3DB;color:var(--rose-deep);}
+.snav .dot{width:7px;height:7px;border-radius:50%;background:var(--rose);margin-left:auto;}
+.side-foot{border-top:1px solid var(--line);padding:12px 18px;}
+.side-foot a{font-family:var(--mono);font-size:11px;letter-spacing:.06em;color:var(--muted);text-decoration:none;}
+.side-foot a:hover{color:var(--rose);}
+
+/* panels */
+.panel{display:none;min-width:0;}
+.panel.on{display:block;}
+.phead{display:flex;flex-wrap:wrap;align-items:flex-end;justify-content:space-between;gap:12px;margin-bottom:18px;}
+.phead h1{font-weight:700;letter-spacing:-.026em;font-size:clamp(1.4rem,3vw,1.9rem);}
+.phead h1 em{font-family:var(--serif);font-style:italic;font-weight:400;color:var(--rose);}
+.phead .sub{font-family:var(--mono);font-size:11px;color:var(--muted);letter-spacing:.05em;}
+
+.card{background:var(--paper);border:1px solid var(--line);}
+.card-pad{padding:20px;}
+.cardgrid{display:grid;gap:16px;}
+@media (min-width:820px){.cardgrid.g2{grid-template-columns:1fr 1fr;}}
+@media (min-width:820px){.cardgrid.g3{grid-template-columns:repeat(3,1fr);}}
+
+/* membership card */
+.memcard{background:var(--night);color:var(--night-ink);border:1px solid var(--night);padding:22px;position:relative;overflow:hidden;}
+.memcard::after{content:"";position:absolute;right:-40px;top:-40px;width:150px;height:150px;border-radius:50% 50% 8px 50%;background:var(--rose);opacity:.16;}
+.memcard .k{font-family:var(--mono);font-size:10px;letter-spacing:.13em;text-transform:uppercase;color:var(--night-muted);}
+.memcard h2{font-weight:700;letter-spacing:-.02em;font-size:1.3rem;margin:6px 0 2px;}
+.memcard .sub{font-family:var(--mono);font-size:11px;color:var(--night-muted);letter-spacing:.04em;}
+.memrow{display:flex;flex-wrap:wrap;gap:8px 22px;margin-top:16px;}
+.memrow div b{display:block;font-family:var(--mono);font-size:1.05rem;font-weight:600;letter-spacing:-.01em;}
+.memrow div span{font-family:var(--mono);font-size:9.5px;letter-spacing:.08em;color:var(--night-muted);text-transform:uppercase;}
+.st-active{display:inline-block;font-family:var(--mono);font-size:9.5px;letter-spacing:.08em;background:rgba(111,179,148,.18);color:#8FCBAF;padding:3px 9px;border-radius:2px;font-weight:600;text-transform:uppercase;position:relative;}
+
+/* allowance */
+.allow-top{display:flex;justify-content:space-between;align-items:baseline;gap:14px;margin-bottom:8px;}
+.allow-top .lbl{font-family:var(--mono);font-size:10.5px;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);}
+.allow-top .val{font-family:var(--mono);font-size:1.9rem;font-weight:600;letter-spacing:-.03em;}
+.allow-top .val small{font-size:.85rem;color:var(--muted);font-weight:400;}
+.bar{height:9px;background:var(--shell);border:1px solid var(--line);position:relative;overflow:hidden;margin-bottom:8px;}
+.bar i{position:absolute;top:0;bottom:0;left:0;width:40%;background:var(--amber-lt);display:block;}
+.allow-note{font-family:var(--mono);font-size:10.5px;color:var(--muted);letter-spacing:.03em;}
+
+/* stat tiles */
+.stat{padding:16px 18px;}
+.stat b{display:block;font-size:1.7rem;font-weight:700;letter-spacing:-.04em;line-height:1.1;margin-bottom:3px;}
+.stat span{font-family:var(--mono);font-size:10px;letter-spacing:.08em;color:var(--muted);text-transform:uppercase;}
+
+/* next booking */
+.next{display:flex;flex-wrap:wrap;gap:14px;align-items:center;padding:18px 20px;}
+.next .cal{flex:none;width:56px;border:1px solid var(--line);text-align:center;background:var(--paper);}
+.next .cal .m{display:block;font-family:var(--mono);font-size:9px;letter-spacing:.12em;background:var(--rose);color:#fff;padding:3px 0;text-transform:uppercase;}
+.next .cal .d{display:block;font-family:var(--mono);font-size:1.4rem;font-weight:600;padding:5px 0 6px;}
+.next .inf{min-width:0;flex:1;}
+.next .inf b{display:block;font-weight:650;font-size:1.02rem;letter-spacing:-.015em;}
+.next .inf span{font-family:var(--mono);font-size:10.5px;color:var(--muted);letter-spacing:.04em;}
+.next .acts{display:flex;gap:7px;}
+
+/* status pills */
+.st{display:inline-block;font-family:var(--mono);font-size:9.5px;letter-spacing:.07em;padding:3px 9px;border-radius:2px;font-weight:600;text-transform:uppercase;white-space:nowrap;}
+.st-pending{background:var(--amber-wash);color:var(--amber);}
+.st-confirmed{background:var(--green-wash);color:var(--green);}
+.st-completed{background:var(--shell);color:var(--muted);}
+.st-cancelled{background:var(--rose-wash);color:var(--rose-deep);}
+.st-noshow{background:var(--night);color:var(--night-ink);}
+
+/* tables */
+.twrap{overflow-x:auto;background:var(--paper);border:1px solid var(--line);}
+table{border-collapse:collapse;width:100%;min-width:640px;font-size:.92rem;}
+th,td{text-align:left;padding:12px 16px;border-bottom:1px solid var(--line);vertical-align:middle;}
+thead th{font-family:var(--mono);font-size:10px;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);font-weight:600;background:var(--shell);white-space:nowrap;}
+tbody tr:last-child td{border-bottom:none;}
+td.ref{font-family:var(--mono);font-size:11px;color:var(--rose);font-weight:600;white-space:nowrap;}
+td .sub{display:block;font-family:var(--mono);font-size:10px;color:var(--muted);letter-spacing:.03em;margin-top:2px;}
+td.r{text-align:right;}
+.amount{font-family:var(--mono);font-weight:600;font-variant-numeric:tabular-nums;white-space:nowrap;}
+.ledger-in{color:var(--green);font-weight:600;}
+.ledger-out{color:var(--rose-deep);font-weight:600;}
+.dl{font-family:var(--mono);font-size:11px;color:var(--rose);text-decoration:none;font-weight:600;white-space:nowrap;}
+.dl:hover{text-decoration:underline;}
+
+/* filter chips */
+.fchips{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:14px;}
+.fchip{font-family:var(--mono);font-size:10.5px;letter-spacing:.05em;border:1px solid var(--line-2);background:var(--paper);padding:6px 12px;border-radius:2px;color:var(--ink-2);}
+.fchip[aria-pressed="true"]{background:var(--night);border-color:var(--night);color:var(--night-ink);}
+
+/* wishlist */
+.wish{display:grid;gap:14px;}
+@media (min-width:680px){.wish{grid-template-columns:1fr 1fr;}}
+.wcard{display:flex;gap:0;background:var(--paper);border:1px solid var(--line);overflow:hidden;}
+.wimg{width:110px;flex:none;position:relative;background:var(--night);}
+.wimg canvas{position:absolute;inset:0;width:100%;height:100%;}
+.wbody{padding:14px 16px;min-width:0;flex:1;}
+.wbody b{display:block;font-weight:650;font-size:.98rem;letter-spacing:-.014em;}
+.wbody span{font-family:var(--mono);font-size:10px;color:var(--muted);letter-spacing:.04em;display:block;margin-top:2px;}
+.wbody .pr{font-family:var(--mono);font-size:.95rem;font-weight:600;color:var(--ink);margin-top:8px;}
+.wbody .pr small{color:var(--muted);font-weight:400;font-size:9.5px;}
+.wacts{display:flex;flex-direction:column;gap:6px;padding:14px;justify-content:center;}
+
+/* notifications */
+.nlist{display:flex;flex-direction:column;}
+.nitem{display:flex;gap:13px;padding:15px 18px;border-bottom:1px solid var(--line);background:var(--paper);border-left:3px solid transparent;text-align:left;width:100%;border-top:none;border-right:none;}
+.nitem:last-child{border-bottom:none;}
+.nitem.unread{border-left-color:var(--rose);background:var(--rose-wash);}
+.nitem .ic{width:34px;height:34px;flex:none;border-radius:2px;background:var(--shell);display:grid;place-items:center;}
+.nitem .ic svg{width:16px;height:16px;stroke:var(--rose);fill:none;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round;}
+.nitem .nb b{display:block;font-weight:640;font-size:.95rem;letter-spacing:-.012em;}
+.nitem .nb span{font-size:.88rem;color:var(--ink-2);display:block;}
+.nitem .nb time{font-family:var(--mono);font-size:9.5px;color:var(--muted);letter-spacing:.05em;text-transform:uppercase;}
+.prefs{display:grid;gap:1px;background:var(--line);border:1px solid var(--line);margin-top:18px;}
+.pref{display:flex;align-items:center;gap:12px;background:var(--paper);padding:14px 16px;}
+.pref b{font-weight:640;font-size:.93rem;}
+.pref span{font-family:var(--mono);font-size:10px;color:var(--muted);letter-spacing:.04em;display:block;}
+.p2tag{font-family:var(--mono);font-size:9px;letter-spacing:.08em;background:var(--amber-wash);color:var(--amber);padding:2px 6px;border-radius:2px;text-transform:uppercase;font-weight:600;}
+.toggle{margin-left:auto;width:40px;height:22px;border-radius:11px;border:1px solid var(--line-2);background:var(--shell);position:relative;flex:none;}
+.toggle::after{content:"";position:absolute;top:2px;left:2px;width:16px;height:16px;border-radius:50%;background:var(--paper);border:1px solid var(--line-2);}
+.toggle[aria-pressed="true"]{background:var(--green);border-color:var(--green);}
+.toggle[aria-pressed="true"]::after{left:auto;right:2px;border-color:var(--green);}
+.toggle:disabled{opacity:.55;cursor:not-allowed;}
+
+/* forms */
+.fgrid{display:grid;gap:14px;}
+@media (min-width:680px){.fgrid{grid-template-columns:1fr 1fr;}}
+.f{display:grid;gap:5px;}
+.f.wide{grid-column:1 / -1;}
+.f label{font-family:var(--mono);font-size:10px;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);}
+.f input,.f select{border:1px solid var(--line-2);border-radius:2px;padding:10px 12px;font-family:var(--sans);font-size:.95rem;font-weight:560;color:var(--ink);background:var(--paper);width:100%;}
+.frow{display:flex;gap:9px;margin-top:16px;flex-wrap:wrap;}
+.danger{border:1px solid #F2D3DB;background:var(--rose-wash);padding:16px 18px;margin-top:22px;}
+.danger b{display:block;font-weight:650;font-size:.95rem;color:var(--rose-deep);margin-bottom:4px;}
+.danger p{margin:0 0 12px;font-size:.88rem;color:var(--ink-2);max-width:60ch;}
+
+.rev-empty{border:1px dashed var(--line-2);background:var(--paper);padding:28px 24px;text-align:center;}
+.rev-empty b{display:block;font-size:1rem;margin-bottom:5px;}
+.rev-empty p{margin:0 auto;color:var(--muted);font-size:.9rem;max-width:52ch;}
+
+.note{border-left:2.5px solid var(--amber);background:var(--amber-wash);padding:13px 16px;margin-top:22px;font-size:.88rem;color:#6E4A20;max-width:70ch;}
+.note b{font-family:var(--mono);font-size:10px;letter-spacing:.11em;text-transform:uppercase;display:block;margin-bottom:4px;color:var(--amber);}
+
+.mt{margin-top:16px;}
+.mt2{margin-top:26px;}
+h2.sec{font-weight:650;letter-spacing:-.018em;font-size:1.08rem;margin:26px 0 12px;}
+
+footer.ft{background:var(--night);color:var(--night-muted);padding:28px 0;font-family:var(--mono);font-size:10.5px;letter-spacing:.05em;}
+.ft-base{display:flex;flex-wrap:wrap;gap:10px 26px;justify-content:space-between;}
+.ft a{text-decoration:none;}
+.ft a:hover{color:var(--night-ink);}
+</style>
+
+<header class="nav">
+  <div class="bound nav-in">
+    <a class="logo" href="#"><span class="bubble"></span><b>growth<span>hub</span></b></a>
+    <nav class="nav-links">
+      <a href="#">Workspaces</a><a href="#">Membership</a><a href="#">Locations</a><a href="#">Business setup</a><a href="#">Partners</a>
+    </nav>
+    <div class="nav-right">
+      <button class="lang" type="button">العربية</button>
+      <button class="avatar" type="button" aria-label="Account menu">NA</button>
+    </div>
+  </div>
+</header>
+
+<div class="bound">
+  <div class="dash">
+
+    <!-- sidebar -->
+    <aside class="side">
+      <div class="side-user">
+        <span class="avatar" aria-hidden="true">NA</span>
+        <div>
+          <b>Noor Al-Qahtani</b>
+          <span>Nawa Ventures</span><br>
+          <span class="memchip">Growth Office member</span>
+        </div>
+      </div>
+      <nav aria-label="Dashboard">
+        <button class="snav" data-tab="overview" aria-current="true" type="button">Overview</button>
+        <button class="snav" data-tab="bookings" aria-current="false" type="button">Bookings <span class="cnt">7</span></button>
+        <button class="snav" data-tab="hours" aria-current="false" type="button">Meeting hours <span class="cnt num">9 left</span></button>
+        <button class="snav" data-tab="invoices" aria-current="false" type="button">Invoices <span class="cnt">3</span></button>
+        <button class="snav" data-tab="wishlist" aria-current="false" type="button">Wishlist <span class="cnt" id="wishCnt">2</span></button>
+        <button class="snav" data-tab="reviews" aria-current="false" type="button">Reviews</button>
+        <button class="snav" data-tab="notifications" aria-current="false" type="button">Notifications <span class="dot" id="notifDot"></span></button>
+        <button class="snav" data-tab="profile" aria-current="false" type="button">Profile &amp; settings</button>
+      </nav>
+      <div class="side-foot"><a href="#">Sign out →</a></div>
+    </aside>
+
+    <!-- OVERVIEW -->
+    <main class="panel on" id="p-overview">
+      <div class="phead">
+        <h1>Good afternoon, <em>Noor.</em></h1>
+        <span class="sub">Thursday 13 August 2026 · Al-Khobar</span>
+      </div>
+
+      <div class="cardgrid g2">
+        <div class="memcard">
+          <span class="k">Membership</span>
+          <h2>Growth Office</h2>
+          <span class="sub">The Collective · 2nd floor · Growth Hub Al-Khobar</span>
+          <div class="memrow">
+            <div><b class="num">SAR 6,200</b><span>per month</span></div>
+            <div><b class="num">1 Sep</b><span>renews</span></div>
+            <div><b class="num">15 hrs</b><span>included</span></div>
+            <div><span class="st-active">● Active</span></div>
+          </div>
+        </div>
+
+        <div class="card card-pad">
+          <div class="allow-top">
+            <span class="lbl">Meeting hours — August</span>
+            <span class="val num">9<small> / 15 left</small></span>
+          </div>
+          <div class="bar"><i></i></div>
+          <p class="allow-note">6 hrs used · resets 1 September · valid at every Growth Hub centre</p>
+          <div class="frow" style="margin-top:14px;">
+            <a class="btn btn-primary btn-sm" href="#">Book a meeting room</a>
+            <button class="btn btn-outline btn-sm" data-goto="hours" type="button">View ledger</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="cardgrid g3 mt">
+        <div class="card stat"><b class="num">4</b><span>Bookings this month</span></div>
+        <div class="card stat"><b class="num">6 hrs</b><span>Meeting time used</span></div>
+        <div class="card stat"><b class="num">SAR 600</b><span>1 invoice due</span></div>
+      </div>
+
+      <h2 class="sec">Next booking</h2>
+      <div class="card next">
+        <div class="cal"><span class="m">Aug</span><span class="d num">17</span></div>
+        <div class="inf">
+          <b>Vista — meeting room</b>
+          <span>Mon 17 Aug · 14:00–16:00 · 14th floor · draws 2 hrs from allowance</span>
+        </div>
+        <span class="st st-confirmed">Confirmed</span>
+        <div class="acts">
+          <button class="btn btn-outline btn-sm" type="button">Reschedule</button>
+          <button class="btn btn-danger btn-sm" type="button">Cancel</button>
+        </div>
+      </div>
+
+      <h2 class="sec">Recent activity</h2>
+      <div class="twrap">
+        <table>
+          <tbody>
+            <tr><td class="ref">12 AUG</td><td>Booking completed — Pair, 09:00–11:00<span class="sub">2 hrs drawn · 9 hrs remaining</span></td><td class="r"><span class="st st-completed">Completed</span></td></tr>
+            <tr><td class="ref">11 AUG</td><td>Invoice issued — Parking add-on, August<span class="sub">INV-2026-0407 · SAR 600</span></td><td class="r"><span class="st st-pending">Due</span></td></tr>
+            <tr><td class="ref">09 AUG</td><td>Booking completed — Vista, 14:00–16:00<span class="sub">2 hrs drawn · 11 hrs remaining</span></td><td class="r"><span class="st st-completed">Completed</span></td></tr>
+            <tr><td class="ref">01 AUG</td><td>August membership renewed — Growth Office<span class="sub">INV-2026-0402 · SAR 6,200 · allowance reset to 15 hrs</span></td><td class="r"><span class="st st-confirmed">Paid</span></td></tr>
+          </tbody>
+        </table>
+      </div>
+    </main>
+
+    <!-- BOOKINGS -->
+    <main class="panel" id="p-bookings">
+      <div class="phead"><h1>Bookings.</h1><span class="sub">7 total · all venues</span></div>
+      <div class="fchips" role="group" aria-label="Filter bookings">
+        <button class="fchip" aria-pressed="true" data-f="all" type="button">All</button>
+        <button class="fchip" aria-pressed="false" data-f="pending" type="button">Pending</button>
+        <button class="fchip" aria-pressed="false" data-f="confirmed" type="button">Confirmed</button>
+        <button class="fchip" aria-pressed="false" data-f="completed" type="button">Completed</button>
+        <button class="fchip" aria-pressed="false" data-f="cancelled" type="button">Cancelled</button>
+        <button class="fchip" aria-pressed="false" data-f="noshow" type="button">No show</button>
+      </div>
+      <div class="twrap">
+        <table>
+          <thead><tr><th>Ref</th><th>Space</th><th>When</th><th>Hours</th><th>Status</th><th class="r">Action</th></tr></thead>
+          <tbody id="bkRows">
+            <tr data-st="pending">
+              <td class="ref">GH-2026-0415</td>
+              <td>Event Hall<span class="sub">Growth Hub Al-Khobar</span></td>
+              <td>Mon 24 Aug<span class="sub">16:00–20:00</span></td>
+              <td class="amount">SAR 3,400<span class="sub">outside allowance</span></td>
+              <td><span class="st st-pending">Pending</span></td>
+              <td class="r"><button class="btn btn-danger btn-sm bk-cancel" type="button">Cancel</button></td>
+            </tr>
+            <tr data-st="confirmed">
+              <td class="ref">GH-2026-0412</td>
+              <td>Vista — meeting room<span class="sub">Growth Hub Al-Khobar</span></td>
+              <td>Mon 17 Aug<span class="sub">14:00–16:00</span></td>
+              <td class="amount">2 hrs<span class="sub">from allowance</span></td>
+              <td><span class="st st-confirmed">Confirmed</span></td>
+              <td class="r"><button class="btn btn-danger btn-sm bk-cancel" type="button">Cancel</button></td>
+            </tr>
+            <tr data-st="completed">
+              <td class="ref">GH-2026-0398</td>
+              <td>Pair — meeting pod<span class="sub">Growth Hub Al-Khobar</span></td>
+              <td>Wed 12 Aug<span class="sub">09:00–11:00</span></td>
+              <td class="amount">2 hrs<span class="sub">from allowance</span></td>
+              <td><span class="st st-completed">Completed</span></td>
+              <td class="r"><a class="dl" href="#">Review →</a></td>
+            </tr>
+            <tr data-st="completed">
+              <td class="ref">GH-2026-0395</td>
+              <td>Vista — meeting room<span class="sub">Growth Hub Al-Khobar</span></td>
+              <td>Sun 9 Aug<span class="sub">14:00–16:00</span></td>
+              <td class="amount">2 hrs<span class="sub">from allowance</span></td>
+              <td><span class="st st-completed">Completed</span></td>
+              <td class="r"><a class="dl" href="#">Review →</a></td>
+            </tr>
+            <tr data-st="completed">
+              <td class="ref">GH-2026-0381</td>
+              <td>Pivot — meeting pod<span class="sub">Growth Hub Al-Khobar</span></td>
+              <td>Wed 5 Aug<span class="sub">11:00–13:00</span></td>
+              <td class="amount">2 hrs<span class="sub">from allowance</span></td>
+              <td><span class="st st-completed">Completed</span></td>
+              <td class="r"><a class="dl" href="#">Review →</a></td>
+            </tr>
+            <tr data-st="cancelled">
+              <td class="ref">GH-2026-0369</td>
+              <td>Event Hall<span class="sub">Growth Hub Al-Khobar</span></td>
+              <td>Tue 28 Jul<span class="sub">16:00–20:00</span></td>
+              <td class="amount">—</td>
+              <td><span class="st st-cancelled">Cancelled</span></td>
+              <td class="r"></td>
+            </tr>
+            <tr data-st="noshow">
+              <td class="ref">GH-2026-0344</td>
+              <td>Vista — meeting room<span class="sub">Growth Hub Al-Khobar</span></td>
+              <td>Mon 20 Jul<span class="sub">09:00–11:00</span></td>
+              <td class="amount">2 hrs<span class="sub">drawn — no show</span></td>
+              <td><span class="st st-noshow">No show</span></td>
+              <td class="r"></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="note">
+        <b>Design note</b>
+        The five statuses here are the full lifecycle from the spec — including Completed, which the Functional Scope dropped (conflict C8), and No show, which still draws the hours. Cancel works on Pending and Confirmed rows; cancellation policy copy appears in the confirm step in production.
+      </div>
+    </main>
+
+    <!-- HOURS -->
+    <main class="panel" id="p-hours">
+      <div class="phead"><h1>Meeting hours.</h1><span class="sub">Growth Office · 15 hrs / month</span></div>
+      <div class="card card-pad">
+        <div class="allow-top">
+          <span class="lbl">August balance</span>
+          <span class="val num">9<small> / 15 left</small></span>
+        </div>
+        <div class="bar"><i></i></div>
+        <p class="allow-note">Resets 1 September · unused hours don't roll over · valid at every Growth Hub centre and participating network partners</p>
+      </div>
+      <h2 class="sec">Ledger — August 2026</h2>
+      <div class="twrap">
+        <table>
+          <thead><tr><th>Date</th><th>Entry</th><th>Booking</th><th class="r">Hours</th><th class="r">Balance</th></tr></thead>
+          <tbody>
+            <tr><td class="ref">12 AUG</td><td>Pair — meeting pod, 09:00–11:00</td><td class="ref">GH-2026-0398</td><td class="r amount ledger-out">−2</td><td class="r amount">9</td></tr>
+            <tr><td class="ref">09 AUG</td><td>Vista — meeting room, 14:00–16:00</td><td class="ref">GH-2026-0395</td><td class="r amount ledger-out">−2</td><td class="r amount">11</td></tr>
+            <tr><td class="ref">05 AUG</td><td>Pivot — meeting pod, 11:00–13:00</td><td class="ref">GH-2026-0381</td><td class="r amount ledger-out">−2</td><td class="r amount">13</td></tr>
+            <tr><td class="ref">01 AUG</td><td>Monthly allowance — Growth Office membership</td><td class="ref">—</td><td class="r amount ledger-in">+15</td><td class="r amount">15</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="note">
+        <b>Why this page exists</b>
+        This ledger is the entitlement-and-overage model the Khobar catalogue already sells — every tier bundles 10, 15 or 20 meeting hours. The BRD has no module for it; this design is the argument for building it in Phase 1. Hotdesk has nothing comparable.
+      </div>
+    </main>
+
+    <!-- INVOICES -->
+    <main class="panel" id="p-invoices">
+      <div class="phead"><h1>Invoices.</h1><span class="sub">3 documents · 1 due</span></div>
+      <div class="twrap">
+        <table>
+          <thead><tr><th>Invoice</th><th>For</th><th>Date</th><th class="r">Amount</th><th>Status</th><th class="r"></th></tr></thead>
+          <tbody>
+            <tr>
+              <td class="ref">INV-2026-0407</td>
+              <td>Parking add-on — August<span class="sub">Growth Hub Al-Khobar</span></td>
+              <td>11 Aug 2026</td>
+              <td class="r amount">SAR 600</td>
+              <td><span class="st st-pending">Due</span></td>
+              <td class="r"><a class="dl" href="#">PDF ↓</a></td>
+            </tr>
+            <tr>
+              <td class="ref">INV-2026-0402</td>
+              <td>Membership — Growth Office, August<span class="sub">includes 15 meeting hrs</span></td>
+              <td>1 Aug 2026</td>
+              <td class="r amount">SAR 6,200</td>
+              <td><span class="st st-confirmed">Paid</span></td>
+              <td class="r"><a class="dl" href="#">PDF ↓</a></td>
+            </tr>
+            <tr>
+              <td class="ref">INV-2026-0358</td>
+              <td>Membership — Growth Office, July<span class="sub">includes 15 meeting hrs</span></td>
+              <td>1 Jul 2026</td>
+              <td class="r amount">SAR 6,200</td>
+              <td><span class="st st-confirmed">Paid</span></td>
+              <td class="r"><a class="dl" href="#">PDF ↓</a></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="note">
+        <b>Phase 1 model</b>
+        Until the payment gateway lands in Phase 2, these are proforma documents issued against confirmed requests and settled offline — which resolves conflict C7. Numbering, VAT fields and the layout follow the format the finance team will supply.
+      </div>
+    </main>
+
+    <!-- WISHLIST -->
+    <main class="panel" id="p-wishlist">
+      <div class="phead"><h1>Wishlist.</h1><span class="sub" id="wishSub">2 saved spaces</span></div>
+      <div class="wish" id="wishGrid">
+        <div class="wcard">
+          <div class="wimg"><canvas data-art="3" width="220" height="150" aria-hidden="true"></canvas></div>
+          <div class="wbody">
+            <b>Prestige Office</b>
+            <span>The Apex · 13th floor · Growth Hub Al-Khobar</span>
+            <div class="pr num">SAR 8,500 <small>/ MONTH · 3 LEFT</small></div>
+          </div>
+          <div class="wacts">
+            <a class="btn btn-primary btn-sm" href="#">View</a>
+            <button class="btn btn-outline btn-sm w-rm" type="button">Remove</button>
+          </div>
+        </div>
+        <div class="wcard">
+          <div class="wimg"><canvas data-art="1" width="220" height="150" aria-hidden="true"></canvas></div>
+          <div class="wbody">
+            <b>Zone A Office</b>
+            <span>The Elevate · 14th floor · Growth Hub Al-Khobar</span>
+            <div class="pr num">SAR 7,000 <small>/ MONTH · 4 LEFT</small></div>
+          </div>
+          <div class="wacts">
+            <a class="btn btn-primary btn-sm" href="#">View</a>
+            <button class="btn btn-outline btn-sm w-rm" type="button">Remove</button>
+          </div>
+        </div>
+      </div>
+    </main>
+
+    <!-- REVIEWS -->
+    <main class="panel" id="p-reviews">
+      <div class="phead"><h1>Reviews.</h1><span class="sub">0 published</span></div>
+      <div class="card next">
+        <div class="cal"><span class="m">Aug</span><span class="d num">12</span></div>
+        <div class="inf">
+          <b>How was Pair?</b>
+          <span>Completed Wed 12 Aug · your review appears once approved</span>
+        </div>
+        <button class="btn btn-primary btn-sm" type="button" disabled>Write a review</button>
+      </div>
+      <div class="rev-empty mt">
+        <b>Review writing opens with online booking.</b>
+        <p>Phase 2 turns this on for every completed booking — star rating, text and photos, moderated before publishing. Verified-only reviews are how GrowthHub earns the trust signals Hotdesk doesn't have.</p>
+      </div>
+    </main>
+
+    <!-- NOTIFICATIONS -->
+    <main class="panel" id="p-notifications">
+      <div class="phead"><h1>Notifications.</h1><span class="sub" id="notifSub">2 unread</span></div>
+      <div class="card nlist" id="nList">
+        <button class="nitem unread" type="button">
+          <span class="ic"><svg viewBox="0 0 24 24"><path d="M20 6 9 17l-5-5"/></svg></span>
+          <span class="nb"><b>Booking confirmed — Vista</b><span>Mon 17 Aug, 14:00–16:00. 2 hrs will be drawn from your allowance.</span><time>Today · 10:42</time></span>
+        </button>
+        <button class="nitem unread" type="button">
+          <span class="ic"><svg viewBox="0 0 24 24"><rect x="4" y="5" width="16" height="14" rx="1.5"/><path d="M4 10h16M9 3v4M15 3v4"/></svg></span>
+          <span class="nb"><b>Invoice due — Parking add-on</b><span>INV-2026-0407 · SAR 600 · due 25 August.</span><time>11 Aug · 09:15</time></span>
+        </button>
+        <button class="nitem" type="button">
+          <span class="ic"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="8.5"/><path d="M12 7.5V12l3 2"/></svg></span>
+          <span class="nb"><b>Reminder — Pair, tomorrow 09:00</b><span>Meeting pod, 2 seats. Reply to reschedule.</span><time>11 Aug · 17:00</time></span>
+        </button>
+        <button class="nitem" type="button">
+          <span class="ic"><svg viewBox="0 0 24 24"><path d="M20 6 9 17l-5-5"/></svg></span>
+          <span class="nb"><b>August membership renewed</b><span>Growth Office · SAR 6,200 · allowance reset to 15 hrs.</span><time>1 Aug · 08:00</time></span>
+        </button>
+      </div>
+
+      <h2 class="sec">Channels</h2>
+      <div class="prefs">
+        <div class="pref"><div><b>Email</b><span>booking + billing events</span></div><button class="toggle" aria-pressed="true" type="button" aria-label="Email notifications on"></button></div>
+        <div class="pref"><div><b>WhatsApp</b> <span class="p2tag">Phase 2</span></div><button class="toggle" aria-pressed="false" type="button" disabled aria-label="WhatsApp notifications, available in Phase 2"></button></div>
+        <div class="pref"><div><b>SMS</b> <span class="p2tag">Phase 2</span></div><button class="toggle" aria-pressed="false" type="button" disabled aria-label="SMS notifications, available in Phase 2"></button></div>
+        <div class="pref"><div><b>Push</b> <span class="p2tag">Phase 2</span></div><button class="toggle" aria-pressed="false" type="button" disabled aria-label="Push notifications, available in Phase 2"></button></div>
+      </div>
+    </main>
+
+    <!-- PROFILE -->
+    <main class="panel" id="p-profile">
+      <div class="phead"><h1>Profile &amp; settings.</h1></div>
+      <div class="card card-pad">
+        <div class="fgrid">
+          <div class="f"><label for="pfName">Full name</label><input id="pfName" value="Noor Al-Qahtani"></div>
+          <div class="f"><label for="pfCo">Company</label><input id="pfCo" value="Nawa Ventures"></div>
+          <div class="f"><label for="pfEmail">Email</label><input id="pfEmail" type="email" value="noor@nawaventures.sa"></div>
+          <div class="f"><label for="pfPhone">Phone</label><input id="pfPhone" value="+966 5X XXX XXXX"></div>
+          <div class="f"><label for="pfLang">Language</label><select id="pfLang"><option>English</option><option>العربية</option></select></div>
+          <div class="f"><label for="pfCity">City</label><select id="pfCity"><option>Al-Khobar</option><option>Adliya</option><option>Manama</option></select></div>
+        </div>
+        <div class="frow"><button class="btn btn-primary" type="button">Save changes</button></div>
+      </div>
+
+      <h2 class="sec">Password</h2>
+      <div class="card card-pad">
+        <div class="fgrid">
+          <div class="f"><label for="pw0">Current password</label><input id="pw0" type="password" value=""></div>
+          <div class="f"></div>
+          <div class="f"><label for="pw1">New password</label><input id="pw1" type="password" value=""></div>
+          <div class="f"><label for="pw2">Confirm new password</label><input id="pw2" type="password" value=""></div>
+        </div>
+        <div class="frow"><button class="btn btn-outline" type="button">Update password</button></div>
+      </div>
+
+      <div class="danger">
+        <b>Deactivate account</b>
+        <p>Deactivation pauses your membership and hides your data from staff dashboards. Active bookings must be cancelled first. This mirrors the admin-side activate/deactivate control in the spec.</p>
+        <button class="btn btn-danger btn-sm" type="button">Request deactivation</button>
+      </div>
+
+      <div class="note">
+        <b>Design note</b>
+        Noor is a sample persona — every name, number and booking on this page is illustrative. Structure follows BRD Module 16 (profile, bookings, history, invoices, wishlist, notifications, reviews, password) plus the Meeting-hours tab the allowance model requires.
+      </div>
+    </main>
+  </div>
+</div>
+
+<footer class="ft">
+  <div class="bound ft-base">
+    <span>© 2026 Growth Hub Global</span>
+    <span><a href="#">Privacy</a> · <a href="#">Terms</a> · <a href="#">Help centre</a></span>
+    <span>English · العربية</span>
+  </div>
+</footer>
+
+<script>
+(function(){
+  /* tab switching */
+  var navs=[].slice.call(document.querySelectorAll('.snav'));
+  function go(tab){
+    navs.forEach(function(n){n.setAttribute('aria-current',n.getAttribute('data-tab')===tab?'true':'false');});
+    [].slice.call(document.querySelectorAll('.panel')).forEach(function(p){
+      p.classList.toggle('on',p.id==='p-'+tab);
+    });
+  }
+  navs.forEach(function(n){n.addEventListener('click',function(){go(n.getAttribute('data-tab'));});});
+  [].slice.call(document.querySelectorAll('[data-goto]')).forEach(function(b){
+    b.addEventListener('click',function(){go(b.getAttribute('data-goto'));});
+  });
+
+  /* booking filters */
+  var chips=[].slice.call(document.querySelectorAll('.fchip'));
+  chips.forEach(function(c){
+    c.addEventListener('click',function(){
+      chips.forEach(function(o){o.setAttribute('aria-pressed','false');});
+      c.setAttribute('aria-pressed','true');
+      var f=c.getAttribute('data-f');
+      [].slice.call(document.querySelectorAll('#bkRows tr')).forEach(function(r){
+        r.style.display=(f==='all'||r.getAttribute('data-st')===f)?'':'none';
+      });
+    });
+  });
+
+  /* cancel booking */
+  [].slice.call(document.querySelectorAll('.bk-cancel')).forEach(function(b){
+    b.addEventListener('click',function(){
+      var tr=b.closest('tr');
+      tr.setAttribute('data-st','cancelled');
+      var st=tr.querySelector('.st');
+      st.className='st st-cancelled';st.textContent='Cancelled';
+      b.remove();
+    });
+  });
+
+  /* wishlist remove */
+  [].slice.call(document.querySelectorAll('.w-rm')).forEach(function(b){
+    b.addEventListener('click',function(){
+      b.closest('.wcard').remove();
+      var n=document.querySelectorAll('#wishGrid .wcard').length;
+      document.getElementById('wishCnt').textContent=n;
+      document.getElementById('wishSub').textContent=n+' saved space'+(n===1?'':'s');
+    });
+  });
+
+  /* notifications read */
+  function syncNotif(){
+    var u=document.querySelectorAll('#nList .nitem.unread').length;
+    document.getElementById('notifSub').textContent=u+' unread';
+    var dot=document.getElementById('notifDot');
+    if(dot){dot.style.display=u?'':'none';}
+  }
+  [].slice.call(document.querySelectorAll('#nList .nitem')).forEach(function(n){
+    n.addEventListener('click',function(){n.classList.remove('unread');syncNotif();});
+  });
+
+  /* toggles */
+  [].slice.call(document.querySelectorAll('.toggle:not(:disabled)')).forEach(function(t){
+    t.addEventListener('click',function(){
+      t.setAttribute('aria-pressed',t.getAttribute('aria-pressed')==='true'?'false':'true');
+    });
+  });
+
+  /* card art */
+  var palettes=[
+    [[35,27,30],[142,46,68],[195,64,93]],
+    [[30,24,28],[70,45,58],[152,98,41]],
+    [[24,20,24],[110,40,60],[231,147,165]]
+  ];
+  [].slice.call(document.querySelectorAll('canvas[data-art]')).forEach(function(c){
+    var idx=(parseInt(c.getAttribute('data-art'),10)-1)%palettes.length;
+    var p=palettes[idx],x=c.getContext('2d'),w=c.width,h=c.height;
+    var g=x.createLinearGradient(0,0,w,h);
+    g.addColorStop(0,'rgb('+p[0].join(',')+')');g.addColorStop(.62,'rgb('+p[1].join(',')+')');g.addColorStop(1,'rgb('+p[2].join(',')+')');
+    x.fillStyle=g;x.fillRect(0,0,w,h);
+    x.strokeStyle='rgba(255,255,255,.075)';x.lineWidth=1;
+    for(var i=1;i<6;i++){x.beginPath();x.moveTo(i*w/6,0);x.lineTo(i*w/6,h);x.stroke();}
+    for(var j=1;j<4;j++){x.beginPath();x.moveTo(0,j*h/4);x.lineTo(w,j*h/4);x.stroke();}
+  });
+})();
+</script>
+</body>
+</html>

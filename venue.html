@@ -1,0 +1,730 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>GrowthHub — Venue Detail Design</title>
+<meta name="robots" content="noindex">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Cpath d='M4 4h24v24H4z' fill='%23C3405D'/%3E%3C/svg%3E">
+</head>
+<body>
+<style>
+:root{
+  --ink:#1A1719;--ink-2:#4A3F44;--muted:#7A6B71;
+  --paper:#FFFFFF;--shell:#F8F3F4;--line:#E9DFE2;--line-2:#D6C7CC;
+  --rose:#C3405D;--rose-deep:#8E2E44;--rose-wash:#FCEFF2;
+  --night:#231B1E;--night-ink:#F4EDEF;--night-muted:#B3A0A6;
+  --amber:#986229;--amber-wash:#FBF2E8;
+  --green:#38715B;--green-wash:#EAF3EF;
+  --sans:"Segoe UI Variable Display","Segoe UI",-apple-system,BlinkMacSystemFont,"Helvetica Neue",Arial,sans-serif;
+  --serif:"Iowan Old Style","Palatino Linotype",Palatino,"Book Antiqua",Georgia,serif;
+  --mono:"Cascadia Mono","SF Mono",ui-monospace,Consolas,"Liberation Mono",monospace;
+  --pad:clamp(18px,4vw,44px);--maxw:1240px;
+}
+*{box-sizing:border-box;}
+body{margin:0;background:var(--paper);color:var(--ink);font-family:var(--sans);font-size:16px;line-height:1.6;-webkit-font-smoothing:antialiased;overflow-x:hidden;}
+.bound{max-width:var(--maxw);margin:0 auto;padding-left:var(--pad);padding-right:var(--pad);}
+a{color:inherit;}
+button{font:inherit;color:inherit;cursor:pointer;}
+:focus-visible{outline:2.5px solid var(--rose);outline-offset:2px;border-radius:2px;}
+.num{font-family:var(--mono);font-variant-numeric:tabular-nums;}
+h1,h2,h3{margin:0;text-wrap:balance;}
+
+header.nav{border-bottom:1px solid var(--line);background:var(--paper);position:sticky;top:0;z-index:60;}
+.nav-in{display:flex;align-items:center;gap:22px;height:68px;}
+.logo{display:flex;align-items:center;gap:9px;text-decoration:none;flex:none;}
+.logo .bubble{width:25px;height:25px;background:var(--rose);border-radius:50% 50% 3px 50%;flex:none;}
+.logo b{font-weight:700;letter-spacing:-.035em;font-size:1.14rem;}
+.logo b span{color:var(--rose);}
+.nav-links{display:none;gap:22px;flex:1;}
+@media (min-width:960px){.nav-links{display:flex;}}
+.nav-links a{text-decoration:none;font-size:.92rem;font-weight:550;color:var(--ink-2);padding:6px 0;border-bottom:2px solid transparent;}
+.nav-links a[aria-current="page"]{color:var(--ink);border-bottom-color:var(--rose);}
+.nav-links a:hover{color:var(--ink);}
+.nav-right{display:flex;align-items:center;gap:8px;margin-left:auto;}
+.lang{font-family:var(--mono);font-size:11px;letter-spacing:.08em;border:1px solid var(--line-2);background:none;padding:6px 10px;border-radius:2px;color:var(--ink-2);}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;padding:11px 18px;border-radius:2px;border:1.5px solid transparent;font-weight:640;font-size:.92rem;text-decoration:none;white-space:nowrap;background:none;}
+.btn-primary{background:var(--rose);color:#fff;border-color:var(--rose);}
+.btn-primary:hover{background:var(--rose-deep);border-color:var(--rose-deep);}
+.btn-outline{border-color:var(--line-2);color:var(--ink);}
+.btn-outline:hover{border-color:var(--ink);}
+.btn-wa{border-color:var(--green);color:var(--green);}
+.btn-wa:hover{background:var(--green-wash);}
+.btn-block{width:100%;}
+
+.crumbs{display:flex;flex-wrap:wrap;gap:7px;padding:16px 0 0;font-family:var(--mono);font-size:11px;letter-spacing:.05em;color:var(--muted);}
+.crumbs a{text-decoration:none;color:var(--muted);}
+.crumbs a:hover{color:var(--rose);}
+.crumbs span{color:var(--line-2);}
+
+/* title */
+.titleblock{display:flex;flex-wrap:wrap;align-items:flex-end;gap:14px 24px;padding:14px 0 20px;}
+.titleblock h1{font-weight:700;letter-spacing:-.03em;font-size:clamp(1.7rem,3.8vw,2.6rem);line-height:1.05;}
+.titleblock h1 em{font-family:var(--serif);font-style:italic;font-weight:400;color:var(--rose);}
+.title-meta{display:flex;flex-wrap:wrap;gap:8px 16px;align-items:center;font-family:var(--mono);font-size:11.5px;color:var(--muted);letter-spacing:.04em;padding-bottom:5px;}
+.badge-new{background:var(--green-wash);color:var(--green);padding:3px 9px;border-radius:2px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;font-size:10px;}
+.title-actions{margin-left:auto;display:flex;gap:8px;padding-bottom:2px;}
+.title-actions .btn{padding:9px 14px;font-size:.88rem;}
+
+/* gallery */
+.gallery{display:grid;gap:8px;grid-template-columns:1fr;margin-bottom:34px;}
+@media (min-width:760px){.gallery{grid-template-columns:2.2fr 1fr;}}
+.g-main{position:relative;aspect-ratio:16/9;background:var(--night);overflow:hidden;}
+.g-main canvas{position:absolute;inset:0;width:100%;height:100%;}
+.g-main .space-tag{position:absolute;left:14px;top:14px;font-family:var(--mono);font-size:10px;letter-spacing:.09em;text-transform:uppercase;background:rgba(255,255,255,.94);color:var(--ink);padding:4px 9px;border-radius:2px;font-weight:600;}
+.g-count{position:absolute;right:14px;bottom:14px;font-family:var(--mono);font-size:10.5px;background:rgba(35,27,30,.85);color:var(--night-ink);padding:5px 10px;border-radius:2px;letter-spacing:.05em;}
+.g-side{display:grid;gap:8px;grid-template-columns:repeat(4,1fr);}
+@media (min-width:760px){.g-side{grid-template-columns:1fr;grid-template-rows:repeat(4,1fr);}}
+.g-thumb{position:relative;background:var(--night);border:none;padding:0;overflow:hidden;aspect-ratio:16/9;}
+.g-thumb canvas{position:absolute;inset:0;width:100%;height:100%;}
+.g-thumb[aria-pressed="true"]::after{content:"";position:absolute;inset:0;border:2.5px solid var(--rose);}
+
+/* layout */
+.detail{display:grid;gap:34px;align-items:start;padding-bottom:60px;}
+@media (min-width:1020px){.detail{grid-template-columns:minmax(0,1fr) 370px;}}
+.bookwrap{order:-1;}
+@media (min-width:1020px){
+  .bookwrap{order:0;grid-column:2;grid-row:1;position:sticky;top:86px;}
+  .main-col{grid-column:1;grid-row:1;}
+}
+.main-col{min-width:0;}
+.main-col section{margin-bottom:44px;}
+.kicker{font-family:var(--mono);font-size:11px;letter-spacing:.15em;text-transform:uppercase;color:var(--rose);font-weight:600;display:flex;align-items:center;gap:10px;margin:0 0 12px;}
+.kicker::after{content:"";height:1px;flex:1;background:var(--line);}
+.main-col h2{font-weight:700;letter-spacing:-.024em;font-size:1.45rem;margin-bottom:14px;}
+.main-col p{max-width:66ch;color:var(--ink-2);margin:0 0 13px;}
+
+/* included grid */
+.incl{display:grid;gap:1px;background:var(--line);border:1px solid var(--line);}
+@media (min-width:560px){.incl{grid-template-columns:repeat(2,1fr);}}
+@media (min-width:860px){.incl{grid-template-columns:repeat(3,1fr);}}
+.incl div{background:var(--paper);padding:13px 15px;display:flex;gap:10px;align-items:center;font-size:.92rem;color:var(--ink-2);}
+.incl svg{width:15px;height:15px;flex:none;stroke:var(--rose);fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;}
+
+/* spaces table */
+.sp-tabs{display:flex;gap:2px;border-bottom:1px solid var(--line);margin-bottom:0;}
+.sp-tab{background:none;border:none;padding:10px 16px 12px;font-size:.92rem;font-weight:620;color:var(--muted);border-bottom:2.5px solid transparent;margin-bottom:-1px;}
+.sp-tab[aria-selected="true"]{color:var(--ink);border-bottom-color:var(--rose);}
+.sp-list{border:1px solid var(--line);border-top:none;}
+.sp-row{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:4px 16px;padding:16px 18px;border-bottom:1px solid var(--line);align-items:center;}
+.sp-row:last-child{border-bottom:none;}
+.sp-row .nm{font-weight:650;font-size:1rem;letter-spacing:-.014em;}
+.sp-row .mt{grid-column:1;font-family:var(--mono);font-size:10.5px;color:var(--muted);letter-spacing:.04em;}
+.sp-row .chips{grid-column:1;display:flex;flex-wrap:wrap;gap:5px;margin-top:3px;}
+.sp-right{grid-row:1/span 3;grid-column:2;text-align:right;display:flex;flex-direction:column;align-items:flex-end;gap:6px;}
+.sp-price{font-family:var(--mono);font-weight:600;font-size:1.06rem;font-variant-numeric:tabular-nums;line-height:1.2;}
+.sp-price small{display:block;font-size:9.5px;font-weight:400;color:var(--muted);letter-spacing:.05em;}
+.spec{font-family:var(--mono);font-size:10px;letter-spacing:.03em;color:var(--ink-2);border:1px solid var(--line);padding:2.5px 7px;border-radius:2px;}
+.spec.hours{border-color:#EBD9C2;background:var(--amber-wash);color:var(--amber);font-weight:600;}
+.left-pill{display:inline-block;font-family:var(--mono);font-size:9.5px;letter-spacing:.05em;padding:2.5px 8px;border-radius:2px;}
+.left-ok{background:var(--rose-wash);color:var(--rose-deep);}
+.left-low{background:var(--amber-wash);color:var(--amber);}
+.left-go{background:var(--green-wash);color:var(--green);}
+.golink{font-weight:650;font-size:.88rem;color:var(--rose);text-decoration:none;white-space:nowrap;}
+.golink:hover{text-decoration:underline;}
+
+/* amenities */
+.amen{display:grid;gap:22px;}
+@media (min-width:680px){.amen{grid-template-columns:repeat(2,1fr);}}
+@media (min-width:980px){.amen{grid-template-columns:repeat(3,1fr);}}
+.amen h3{font-family:var(--mono);font-size:10.5px;letter-spacing:.13em;text-transform:uppercase;color:var(--muted);margin:0 0 9px;font-weight:600;}
+.amen ul{list-style:none;margin:0;padding:0;display:grid;gap:6px;}
+.amen li{font-size:.92rem;color:var(--ink-2);display:flex;gap:9px;align-items:flex-start;}
+.amen li::before{content:"";width:5px;height:5px;border-radius:50%;background:var(--rose);flex:none;margin-top:8px;}
+
+/* calendar */
+.calzone{display:grid;gap:22px;}
+@media (min-width:760px){.calzone{grid-template-columns:auto minmax(0,1fr);}}
+.cal{border:1px solid var(--line);padding:16px;width:fit-content;}
+.cal-head{display:flex;justify-content:space-between;align-items:center;margin-bottom:10px;font-weight:650;font-size:.95rem;letter-spacing:-.01em;}
+.cal-head .mono{font-family:var(--mono);font-size:10.5px;color:var(--muted);letter-spacing:.06em;}
+.cal-grid{display:grid;grid-template-columns:repeat(7,38px);gap:3px;}
+.cal-grid .dow{font-family:var(--mono);font-size:9.5px;letter-spacing:.05em;color:var(--muted);text-align:center;padding:5px 0;text-transform:uppercase;}
+.day{height:38px;border:1px solid var(--line);background:var(--paper);font-family:var(--mono);font-size:12px;display:grid;place-items:center;border-radius:2px;color:var(--ink-2);}
+.day:hover:not(:disabled){border-color:var(--rose);color:var(--rose-deep);}
+.day:disabled{border-color:transparent;background:var(--shell);color:var(--line-2);cursor:default;}
+.day[aria-pressed="true"]{background:var(--rose);border-color:var(--rose);color:#fff;font-weight:600;}
+.day.blank{visibility:hidden;}
+.cal-key{font-family:var(--mono);font-size:10px;color:var(--muted);letter-spacing:.04em;margin-top:10px;}
+.slots h3{font-family:var(--mono);font-size:10.5px;letter-spacing:.13em;text-transform:uppercase;color:var(--muted);margin:0 0 10px;font-weight:600;}
+.slotrow{display:flex;flex-wrap:wrap;gap:7px;}
+.slot{border:1px solid var(--line-2);background:var(--paper);font-family:var(--mono);font-size:11.5px;padding:9px 13px;border-radius:2px;color:var(--ink-2);letter-spacing:.03em;}
+.slot:hover:not(:disabled){border-color:var(--rose);color:var(--rose-deep);}
+.slot[aria-pressed="true"]{background:var(--rose);border-color:var(--rose);color:#fff;font-weight:600;}
+.slot:disabled{background:var(--shell);color:var(--line-2);border-color:var(--line);cursor:default;text-decoration:line-through;}
+.slots p{font-family:var(--mono);font-size:10.5px;color:var(--muted);letter-spacing:.03em;margin:12px 0 0;max-width:44ch;line-height:1.6;}
+
+/* location */
+.locgrid{display:grid;gap:18px;}
+@media (min-width:760px){.locgrid{grid-template-columns:1fr 1fr;}}
+.mapbox{position:relative;border:1px solid var(--line);background:var(--shell);aspect-ratio:4/3;overflow:hidden;}
+.mapbox canvas{position:absolute;inset:0;width:100%;height:100%;}
+.locfacts{display:grid;gap:0;border:1px solid var(--line);align-self:start;}
+.locfacts div{display:flex;justify-content:space-between;gap:14px;padding:12px 16px;border-bottom:1px solid var(--line);font-size:.92rem;}
+.locfacts div:last-child{border-bottom:none;}
+.locfacts .k{font-family:var(--mono);font-size:10.5px;letter-spacing:.09em;text-transform:uppercase;color:var(--muted);padding-top:2px;}
+.locfacts .v{text-align:right;color:var(--ink-2);}
+
+/* reviews empty */
+.rev-empty{border:1px dashed var(--line-2);background:var(--shell);padding:30px 26px;text-align:center;}
+.rev-empty b{display:block;font-size:1.02rem;margin-bottom:6px;}
+.rev-empty p{margin:0 auto;color:var(--muted);font-size:.92rem;max-width:52ch;}
+
+/* addons */
+.addons{display:grid;gap:1px;background:var(--line);border:1px solid var(--line);}
+@media (min-width:680px){.addons{grid-template-columns:repeat(4,1fr);}}
+.addon{background:var(--paper);padding:16px;display:flex;flex-direction:column;gap:4px;}
+.addon b{font-weight:650;font-size:.95rem;letter-spacing:-.01em;}
+.addon .pr{font-family:var(--mono);font-size:.95rem;font-weight:600;color:var(--rose-deep);margin-top:auto;padding-top:8px;}
+.addon .pr small{font-size:9.5px;color:var(--muted);font-weight:400;}
+
+/* booking card */
+.book{border:1px solid var(--line);background:var(--paper);box-shadow:0 1px 2px rgba(26,23,25,.04),0 22px 50px -26px rgba(26,23,25,.25);}
+.book-modes{display:grid;grid-template-columns:1fr 1fr;border-bottom:1px solid var(--line);}
+.bmode{background:var(--shell);border:none;padding:13px 10px;font-size:.9rem;font-weight:620;color:var(--muted);border-bottom:2.5px solid transparent;margin-bottom:-1px;}
+.bmode[aria-selected="true"]{background:var(--paper);color:var(--ink);border-bottom-color:var(--rose);}
+.book-in{padding:18px 20px 20px;display:grid;gap:14px;}
+.bfield{display:grid;gap:5px;}
+.bfield label{font-family:var(--mono);font-size:10px;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);}
+.bfield select,.bfield input{border:1px solid var(--line-2);border-radius:2px;padding:10px 11px;font-family:var(--sans);font-size:.95rem;font-weight:600;color:var(--ink);background:var(--paper);width:100%;}
+.bline{display:flex;justify-content:space-between;gap:12px;font-size:.92rem;color:var(--ink-2);}
+.bline .num{color:var(--ink);}
+.bline.total{border-top:1px solid var(--line);padding-top:12px;font-weight:650;color:var(--ink);font-size:1rem;}
+.bline.total .num{font-size:1.15rem;}
+.ballow{background:var(--amber-wash);border:1px solid #EBD9C2;padding:10px 12px;font-family:var(--mono);font-size:10.5px;color:var(--amber);letter-spacing:.03em;line-height:1.6;}
+.bcheck{display:flex;gap:9px;align-items:center;font-size:.9rem;color:var(--ink-2);}
+.bcheck input{accent-color:var(--rose);width:15px;height:15px;margin:0;}
+.bsla{font-family:var(--mono);font-size:10px;color:var(--muted);letter-spacing:.05em;text-align:center;line-height:1.7;}
+.bsla b{color:var(--green);font-weight:600;}
+
+.note{border-left:2.5px solid var(--amber);background:var(--amber-wash);padding:13px 16px;font-size:.88rem;color:#6E4A20;max-width:70ch;}
+.note b{font-family:var(--mono);font-size:10px;letter-spacing:.11em;text-transform:uppercase;display:block;margin-bottom:4px;color:var(--amber);}
+
+/* similar */
+.simgrid{display:grid;gap:16px;}
+@media (min-width:680px){.simgrid{grid-template-columns:repeat(3,1fr);}}
+.sim{border:1px solid var(--line);background:var(--paper);text-decoration:none;display:flex;flex-direction:column;}
+.sim:hover{border-color:var(--line-2);}
+.sim-img{aspect-ratio:16/9;background:var(--night);position:relative;overflow:hidden;}
+.sim-img canvas{position:absolute;inset:0;width:100%;height:100%;}
+.sim-body{padding:14px 16px 16px;}
+.sim-body b{font-weight:650;font-size:.98rem;letter-spacing:-.014em;display:block;}
+.sim-body span{font-family:var(--mono);font-size:10.5px;color:var(--muted);letter-spacing:.04em;display:block;margin-top:4px;}
+.partner-tag{position:absolute;left:12px;top:12px;font-family:var(--mono);font-size:9.5px;letter-spacing:.07em;text-transform:uppercase;background:var(--night);color:var(--night-ink);padding:3px 8px;border-radius:2px;font-weight:600;}
+
+footer.ft{background:var(--night);color:var(--night-muted);padding:30px 0;font-family:var(--mono);font-size:10.5px;letter-spacing:.05em;}
+.ft-base{display:flex;flex-wrap:wrap;gap:10px 26px;justify-content:space-between;}
+.ft a{text-decoration:none;}
+.ft a:hover{color:var(--night-ink);}
+</style>
+
+<header class="nav">
+  <div class="bound nav-in">
+    <a class="logo" href="#"><span class="bubble"></span><b>growth<span>hub</span></b></a>
+    <nav class="nav-links">
+      <a href="#" aria-current="page">Workspaces</a>
+      <a href="#">Membership</a>
+      <a href="#">Locations</a>
+      <a href="#">Business setup</a>
+      <a href="#">Partners</a>
+    </nav>
+    <div class="nav-right">
+      <button class="lang" type="button">العربية</button>
+      <a class="btn btn-primary" href="#">Sign in</a>
+    </div>
+  </div>
+</header>
+
+<div class="bound">
+  <nav class="crumbs" aria-label="Breadcrumb">
+    <a href="#">Home</a><span>/</span><a href="#">Workspaces</a><span>/</span><a href="#">Saudi Arabia</a><span>/</span><a href="#">Al-Khobar</a><span>/</span><b style="color:var(--ink);font-weight:600;">Growth Hub Al-Khobar</b>
+  </nav>
+
+  <div class="titleblock">
+    <div>
+      <h1>Growth Hub <em>Al-Khobar.</em></h1>
+      <div class="title-meta" style="margin-top:8px;">
+        <span class="badge-new">Newly listed</span>
+        <span>Al-Khobar · Kingdom of Saudi Arabia</span>
+        <span>2nd, 13th &amp; 14th floors</span>
+        <span>61 offices · 6 meeting spaces</span>
+      </div>
+    </div>
+    <div class="title-actions">
+      <button class="btn btn-outline" type="button">♡ Save</button>
+      <button class="btn btn-outline" type="button">Share</button>
+      <a class="btn btn-outline" href="https://www.saudigrowthhub.com/growth-hub-v1.pdf">Brochure ↓</a>
+    </div>
+  </div>
+
+  <div class="gallery">
+    <div class="g-main">
+      <canvas id="galMain" width="960" height="540" aria-label="Venue photo placeholder"></canvas>
+      <span class="space-tag" id="galTag">The Collective · 2nd floor</span>
+      <span class="g-count">1 / 24 photos</span>
+    </div>
+    <div class="g-side">
+      <button class="g-thumb" type="button" aria-pressed="true" data-pal="0" data-tag="The Collective · 2nd floor" aria-label="View The Collective"><canvas width="240" height="135" data-pal="0"></canvas></button>
+      <button class="g-thumb" type="button" aria-pressed="false" data-pal="1" data-tag="The Elevate · 14th floor" aria-label="View The Elevate"><canvas width="240" height="135" data-pal="1"></canvas></button>
+      <button class="g-thumb" type="button" aria-pressed="false" data-pal="2" data-tag="The Apex · 13th floor" aria-label="View The Apex"><canvas width="240" height="135" data-pal="2"></canvas></button>
+      <button class="g-thumb" type="button" aria-pressed="false" data-pal="3" data-tag="Vista meeting room" aria-label="View Vista meeting room"><canvas width="240" height="135" data-pal="3"></canvas></button>
+    </div>
+  </div>
+
+  <div class="detail">
+    <!-- booking card -->
+    <aside class="bookwrap" aria-label="Booking">
+      <div class="book">
+        <div class="book-modes" role="tablist" aria-label="Booking type">
+          <button class="bmode" role="tab" id="bm-meet" aria-selected="true" aria-controls="bp-meet" type="button">Meeting room</button>
+          <button class="bmode" role="tab" id="bm-office" aria-selected="false" aria-controls="bp-office" type="button">Private office</button>
+        </div>
+
+        <div class="book-in" id="bp-meet" role="tabpanel" aria-labelledby="bm-meet">
+          <div class="bfield">
+            <label for="bkSpace">Space</label>
+            <select id="bkSpace">
+              <option value="120" data-name="Vista — meeting room · 10 seats" selected>Vista — meeting room · 10 seats</option>
+              <option value="45" data-name="Pair — meeting pod · 2 seats">Pair — meeting pod · 2 seats</option>
+              <option value="60" data-name="Pivot — meeting pod · 4 seats">Pivot — meeting pod · 4 seats</option>
+              <option value="850" data-name="Event Hall · 80 guests">Event Hall · 80 guests</option>
+              <option value="90" data-name="Open-Air Meeting Area · 12 seats">Open-Air Meeting Area · 12 seats</option>
+            </select>
+          </div>
+          <div class="bline"><span>Date</span><span class="num" id="bkDate">Mon 17 Aug 2026</span></div>
+          <div class="bline"><span>Time</span><span class="num" id="bkSlot">14:00 – 16:00</span></div>
+          <div class="bline"><span>Rate</span><span class="num" id="bkRate">SAR 120 / hour × 2 hrs</span></div>
+          <label class="bcheck"><input type="checkbox" id="bkMember" checked> I'm a Growth Hub member</label>
+          <div class="ballow" id="bkAllow">Covered by your allowance — draws 2 hrs (9 → 7 left this month).</div>
+          <div class="bline total"><span id="bkDueLabel">Due now</span><span class="num" id="bkTotal">SAR 0</span></div>
+          <button class="btn btn-primary btn-block" type="button">Request booking</button>
+          <a class="btn btn-wa btn-block" href="https://wa.me/966506678277">Chat on WhatsApp</a>
+          <p class="bsla">Requests are confirmed by our team <b>within 6 working hours</b> — usually much faster.</p>
+        </div>
+
+        <div class="book-in" id="bp-office" role="tabpanel" aria-labelledby="bm-office" hidden>
+          <div class="bfield">
+            <label for="bkTier">Office</label>
+            <select id="bkTier">
+              <option value="4500" data-left="9" data-hrs="10" selected>Horizon Office — The Collective</option>
+              <option value="5400" data-left="6" data-hrs="15">Starter Office — The Collective</option>
+              <option value="6200" data-left="2" data-hrs="15">Growth Office — The Collective</option>
+              <option value="7000" data-left="4" data-hrs="15">Zone A — The Elevate</option>
+              <option value="7500" data-left="3" data-hrs="15">Zone B — The Elevate</option>
+              <option value="8500" data-left="3" data-hrs="20">Prestige — The Apex</option>
+            </select>
+          </div>
+          <div class="bfield">
+            <label for="bkMove">Move in</label>
+            <input type="month" id="bkMove" value="2026-09">
+          </div>
+          <div class="bline"><span>Monthly membership</span><span class="num" id="bkOfficePrice">SAR 4,500</span></div>
+          <div class="bline"><span>Included meeting hours</span><span class="num" id="bkOfficeHrs">10 hrs / month</span></div>
+          <div class="bline"><span>Availability</span><span class="num" id="bkOfficeLeft">9 units left</span></div>
+          <div class="bline total"><span>All-in — no hidden costs</span><span class="num" id="bkOfficeTotal">SAR 4,500 / mo</span></div>
+          <button class="btn btn-primary btn-block" type="button">Request office viewing</button>
+          <a class="btn btn-wa btn-block" href="https://wa.me/966506678277">Chat on WhatsApp</a>
+          <p class="bsla">Viewings take twenty minutes. Confirmed <b>within 6 working hours</b>.</p>
+        </div>
+      </div>
+    </aside>
+
+    <!-- main column -->
+    <div class="main-col">
+      <section>
+        <p class="kicker">About this venue</p>
+        <h2>Land. Launch. Lead.</h2>
+        <p>Growth Hub by Fahdan is a premium multi-floor workspace in Al-Khobar built for startup founders, SMEs and large enterprises — 61 private offices across three collections, with meeting rooms, pods, an event hall and an open-air meeting area shared across the building.</p>
+        <p>Beyond the office space, tenants sit inside an integrated business ecosystem covering business setup, strategy, digital transformation, finance &amp; accounting, sales and marketing — so you can launch, operate and scale under one roof.</p>
+      </section>
+
+      <section>
+        <p class="kicker">Included in every package</p>
+        <div class="incl">
+          <div><svg viewBox="0 0 24 24"><path d="M20 6 9 17l-5-5"/></svg>Electricity &amp; water</div>
+          <div><svg viewBox="0 0 24 24"><path d="M20 6 9 17l-5-5"/></svg>High-speed WiFi</div>
+          <div><svg viewBox="0 0 24 24"><path d="M20 6 9 17l-5-5"/></svg>Printing facilities</div>
+          <div><svg viewBox="0 0 24 24"><path d="M20 6 9 17l-5-5"/></svg>Administration support</div>
+          <div><svg viewBox="0 0 24 24"><path d="M20 6 9 17l-5-5"/></svg>Reception &amp; mail handling</div>
+          <div><svg viewBox="0 0 24 24"><path d="M20 6 9 17l-5-5"/></svg>Pantry — water, coffee, tea</div>
+          <div><svg viewBox="0 0 24 24"><path d="M20 6 9 17l-5-5"/></svg>Office cleaning</div>
+          <div><svg viewBox="0 0 24 24"><path d="M20 6 9 17l-5-5"/></svg>Meeting-hour allowance</div>
+          <div><svg viewBox="0 0 24 24"><path d="M20 6 9 17l-5-5"/></svg>Community &amp; events access</div>
+        </div>
+      </section>
+
+      <section>
+        <p class="kicker">Spaces in this venue</p>
+        <h2>One building. Twelve ways in.</h2>
+        <div class="sp-tabs" role="tablist" aria-label="Space type">
+          <button class="sp-tab" role="tab" aria-selected="true" data-filter="all" type="button">All</button>
+          <button class="sp-tab" role="tab" aria-selected="false" data-filter="office" type="button">Private offices</button>
+          <button class="sp-tab" role="tab" aria-selected="false" data-filter="meet" type="button">Meeting &amp; events</button>
+        </div>
+        <div class="sp-list" id="spList">
+          <div class="sp-row" data-kind="office">
+            <span class="nm">Horizon Office <span class="left-pill left-ok">9 left</span></span>
+            <span class="mt">The Collective · 2nd floor · 6–7 m² · 2 seats</span>
+            <span class="chips"><span class="spec hours">10 hrs / mo</span><span class="spec">Early-stage teams</span></span>
+            <span class="sp-right"><span class="sp-price">SAR 4,500<small>PER MONTH</small></span><a class="golink" href="#">Request →</a></span>
+          </div>
+          <div class="sp-row" data-kind="office">
+            <span class="nm">Starter Office <span class="left-pill left-ok">6 left</span></span>
+            <span class="mt">The Collective · 2nd floor · 8–9 m² · 2 seats + 2 desk spaces</span>
+            <span class="chips"><span class="spec hours">15 hrs / mo</span><span class="spec">Expanding teams</span></span>
+            <span class="sp-right"><span class="sp-price">SAR 5,400<small>PER MONTH</small></span><a class="golink" href="#">Request →</a></span>
+          </div>
+          <div class="sp-row" data-kind="office">
+            <span class="nm">Growth Office <span class="left-pill left-low">2 left</span></span>
+            <span class="mt">The Collective · 2nd floor · 9–12 m² · 3 seats + 3 desk spaces</span>
+            <span class="chips"><span class="spec hours">15 hrs / mo</span><span class="spec">Established teams</span></span>
+            <span class="sp-right"><span class="sp-price">SAR 6,200<small>PER MONTH</small></span><a class="golink" href="#">Request →</a></span>
+          </div>
+          <div class="sp-row" data-kind="office">
+            <span class="nm">Zone A Office <span class="left-pill left-ok">4 left</span></span>
+            <span class="mt">The Elevate · 14th floor · 8–13 m² · 3 seats · panoramic views</span>
+            <span class="chips"><span class="spec hours">15 hrs / mo</span><span class="spec">Executive presence</span></span>
+            <span class="sp-right"><span class="sp-price">SAR 7,000<small>PER MONTH</small></span><a class="golink" href="#">Request →</a></span>
+          </div>
+          <div class="sp-row" data-kind="office">
+            <span class="nm">Zone B Office <span class="left-pill left-ok">3 left</span></span>
+            <span class="mt">The Elevate · 14th floor · 7–9 m² · 3 seats</span>
+            <span class="chips"><span class="spec hours">15 hrs / mo</span><span class="spec">Executive presence</span></span>
+            <span class="sp-right"><span class="sp-price">SAR 7,500<small>PER MONTH</small></span><a class="golink" href="#">Request →</a></span>
+          </div>
+          <div class="sp-row" data-kind="office">
+            <span class="nm">Prestige Office <span class="left-pill left-ok">3 left</span></span>
+            <span class="mt">The Apex · 13th floor · 8–13 m² · dedicated office assistant · display screen</span>
+            <span class="chips"><span class="spec hours">20 hrs / mo</span><span class="spec">Leadership &amp; execs</span></span>
+            <span class="sp-right"><span class="sp-price">SAR 8,500<small>PER MONTH</small></span><a class="golink" href="#">Request →</a></span>
+          </div>
+          <div class="sp-row" data-kind="meet">
+            <span class="nm">Vista <span class="left-pill left-go">Today 14:00</span></span>
+            <span class="mt">Meeting room · 14th floor · 10 seats · video conferencing</span>
+            <span class="chips"><span class="spec">Member hours valid</span></span>
+            <span class="sp-right"><span class="sp-price">SAR 120<small>PER HOUR</small></span><a class="golink" href="#">Book →</a></span>
+          </div>
+          <div class="sp-row" data-kind="meet">
+            <span class="nm">Pair <span class="left-pill left-go">Today 09:00</span></span>
+            <span class="mt">Meeting pod · 2 seats · soundproof</span>
+            <span class="chips"><span class="spec">Member hours valid</span></span>
+            <span class="sp-right"><span class="sp-price">SAR 45<small>PER HOUR</small></span><a class="golink" href="#">Book →</a></span>
+          </div>
+          <div class="sp-row" data-kind="meet">
+            <span class="nm">Pivot <span class="left-pill left-low">Tomorrow</span></span>
+            <span class="mt">Meeting pod · 4 seats · whiteboard</span>
+            <span class="chips"><span class="spec">Member hours valid</span></span>
+            <span class="sp-right"><span class="sp-price">SAR 60<small>PER HOUR</small></span><a class="golink" href="#">Book →</a></span>
+          </div>
+          <div class="sp-row" data-kind="meet">
+            <span class="nm">Event Hall <span class="left-pill left-ok">Sun–Thu</span></span>
+            <span class="mt">80 guests · stage &amp; AV · catering optional</span>
+            <span class="chips"><span class="spec">Product launches</span><span class="spec">Seminars</span></span>
+            <span class="sp-right"><span class="sp-price">SAR 850<small>PER HOUR</small></span><a class="golink" href="#">Enquire →</a></span>
+          </div>
+          <div class="sp-row" data-kind="meet">
+            <span class="nm">Open-Air Meeting Area <span class="left-pill left-go">Evenings</span></span>
+            <span class="mt">Rooftop · 12 seats · October to April</span>
+            <span class="chips"><span class="spec">Networking</span></span>
+            <span class="sp-right"><span class="sp-price">SAR 90<small>PER HOUR</small></span><a class="golink" href="#">Book →</a></span>
+          </div>
+        </div>
+      </section>
+
+      <section>
+        <p class="kicker">Availability</p>
+        <h2>Pick a day, pick a slot.</h2>
+        <div class="calzone">
+          <div class="cal">
+            <div class="cal-head"><span>August 2026</span><span class="mono">AL-KHOBAR</span></div>
+            <div class="cal-grid" id="calGrid">
+              <span class="dow">Sun</span><span class="dow">Mon</span><span class="dow">Tue</span><span class="dow">Wed</span><span class="dow">Thu</span><span class="dow">Fri</span><span class="dow">Sat</span>
+            </div>
+            <p class="cal-key">Fridays closed · greyed days unavailable</p>
+          </div>
+          <div class="slots">
+            <h3>Slots — <span id="slotDay">Mon 17 Aug</span></h3>
+            <div class="slotrow" id="slotRow">
+              <button class="slot" type="button" data-t="09:00 – 11:00">09:00 – 11:00</button>
+              <button class="slot" type="button" data-t="11:00 – 13:00" disabled>11:00 – 13:00</button>
+              <button class="slot" type="button" data-t="14:00 – 16:00" aria-pressed="true">14:00 – 16:00</button>
+              <button class="slot" type="button" data-t="16:00 – 18:00">16:00 – 18:00</button>
+            </div>
+            <p>Struck-through slots are already booked. This calendar is the availability engine the BRD requires — and the feature Hotdesk's venue pages don't have at all.</p>
+          </div>
+        </div>
+      </section>
+
+      <section>
+        <p class="kicker">Amenities</p>
+        <h2>The full list — nothing hidden.</h2>
+        <div class="amen">
+          <div><h3>Technology</h3><ul><li>High-speed Wi-Fi</li><li>Video conferencing</li><li>Smart displays</li><li>Printing, scanning &amp; copying</li></ul></div>
+          <div><h3>Office facilities</h3><ul><li>Reception &amp; mail handling</li><li>Pantry — water, coffee, tea</li><li>Administration support</li><li>Cleaning service</li></ul></div>
+          <div><h3>Comfort</h3><ul><li>Air conditioning</li><li>Natural light</li><li>Panoramic views (14th fl)</li><li>Ergonomic seating</li></ul></div>
+          <div><h3>Security</h3><ul><li>CCTV</li><li>Access control</li><li>Reception-managed visitors</li></ul></div>
+          <div><h3>Accessibility</h3><ul><li>Lift access</li><li>Parking (add-on)</li></ul></div>
+          <div><h3>Business services</h3><ul><li>Company registration</li><li>Accounting &amp; audit</li><li>Marketing &amp; branding</li><li>Incubator programmes</li></ul></div>
+        </div>
+      </section>
+
+      <section>
+        <p class="kicker">Add-ons</p>
+        <div class="addons">
+          <div class="addon"><b>Gym membership</b><span class="pr">SAR 600 <small>/ MONTH</small></span></div>
+          <div class="addon"><b>Parking space</b><span class="pr">SAR 600 <small>/ MONTH</small></span></div>
+          <div class="addon"><b>Additional desk</b><span class="pr">SAR 200 <small>/ MONTH</small></span></div>
+          <div class="addon"><b>Universal incubator access</b><span class="pr">SAR 500 <small>/ MONTH</small></span></div>
+        </div>
+      </section>
+
+      <section>
+        <p class="kicker">Location</p>
+        <h2>Al-Khobar, on the Gulf.</h2>
+        <div class="locgrid">
+          <div class="mapbox"><canvas id="locMap" width="640" height="480" aria-label="Map placeholder"></canvas></div>
+          <div class="locfacts">
+            <div><span class="k">Address</span><span class="v">Street address to confirm — Al-Khobar, KSA</span></div>
+            <div><span class="k">Floors</span><span class="v">2nd, 13th &amp; 14th</span></div>
+            <div><span class="k">Hours</span><span class="v">Sun–Thu · 08:00–18:00</span></div>
+            <div><span class="k">Phone</span><span class="v num">+966 50 667 8277</span></div>
+            <div><span class="k">Nearby</span><span class="v">Corniche · King Fahd Causeway · DMM ~35 min</span></div>
+          </div>
+        </div>
+      </section>
+
+      <section>
+        <p class="kicker">Reviews</p>
+        <h2>Verified reviews — coming with online booking.</h2>
+        <div class="rev-empty">
+          <b>No reviews yet — and no fake ones either.</b>
+          <p>Reviews go live in Phase 2, written only by customers with a completed booking. Each one feeds the AggregateRating structured data on this page, which is how this venue earns stars in Google results.</p>
+        </div>
+      </section>
+
+      <section>
+        <div class="note">
+          <b>Design note</b>
+          Office collections, sizes, seats, included hours, add-ons and phone number are real, from the catalogue. Meeting-room rates, slot availability, unit counts, opening hours and the street address are illustrative pending real data. JSON-LD (LocalBusiness + BreadcrumbList) is embedded in this page's source as the production pattern — view source to inspect it.
+        </div>
+      </section>
+    </div>
+  </div>
+
+  <section style="padding-bottom:64px;">
+    <p class="kicker">More from Growth Hub</p>
+    <h2 style="font-weight:700;letter-spacing:-.024em;font-size:1.45rem;margin-bottom:18px;">Similar venues.</h2>
+    <div class="simgrid">
+      <a class="sim" href="#"><span class="sim-img"><canvas data-pal="1" width="480" height="270"></canvas></span><span class="sim-body"><b>Growth Hub Adliya</b><span>Adliya · Kingdom of Bahrain</span></span></a>
+      <a class="sim" href="#"><span class="sim-img"><canvas data-pal="2" width="480" height="270"></canvas></span><span class="sim-body"><b>Growth Hub Diplomatic Area</b><span>Manama · Kingdom of Bahrain</span></span></a>
+      <a class="sim" href="#"><span class="sim-img"><canvas data-pal="0" width="480" height="270"></canvas><span class="partner-tag">Network partner</span></span><span class="sim-body"><b>Dammam Business Centre</b><span>Dammam · Kingdom of Saudi Arabia</span></span></a>
+    </div>
+  </section>
+</div>
+
+<footer class="ft">
+  <div class="bound ft-base">
+    <span>© 2026 Growth Hub Global</span>
+    <span><a href="#">Privacy</a> · <a href="#">Terms</a> · <a href="#">Help centre</a></span>
+    <span>English · العربية</span>
+  </div>
+</footer>
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "LocalBusiness",
+  "name": "Growth Hub Al-Khobar",
+  "alternateName": "Growth Hub by Fahdan",
+  "description": "Premium multi-floor workspace in Al-Khobar: 61 private offices across three collections, meeting rooms, event hall and an integrated business ecosystem for setup, accounting and marketing.",
+  "disambiguatingDescription": "Design template — street address and geo pending confirmation.",
+  "slogan": "Land. Launch. Lead.",
+  "telephone": "+966506678277",
+  "address": {
+    "@type": "PostalAddress",
+    "addressLocality": "Al-Khobar",
+    "addressRegion": "Eastern Province",
+    "addressCountry": "SA"
+  },
+  "openingHoursSpecification": {
+    "@type": "OpeningHoursSpecification",
+    "dayOfWeek": ["Sunday","Monday","Tuesday","Wednesday","Thursday"],
+    "opens": "08:00",
+    "closes": "18:00"
+  },
+  "makesOffer": [
+    {"@type":"Offer","name":"Horizon Office — The Collective","price":"4500","priceCurrency":"SAR","description":"6–7 sqm private office, 2 persons, 10 free meeting hours monthly"},
+    {"@type":"Offer","name":"Starter Office — The Collective","price":"5400","priceCurrency":"SAR","description":"8–9 sqm private office, 2 persons + 2 desk spaces, 15 free meeting hours monthly"},
+    {"@type":"Offer","name":"Growth Office — The Collective","price":"6200","priceCurrency":"SAR","description":"9–12 sqm private office, 3 persons + 3 desk spaces, 15 free meeting hours monthly"},
+    {"@type":"Offer","name":"Zone A Office — The Elevate","price":"7000","priceCurrency":"SAR","description":"8–13 sqm premium office, 3 persons, 15 free meeting hours monthly"},
+    {"@type":"Offer","name":"Zone B Office — The Elevate","price":"7500","priceCurrency":"SAR","description":"7–9 sqm premium office, 3 persons, 15 free meeting hours monthly"},
+    {"@type":"Offer","name":"Prestige Office — The Apex","price":"8500","priceCurrency":"SAR","description":"8–13 sqm prestige office with dedicated assistant, 20 free meeting hours monthly"}
+  ]
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    {"@type":"ListItem","position":1,"name":"Home","item":"https://example.growthhub/"},
+    {"@type":"ListItem","position":2,"name":"Workspaces","item":"https://example.growthhub/workspaces"},
+    {"@type":"ListItem","position":3,"name":"Saudi Arabia","item":"https://example.growthhub/workspaces/saudi-arabia"},
+    {"@type":"ListItem","position":4,"name":"Al-Khobar","item":"https://example.growthhub/workspaces/saudi-arabia/al-khobar"},
+    {"@type":"ListItem","position":5,"name":"Growth Hub Al-Khobar"}
+  ]
+}
+</script>
+
+<script>
+(function(){
+  var palettes=[
+    [[35,27,30],[142,46,68],[195,64,93]],
+    [[30,24,28],[70,45,58],[152,98,41]],
+    [[24,20,24],[110,40,60],[231,147,165]],
+    [[28,22,26],[90,55,66],[214,199,204]]
+  ];
+  function paint(c,idx){
+    var p=palettes[idx%palettes.length],x=c.getContext('2d'),w=c.width,h=c.height;
+    var g=x.createLinearGradient(0,0,w,h);
+    g.addColorStop(0,'rgb('+p[0].join(',')+')');g.addColorStop(.62,'rgb('+p[1].join(',')+')');g.addColorStop(1,'rgb('+p[2].join(',')+')');
+    x.fillStyle=g;x.fillRect(0,0,w,h);
+    x.strokeStyle='rgba(255,255,255,.075)';x.lineWidth=1;
+    for(var i=1;i<9;i++){x.beginPath();x.moveTo(i*w/9,0);x.lineTo(i*w/9,h);x.stroke();}
+    for(var j=1;j<6;j++){x.beginPath();x.moveTo(0,j*h/6);x.lineTo(w,j*h/6);x.stroke();}
+    x.fillStyle='rgba(255,255,255,.055)';
+    for(var k=0;k<11;k++){x.fillRect(((k*4+idx*3)%9)*w/9,((k*3+idx)%6)*h/6,w/9,h/6);}
+  }
+  var main=document.getElementById('galMain');
+  paint(main,0);
+  document.querySelectorAll('canvas[data-pal]').forEach(function(c){paint(c,parseInt(c.getAttribute('data-pal'),10));});
+  var thumbs=[].slice.call(document.querySelectorAll('.g-thumb'));
+  thumbs.forEach(function(t){
+    t.addEventListener('click',function(){
+      thumbs.forEach(function(o){o.setAttribute('aria-pressed','false');});
+      t.setAttribute('aria-pressed','true');
+      paint(main,parseInt(t.getAttribute('data-pal'),10));
+      document.getElementById('galTag').textContent=t.getAttribute('data-tag');
+    });
+  });
+
+  /* booking modes */
+  var bmodes=[document.getElementById('bm-meet'),document.getElementById('bm-office')];
+  var bpanels=[document.getElementById('bp-meet'),document.getElementById('bp-office')];
+  bmodes.forEach(function(b,i){
+    b.addEventListener('click',function(){
+      bmodes.forEach(function(o,n){o.setAttribute('aria-selected',n===i?'true':'false');});
+      bpanels.forEach(function(p,n){if(n===i){p.removeAttribute('hidden');}else{p.setAttribute('hidden','');}});
+    });
+  });
+
+  /* meeting price calc */
+  var allowLeft=9;
+  var ALLOW_MAX_RATE=120; /* allowance covers meeting rooms & pods, not the event hall */
+  function fmt(n){return 'SAR '+n.toLocaleString('en-US');}
+  function recalc(){
+    var sel=document.getElementById('bkSpace');
+    var rate=+sel.value;
+    var member=document.getElementById('bkMember').checked;
+    document.getElementById('bkRate').textContent='SAR '+rate+' / hour × 2 hrs';
+    var allow=document.getElementById('bkAllow');
+    if(member && allowLeft>=2 && rate<=ALLOW_MAX_RATE){
+      allow.style.display='';
+      allow.textContent='Covered by your allowance — draws 2 hrs ('+allowLeft+' → '+(allowLeft-2)+' left this month).';
+      document.getElementById('bkTotal').textContent=fmt(0);
+    }else if(member && rate>ALLOW_MAX_RATE){
+      allow.style.display='';
+      allow.textContent='Event Hall is outside the meeting-hour allowance — billed at the room rate.';
+      document.getElementById('bkTotal').textContent=fmt(rate*2);
+    }else{
+      allow.style.display='none';
+      document.getElementById('bkTotal').textContent=fmt(rate*2);
+    }
+  }
+  document.getElementById('bkSpace').addEventListener('change',recalc);
+  document.getElementById('bkMember').addEventListener('change',recalc);
+
+  /* office panel calc */
+  function officeCalc(){
+    var sel=document.getElementById('bkTier');
+    var opt=sel.options[sel.selectedIndex];
+    var p=+sel.value;
+    document.getElementById('bkOfficePrice').textContent=fmt(p);
+    document.getElementById('bkOfficeTotal').textContent=fmt(p)+' / mo';
+    document.getElementById('bkOfficeHrs').textContent=opt.getAttribute('data-hrs')+' hrs / month';
+    document.getElementById('bkOfficeLeft').textContent=opt.getAttribute('data-left')+' units left';
+  }
+  document.getElementById('bkTier').addEventListener('change',officeCalc);
+
+  /* space list filter */
+  var sptabs=[].slice.call(document.querySelectorAll('.sp-tab'));
+  sptabs.forEach(function(t){
+    t.addEventListener('click',function(){
+      sptabs.forEach(function(o){o.setAttribute('aria-selected','false');});
+      t.setAttribute('aria-selected','true');
+      var f=t.getAttribute('data-filter');
+      document.querySelectorAll('#spList .sp-row').forEach(function(r){
+        r.style.display=(f==='all'||r.getAttribute('data-kind')===f)?'':'none';
+      });
+    });
+  });
+
+  /* calendar: August 2026 — Aug 1 is a Saturday; today is Thu 13 Aug */
+  var grid=document.getElementById('calGrid');
+  var TODAY=13, SELECTED=17;
+  var dows=['Sun','Mon','Tue','Wed','Thu','Fri','Sat'];
+  for(var b=0;b<6;b++){var s=document.createElement('span');s.className='day blank';grid.appendChild(s);}
+  function dow(d){return (6+(d-1))%7;} /* Aug 1 = Sat = col 6 */
+  for(var d=1;d<=31;d++){
+    var btn=document.createElement('button');
+    btn.type='button';btn.className='day';btn.textContent=d;
+    var isFri=dow(d)===5, past=d<TODAY;
+    if(past||isFri){btn.disabled=true;}
+    if(d===SELECTED){btn.setAttribute('aria-pressed','true');}else{btn.setAttribute('aria-pressed','false');}
+    (function(day,el){
+      el.addEventListener('click',function(){
+        if(el.disabled)return;
+        grid.querySelectorAll('.day').forEach(function(o){o.setAttribute('aria-pressed','false');});
+        el.setAttribute('aria-pressed','true');
+        var label=dows[dow(day)]+' '+day+' Aug';
+        document.getElementById('slotDay').textContent=label;
+        document.getElementById('bkDate').textContent=label+' 2026';
+      });
+    })(d,btn);
+    grid.appendChild(btn);
+  }
+
+  /* slots */
+  var slots=[].slice.call(document.querySelectorAll('#slotRow .slot'));
+  slots.forEach(function(s){
+    s.addEventListener('click',function(){
+      if(s.disabled)return;
+      slots.forEach(function(o){o.setAttribute('aria-pressed','false');});
+      s.setAttribute('aria-pressed','true');
+      document.getElementById('bkSlot').textContent=s.getAttribute('data-t');
+    });
+  });
+
+  /* location map */
+  (function(){
+    var c=document.getElementById('locMap'),x=c.getContext('2d'),w=c.width,h=c.height;
+    x.fillStyle='#F3ECEE';x.fillRect(0,0,w,h);
+    x.fillStyle='#E7DCE0';
+    x.beginPath();x.moveTo(w*.72,0);x.bezierCurveTo(w*.64,h*.35,w*.8,h*.65,w*.68,h);x.lineTo(w,h);x.lineTo(w,0);x.closePath();x.fill();
+    x.strokeStyle='#DFD2D6';x.lineWidth=3;
+    for(var i=1;i<6;i++){x.beginPath();x.moveTo(0,i*h/6+((i%3)-1)*10);x.lineTo(w*.72,i*h/6-((i%2)*14));x.stroke();}
+    for(var j=1;j<5;j++){x.beginPath();x.moveTo(j*w*.72/5,0);x.lineTo(j*w*.72/5+((j%2)*20-10),h);x.stroke();}
+    x.fillStyle='rgba(35,27,30,.06)';
+    for(var k=0;k<16;k++){x.fillRect((k*127)%Math.floor(w*.62)+16,(k*197)%(h-70)+14,30+(k%3)*10,22+(k%4)*8);}
+    x.beginPath();x.arc(w*.44,h*.46,10,0,7);x.fillStyle='#C3405D';x.fill();
+    x.lineWidth=3;x.strokeStyle='#FFFFFF';x.stroke();
+    x.font='600 12px Consolas,monospace';
+    var t='Growth Hub Al-Khobar';var tw=x.measureText(t).width;
+    x.fillStyle='#231B1E';x.fillRect(w*.44-tw/2-8,h*.46+16,tw+16,24);
+    x.fillStyle='#F4EDEF';x.textAlign='center';x.textBaseline='middle';x.fillText(t,w*.44,h*.46+28);
+    x.font='600 10px Consolas,monospace';x.fillStyle='#7A6B71';x.textAlign='left';x.fillText('ARABIAN GULF',w*.8,h*.1);
+  })();
+})();
+</script>
+</body>
+</html>

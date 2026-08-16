@@ -1,0 +1,213 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>GrowthHub — Website Designs</title>
+<meta name="description" content="Design screens for the GrowthHub workspace marketplace — Growth Hub Global, Bahrain & Saudi Arabia.">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Cpath d='M4 4h24v24H4z' fill='%23C3405D'/%3E%3C/svg%3E">
+<style>
+:root{
+  --ink:#1A1719;--ink-2:#4A3F44;--muted:#7A6B71;
+  --paper:#FFFFFF;--shell:#F8F3F4;--line:#E9DFE2;--line-2:#D6C7CC;
+  --rose:#C3405D;--rose-deep:#8E2E44;--rose-wash:#FCEFF2;
+  --night:#231B1E;--night-ink:#F4EDEF;--night-muted:#B3A0A6;
+  --green:#38715B;--green-wash:#EAF3EF;
+  --amber:#986229;--amber-wash:#FBF2E8;
+  --sans:"Segoe UI Variable Display","Segoe UI",-apple-system,BlinkMacSystemFont,"Helvetica Neue",Arial,sans-serif;
+  --serif:"Iowan Old Style","Palatino Linotype",Palatino,"Book Antiqua",Georgia,serif;
+  --mono:"Cascadia Mono","SF Mono",ui-monospace,Consolas,"Liberation Mono",monospace;
+}
+*{box-sizing:border-box;}
+body{margin:0;background:var(--paper);color:var(--ink);font-family:var(--sans);font-size:16px;line-height:1.6;-webkit-font-smoothing:antialiased;}
+.bound{max-width:1080px;margin:0 auto;padding:0 clamp(18px,4vw,44px);}
+a{color:inherit;}
+:focus-visible{outline:2.5px solid var(--rose);outline-offset:2px;border-radius:2px;}
+
+.nav{border-bottom:1px solid var(--line);}
+.nav-in{display:flex;align-items:center;gap:12px;height:66px;}
+.bubble{width:25px;height:25px;background:var(--rose);border-radius:50% 50% 3px 50%;flex:none;}
+.logo b{font-weight:700;letter-spacing:-.035em;font-size:1.14rem;}
+.logo b span{color:var(--rose);}
+.logo{display:flex;align-items:center;gap:9px;text-decoration:none;}
+.nav-tag{margin-left:auto;font-family:var(--mono);font-size:10.5px;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);}
+
+.hero{background:var(--shell);border-bottom:1px solid var(--line);padding:clamp(40px,6vw,68px) 0;}
+h1{font-weight:700;letter-spacing:-.035em;line-height:1.02;font-size:clamp(2.1rem,5.2vw,3.4rem);margin:0 0 16px;max-width:16ch;}
+h1 em{font-family:var(--serif);font-style:italic;font-weight:400;color:var(--rose);}
+.lede{font-size:1.06rem;color:var(--ink-2);max-width:62ch;margin:0 0 22px;}
+.trust{display:flex;flex-wrap:wrap;gap:8px 26px;padding-top:20px;border-top:1px solid var(--line-2);margin-top:24px;}
+.trust div{font-family:var(--mono);font-size:10.5px;letter-spacing:.05em;color:var(--muted);}
+.trust b{display:block;font-family:var(--sans);font-size:1.4rem;font-weight:700;letter-spacing:-.03em;color:var(--ink);line-height:1.15;}
+
+.band{padding:clamp(36px,5vw,60px) 0;}
+.kicker{font-family:var(--mono);font-size:11px;letter-spacing:.17em;text-transform:uppercase;color:var(--rose);font-weight:600;display:flex;align-items:center;gap:11px;margin:0 0 14px;}
+.kicker::before{content:"";width:22px;height:1.5px;background:var(--rose);}
+h2{font-weight:700;letter-spacing:-.026em;font-size:clamp(1.5rem,3vw,2.05rem);margin:0 0 8px;}
+
+.grid{display:grid;gap:16px;grid-template-columns:repeat(auto-fill,minmax(290px,1fr));margin-top:26px;}
+.card{border:1px solid var(--line);background:var(--paper);text-decoration:none;display:flex;flex-direction:column;transition:border-color .16s ease,transform .16s ease;}
+.card:hover{border-color:var(--rose);transform:translateY(-2px);}
+.thumb{aspect-ratio:16/10;background:var(--night);position:relative;overflow:hidden;}
+.thumb canvas{position:absolute;inset:0;width:100%;height:100%;}
+.n{position:absolute;left:12px;top:12px;font-family:var(--mono);font-size:10px;letter-spacing:.1em;background:rgba(255,255,255,.94);color:var(--ink);padding:4px 9px;font-weight:600;}
+.card-body{padding:16px 18px 18px;display:flex;flex-direction:column;gap:7px;flex:1;}
+.card-body h3{margin:0;font-size:1.06rem;font-weight:650;letter-spacing:-.016em;}
+.card-body p{margin:0;font-size:.92rem;color:var(--ink-2);}
+.go{margin-top:auto;padding-top:10px;font-weight:650;font-size:.9rem;color:var(--rose);}
+
+.points{display:grid;gap:12px;grid-template-columns:repeat(auto-fill,minmax(250px,1fr));margin-top:22px;}
+.point{border:1px solid var(--line);border-left:3px solid var(--rose);padding:15px 17px;background:var(--paper);}
+.point b{display:block;font-weight:650;font-size:.98rem;margin-bottom:4px;letter-spacing:-.012em;}
+.point span{font-size:.9rem;color:var(--ink-2);}
+
+.note{border-left:2.5px solid var(--amber);background:var(--amber-wash);padding:14px 17px;margin-top:26px;font-size:.9rem;color:#6E4A20;max-width:72ch;}
+.note b{font-family:var(--mono);font-size:10px;letter-spacing:.11em;text-transform:uppercase;display:block;margin-bottom:5px;color:var(--amber);}
+
+.ft{background:var(--night);color:var(--night-muted);padding:28px 0;font-family:var(--mono);font-size:10.5px;letter-spacing:.05em;margin-top:40px;}
+.ft-in{display:flex;flex-wrap:wrap;gap:10px 26px;justify-content:space-between;}
+</style>
+</head>
+<body>
+
+<header class="nav">
+  <div class="bound nav-in">
+    <a class="logo" href="./"><span class="bubble"></span><b>growth<span>hub</span></b></a>
+    <span class="nav-tag">Design preview</span>
+  </div>
+</header>
+
+<section class="hero">
+  <div class="bound">
+    <h1>Land. Launch. <em>Lead.</em></h1>
+    <p class="lede">
+      Website designs for the GrowthHub workspace marketplace — Growth Hub Global,
+      Bahrain &amp; Saudi Arabia. Every price, office tier and included hour on
+      these screens comes from the real Al-Khobar catalogue.
+    </p>
+    <div class="trust">
+      <div><b>4</b>screens</div>
+      <div><b>61</b>offices modelled</div>
+      <div><b>3</b>centres</div>
+      <div><b>2</b>countries</div>
+    </div>
+  </div>
+</section>
+
+<section class="band">
+  <div class="bound">
+    <p class="kicker">The screens</p>
+    <h2>Click any screen to open it full size.</h2>
+    <p class="lede" style="font-size:.98rem;">
+      These are interactive — search filters, tabs, calendars and the booking
+      calculator all work.
+    </p>
+
+    <div class="grid">
+      <a class="card" href="homepage.html">
+        <span class="thumb"><canvas data-art="0" width="480" height="300"></canvas><span class="n">01</span></span>
+        <span class="card-body">
+          <h3>Homepage</h3>
+          <p>Live availability instead of a stock photo, dual-mode search, and the meeting-hour allowance the catalogue actually sells.</p>
+          <span class="go">Open →</span>
+        </span>
+      </a>
+
+      <a class="card" href="search.html">
+        <span class="thumb"><canvas data-art="1" width="480" height="300"></canvas><span class="n">02</span></span>
+        <span class="card-body">
+          <h3>Search results</h3>
+          <p>Monthly offices and hourly rooms never mixed in one list, working filters, and a map view.</p>
+          <span class="go">Open →</span>
+        </span>
+      </a>
+
+      <a class="card" href="venue.html">
+        <span class="thumb"><canvas data-art="2" width="480" height="300"></canvas><span class="n">03</span></span>
+        <span class="card-body">
+          <h3>Venue detail</h3>
+          <p>One building, twelve bookable spaces, a real availability calendar and an allowance-aware booking card.</p>
+          <span class="go">Open →</span>
+        </span>
+      </a>
+
+      <a class="card" href="dashboard.html">
+        <span class="thumb"><canvas data-art="3" width="480" height="300"></canvas><span class="n">04</span></span>
+        <span class="card-body">
+          <h3>Customer dashboard</h3>
+          <p>Membership, the meeting-hours ledger, bookings, invoices and wishlist.</p>
+          <span class="go">Open →</span>
+        </span>
+      </a>
+    </div>
+  </div>
+</section>
+
+<section class="band" style="background:var(--shell);border-top:1px solid var(--line);border-bottom:1px solid var(--line);">
+  <div class="bound">
+    <p class="kicker">What makes it different</p>
+    <h2>Four things the competition doesn&rsquo;t do.</h2>
+    <div class="points">
+      <div class="point">
+        <b>Meeting hours, not just walls</b>
+        <span>Every office includes 10–20 hours a month. The site tracks the balance, draws it down, and returns it on cancellation.</span>
+      </div>
+      <div class="point">
+        <b>Two searches, not one</b>
+        <span>Monthly offices and hourly rooms are different purchases. Mixing them puts SAR 4,500/month next to SAR 120/hour.</span>
+      </div>
+      <div class="point">
+        <b>Real availability</b>
+        <span>A live calendar and confirmation, rather than a &ldquo;request a viewing&rdquo; form.</span>
+      </div>
+      <div class="point">
+        <b>Book a desk, register a company</b>
+        <span>Formation, accounting and marketing sit in the same building — an offer a pure marketplace can&rsquo;t make.</span>
+      </div>
+    </div>
+
+    <div class="note">
+      <b>About the data on these screens</b>
+      Office names, sizes, seat counts, prices, included meeting hours and the
+      add-ons are real, from the Al-Khobar catalogue. Meeting-room rates, live
+      unit availability, photography and the street address are placeholders
+      until the business supplies them — each is marked on the screen itself
+      rather than quietly invented.
+    </div>
+  </div>
+</section>
+
+<footer class="ft">
+  <div class="bound ft-in">
+    <span>© 2026 Growth Hub Global</span>
+    <span>Design preview — not the live site</span>
+    <span>Land. Launch. Lead.</span>
+  </div>
+</footer>
+
+<script>
+(function(){
+  var palettes=[
+    [[35,27,30],[142,46,68],[195,64,93]],
+    [[30,24,28],[70,45,58],[152,98,41]],
+    [[24,20,24],[110,40,60],[231,147,165]],
+    [[28,22,26],[90,55,66],[214,199,204]]
+  ];
+  [].slice.call(document.querySelectorAll('canvas[data-art]')).forEach(function(c){
+    var i=parseInt(c.getAttribute('data-art'),10)%palettes.length;
+    var p=palettes[i],x=c.getContext('2d'),w=c.width,h=c.height;
+    var g=x.createLinearGradient(0,0,w,h);
+    g.addColorStop(0,'rgb('+p[0].join(',')+')');
+    g.addColorStop(.62,'rgb('+p[1].join(',')+')');
+    g.addColorStop(1,'rgb('+p[2].join(',')+')');
+    x.fillStyle=g;x.fillRect(0,0,w,h);
+    x.strokeStyle='rgba(255,255,255,.075)';x.lineWidth=1;
+    for(var a=1;a<9;a++){x.beginPath();x.moveTo(a*w/9,0);x.lineTo(a*w/9,h);x.stroke();}
+    for(var b=1;b<6;b++){x.beginPath();x.moveTo(0,b*h/6);x.lineTo(w,b*h/6);x.stroke();}
+    x.fillStyle='rgba(255,255,255,.055)';
+    for(var k=0;k<11;k++){x.fillRect(((k*4+i*3)%9)*w/9,((k*3+i)%6)*h/6,w/9,h/6);}
+  });
+})();
+</script>
+</body>
+</html>

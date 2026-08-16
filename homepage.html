@@ -1,0 +1,988 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>GrowthHub — Homepage Design</title>
+<meta name="robots" content="noindex">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Cpath d='M4 4h24v24H4z' fill='%23C3405D'/%3E%3C/svg%3E">
+</head>
+<body>
+<style>
+:root{
+  --ink:#1A1719;
+  --ink-2:#4A3F44;
+  --muted:#7A6B71;
+  --paper:#FFFFFF;
+  --shell:#F8F3F4;
+  --line:#E9DFE2;
+  --line-2:#D6C7CC;
+  --rose:#C3405D;
+  --rose-deep:#8E2E44;
+  --rose-wash:#FCEFF2;
+  --night:#231B1E;
+  --night-2:#312529;
+  --night-line:#463539;
+  --night-ink:#F4EDEF;
+  --night-muted:#B3A0A6;
+  --amber:#986229;
+  --amber-lt:#C67F35;
+  --amber-wash:#FBF2E8;
+  --green:#3D7A5E;
+
+  --sans:"Segoe UI Variable Display","Segoe UI",-apple-system,BlinkMacSystemFont,"Helvetica Neue",Arial,sans-serif;
+  --serif:"Iowan Old Style","Palatino Linotype",Palatino,"Book Antiqua",Georgia,serif;
+  --mono:"Cascadia Mono","SF Mono",ui-monospace,Consolas,"Liberation Mono",monospace;
+  --ar:"Segoe UI","Tahoma","Geeza Pro","Noto Naskh Arabic",serif;
+
+  --pad:clamp(20px,5vw,64px);
+  --maxw:1240px;
+}
+*{box-sizing:border-box;}
+html{scroll-behavior:smooth;}
+@media (prefers-reduced-motion:reduce){html{scroll-behavior:auto;}}
+body{
+  margin:0;background:var(--paper);color:var(--ink);
+  font-family:var(--sans);font-size:16px;line-height:1.6;
+  -webkit-font-smoothing:antialiased;overflow-x:hidden;
+}
+.bound{max-width:var(--maxw);margin:0 auto;padding-left:var(--pad);padding-right:var(--pad);}
+img{max-width:100%;}
+a{color:inherit;}
+button{font:inherit;color:inherit;cursor:pointer;}
+:focus-visible{outline:2.5px solid var(--rose);outline-offset:3px;border-radius:2px;}
+
+/* ============ type ============ */
+h1,h2,h3,h4{margin:0;text-wrap:balance;}
+.display{
+  font-weight:700;letter-spacing:-.035em;line-height:.98;
+  font-size:clamp(2.7rem,6.4vw,4.6rem);
+}
+.display em{
+  font-family:var(--serif);font-style:italic;font-weight:400;
+  color:var(--rose);letter-spacing:-.01em;
+}
+.h2{
+  font-weight:700;letter-spacing:-.028em;line-height:1.06;
+  font-size:clamp(1.85rem,3.7vw,2.9rem);
+}
+.h2 em{font-family:var(--serif);font-style:italic;font-weight:400;color:var(--rose);letter-spacing:-.005em;}
+.h3{font-weight:650;letter-spacing:-.015em;font-size:1.16rem;line-height:1.28;}
+.kicker{
+  font-family:var(--mono);font-size:11px;letter-spacing:.17em;
+  text-transform:uppercase;color:var(--rose);font-weight:600;
+  display:flex;align-items:center;gap:11px;margin-bottom:16px;
+}
+.kicker::before{content:"";width:22px;height:1.5px;background:var(--rose);flex:none;}
+.kicker.on-night{color:#E793A5;}
+.kicker.on-night::before{background:#E793A5;}
+.lede{font-size:1.09rem;color:var(--ink-2);max-width:56ch;}
+.ar{font-family:var(--ar);direction:rtl;unicode-bidi:isolate;}
+.num{font-family:var(--mono);font-variant-numeric:tabular-nums;}
+
+/* ============ buttons ============ */
+.btn{
+  display:inline-flex;align-items:center;justify-content:center;gap:9px;
+  padding:13px 24px;border-radius:2px;border:1.5px solid transparent;
+  font-weight:640;font-size:.95rem;letter-spacing:-.005em;
+  text-decoration:none;white-space:nowrap;background:none;
+}
+.btn-primary{background:var(--rose);color:#fff;border-color:var(--rose);}
+.btn-outline{border-color:var(--line-2);color:var(--ink);}
+.btn-night{border-color:var(--night-line);color:var(--night-ink);}
+.btn-ghost{padding:13px 0;color:var(--rose);font-weight:650;}
+@media (prefers-reduced-motion:no-preference){
+  .btn{transition:background .15s ease,border-color .15s ease,color .15s ease;}
+}
+.btn-primary:hover{background:var(--rose-deep);border-color:var(--rose-deep);}
+.btn-outline:hover{border-color:var(--ink);}
+.btn-night:hover{border-color:var(--night-ink);}
+
+/* ============ nav ============ */
+header.nav{
+  border-bottom:1px solid var(--line);background:var(--paper);
+  position:sticky;top:0;z-index:60;
+}
+.nav-in{display:flex;align-items:center;gap:26px;height:74px;}
+.logo{display:flex;align-items:center;gap:9px;text-decoration:none;flex:none;}
+.logo .bubble{
+  width:27px;height:27px;background:var(--rose);
+  border-radius:50% 50% 3px 50%;flex:none;
+}
+.logo b{font-weight:700;letter-spacing:-.035em;font-size:1.2rem;}
+.logo b span{color:var(--rose);}
+.nav-links{display:none;gap:24px;margin-left:12px;flex:1;}
+@media (min-width:1000px){.nav-links{display:flex;}}
+.nav-links a{
+  text-decoration:none;font-size:.93rem;font-weight:550;color:var(--ink-2);
+  padding:6px 0;border-bottom:2px solid transparent;
+}
+.nav-links a:hover{color:var(--ink);border-bottom-color:var(--rose);}
+.nav-right{display:flex;align-items:center;gap:8px;margin-left:auto;}
+.lang{
+  font-family:var(--mono);font-size:11.5px;letter-spacing:.08em;
+  border:1px solid var(--line-2);background:none;padding:7px 11px;border-radius:2px;
+  color:var(--ink-2);
+}
+.lang:hover{border-color:var(--ink);color:var(--ink);}
+.nav-right .btn{padding:10px 18px;font-size:.9rem;}
+.nav-hide-sm{display:none;}
+@media (min-width:660px){.nav-hide-sm{display:inline-flex;}}
+
+/* ============ hero ============ */
+.hero{
+  background:var(--shell);
+  border-bottom:1px solid var(--line);
+  padding-top:clamp(44px,6vw,76px);
+}
+.hero-grid{display:grid;gap:clamp(34px,5vw,58px);align-items:start;}
+@media (min-width:960px){.hero-grid{grid-template-columns:1.08fr .92fr;}}
+.hero-copy .display{margin-bottom:20px;max-width:15ch;}
+.hero-ar{
+  font-size:1.22rem;color:var(--rose-deep);font-weight:600;
+  margin:0 0 18px;
+}
+/* On the LTR page the Arabic subline must anchor under the headline —
+   `start` would resolve to the right edge inside an RTL element.
+   In a real ar build (<html dir="rtl">) this rule drops out and start is correct. */
+html:not([dir="rtl"]) .hero-ar{text-align:left;}
+.hero-copy .lede{margin:0 0 28px;}
+.hero-cta{display:flex;flex-wrap:wrap;gap:10px;margin-bottom:32px;}
+.trust{
+  display:flex;flex-wrap:wrap;gap:8px 26px;
+  padding-top:22px;border-top:1px solid var(--line-2);
+}
+.trust div{font-family:var(--mono);font-size:11px;letter-spacing:.05em;color:var(--muted);}
+.trust b{
+  display:block;font-family:var(--sans);font-size:1.5rem;font-weight:700;
+  letter-spacing:-.03em;color:var(--ink);line-height:1.1;margin-bottom:1px;
+}
+
+/* live availability card */
+.avail{
+  background:var(--paper);border:1px solid var(--line);
+  box-shadow:0 1px 2px rgba(26,23,25,.04),0 22px 50px -26px rgba(26,23,25,.28);
+}
+.avail-head{
+  display:flex;align-items:center;justify-content:space-between;gap:14px;
+  padding:16px 20px;border-bottom:1px solid var(--line);
+}
+.avail-head .t{font-family:var(--mono);font-size:11px;letter-spacing:.13em;text-transform:uppercase;color:var(--muted);}
+.pulse{display:inline-flex;align-items:center;gap:7px;font-family:var(--mono);font-size:11px;color:var(--green);letter-spacing:.05em;}
+.pulse i{width:7px;height:7px;border-radius:50%;background:var(--green);display:block;}
+@media (prefers-reduced-motion:no-preference){
+  .pulse i{animation:bp 2.4s ease-in-out infinite;}
+  @keyframes bp{0%,100%{opacity:1;}50%{opacity:.32;}}
+}
+.avail-row{
+  display:grid;grid-template-columns:minmax(0,1fr) auto;
+  gap:4px 16px;padding:15px 20px;border-bottom:1px solid var(--line);
+  align-items:center;
+}
+.avail-row:last-child{border-bottom:none;}
+.avail-row .nm{font-weight:640;font-size:.97rem;letter-spacing:-.012em;}
+.avail-row .mt{
+  font-family:var(--mono);font-size:11px;color:var(--muted);
+  letter-spacing:.03em;grid-column:1;
+}
+.avail-row .pr{
+  grid-row:1 / span 2;grid-column:2;text-align:right;
+  font-family:var(--mono);font-weight:600;font-size:1.02rem;color:var(--ink);
+  font-variant-numeric:tabular-nums;line-height:1.25;
+}
+.avail-row .pr span{display:block;font-size:10px;font-weight:400;color:var(--muted);letter-spacing:.05em;}
+.left-pill{
+  display:inline-block;font-family:var(--mono);font-size:10px;letter-spacing:.06em;
+  padding:2px 7px;border-radius:2px;margin-left:8px;vertical-align:1px;
+}
+.left-ok{background:var(--rose-wash);color:var(--rose-deep);}
+.left-low{background:var(--amber-wash);color:var(--amber);}
+.avail-foot{padding:14px 20px;background:var(--shell);border-top:1px solid var(--line);}
+.avail-foot a{
+  font-family:var(--mono);font-size:11.5px;letter-spacing:.06em;
+  color:var(--rose);text-decoration:none;font-weight:600;
+}
+.avail-foot a:hover{text-decoration:underline;}
+
+/* ============ search ============ */
+.searchwrap{margin-top:clamp(38px,5vw,60px);transform:translateY(1px);}
+.search{background:var(--paper);border:1px solid var(--line-2);box-shadow:0 -1px 0 var(--paper),0 20px 44px -30px rgba(26,23,25,.3);}
+.modes{display:flex;border-bottom:1px solid var(--line);}
+.mode{
+  background:none;border:none;padding:15px 22px;
+  font-size:.93rem;font-weight:620;color:var(--muted);
+  border-bottom:2.5px solid transparent;margin-bottom:-1px;letter-spacing:-.01em;
+}
+.mode[aria-selected="true"]{color:var(--ink);border-bottom-color:var(--rose);}
+.mode small{display:block;font-family:var(--mono);font-size:10px;font-weight:400;letter-spacing:.06em;color:var(--muted);margin-top:2px;text-transform:uppercase;}
+.fields{display:grid;gap:0;}
+@media (min-width:760px){
+  .fields{grid-template-columns:repeat(4,minmax(0,1fr)) auto;align-items:stretch;}
+}
+.field{padding:14px 18px;border-bottom:1px solid var(--line);display:flex;flex-direction:column;gap:3px;min-width:0;}
+@media (min-width:760px){
+  .field{border-bottom:none;border-right:1px solid var(--line);}
+}
+.field label{font-family:var(--mono);font-size:10px;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);}
+.field select,.field input{
+  border:none;background:none;font-family:var(--sans);font-size:.97rem;
+  font-weight:600;color:var(--ink);padding:0;width:100%;letter-spacing:-.01em;
+  appearance:none;-webkit-appearance:none;
+}
+.field select{cursor:pointer;}
+.field-go{padding:12px;display:flex;align-items:stretch;}
+.field-go .btn{width:100%;}
+@media (max-width:759px){.field-go{border-top:1px solid var(--line);}}
+
+/* ============ generic band ============ */
+.band{padding:clamp(58px,8vw,102px) 0;}
+.band-shell{background:var(--shell);}
+.band-night{background:var(--night);color:var(--night-ink);}
+.band-night .lede{color:var(--night-muted);}
+.band-head{margin-bottom:clamp(28px,4vw,44px);max-width:62ch;}
+.band-head .lede{margin-top:14px;}
+.band-head-row{
+  display:flex;align-items:flex-end;justify-content:space-between;
+  gap:24px;flex-wrap:wrap;margin-bottom:clamp(28px,4vw,44px);
+}
+.band-head-row .band-head{margin-bottom:0;}
+
+/* ============ category strip ============ */
+.cats{display:grid;gap:1px;background:var(--line);border:1px solid var(--line);}
+@media (min-width:560px){.cats{grid-template-columns:repeat(2,1fr);}}
+@media (min-width:860px){.cats{grid-template-columns:repeat(3,1fr);}}
+@media (min-width:1120px){.cats{grid-template-columns:repeat(6,1fr);}}
+.cat{
+  background:var(--paper);padding:22px 18px 20px;text-decoration:none;
+  display:flex;flex-direction:column;gap:7px;min-height:132px;
+}
+@media (prefers-reduced-motion:no-preference){.cat{transition:background .15s ease;}}
+.cat:hover{background:var(--rose-wash);}
+.cat svg{width:24px;height:24px;stroke:var(--rose);fill:none;stroke-width:1.5;stroke-linecap:round;stroke-linejoin:round;}
+.cat b{font-weight:640;font-size:.98rem;letter-spacing:-.015em;margin-top:auto;}
+.cat span{font-family:var(--mono);font-size:10.5px;color:var(--muted);letter-spacing:.04em;}
+
+/* ============ space cards ============ */
+.spaces{display:grid;gap:18px;}
+@media (min-width:640px){.spaces{grid-template-columns:repeat(2,1fr);}}
+@media (min-width:1000px){.spaces{grid-template-columns:repeat(3,1fr);}}
+.space{
+  border:1px solid var(--line);background:var(--paper);
+  display:flex;flex-direction:column;
+}
+@media (prefers-reduced-motion:no-preference){.space{transition:border-color .16s ease,transform .16s ease;}}
+.space:hover{border-color:var(--line-2);transform:translateY(-2px);}
+.space-img{
+  aspect-ratio:16/10;background:var(--night);position:relative;overflow:hidden;
+  display:flex;align-items:flex-end;padding:14px;
+}
+.space-img canvas{position:absolute;inset:0;width:100%;height:100%;}
+.space-tag{
+  position:relative;font-family:var(--mono);font-size:10px;letter-spacing:.1em;
+  text-transform:uppercase;background:rgba(255,255,255,.94);color:var(--ink);
+  padding:4px 9px;border-radius:2px;font-weight:600;
+}
+.space-body{padding:18px 19px 19px;display:flex;flex-direction:column;flex:1;gap:11px;}
+.space-body .h3{margin-bottom:-3px;}
+.space-loc{font-family:var(--mono);font-size:11px;color:var(--muted);letter-spacing:.04em;}
+.specs{display:flex;flex-wrap:wrap;gap:6px;}
+.spec{
+  font-family:var(--mono);font-size:10.5px;letter-spacing:.03em;color:var(--ink-2);
+  border:1px solid var(--line);padding:3px 8px;border-radius:2px;
+}
+.spec.hours{border-color:#EBD9C2;background:var(--amber-wash);color:var(--amber);font-weight:600;}
+.space-foot{
+  margin-top:auto;padding-top:14px;border-top:1px solid var(--line);
+  display:flex;align-items:flex-end;justify-content:space-between;gap:12px;
+}
+.price{font-family:var(--mono);font-weight:600;font-size:1.22rem;letter-spacing:-.01em;font-variant-numeric:tabular-nums;}
+.price span{font-size:10.5px;font-weight:400;color:var(--muted);display:block;letter-spacing:.06em;}
+
+/* ============ allowance band ============ */
+.allow-grid{display:grid;gap:clamp(30px,4vw,54px);align-items:center;}
+@media (min-width:900px){.allow-grid{grid-template-columns:.92fr 1.08fr;}}
+.meter{
+  border:1px solid var(--night-line);background:var(--night-2);padding:26px;
+}
+.meter-top{display:flex;justify-content:space-between;align-items:baseline;gap:16px;margin-bottom:8px;}
+.meter-top .lbl{font-family:var(--mono);font-size:11px;letter-spacing:.11em;text-transform:uppercase;color:var(--night-muted);}
+.meter-top .val{font-family:var(--mono);font-size:2.1rem;font-weight:600;letter-spacing:-.03em;font-variant-numeric:tabular-nums;}
+.meter-top .val small{font-size:.9rem;color:var(--night-muted);font-weight:400;}
+.bar{height:9px;background:#3E2F33;position:relative;overflow:hidden;margin-bottom:9px;}
+.bar i{position:absolute;inset:0 40% 0 0;background:var(--amber-lt);display:block;}
+.meter-note{font-family:var(--mono);font-size:11px;color:var(--night-muted);letter-spacing:.04em;}
+.meter-split{
+  display:grid;grid-template-columns:1fr 1fr;gap:1px;background:var(--night-line);
+  border:1px solid var(--night-line);margin-top:22px;
+}
+.meter-split div{background:var(--night-2);padding:15px 16px;}
+.meter-split .k{font-family:var(--mono);font-size:1.3rem;font-weight:600;letter-spacing:-.02em;display:block;}
+.meter-split .d{font-family:var(--mono);font-size:10.5px;color:var(--night-muted);letter-spacing:.05em;margin-top:3px;display:block;}
+.checks{list-style:none;padding:0;margin:22px 0 0;display:grid;gap:11px;}
+@media (min-width:620px){.checks{grid-template-columns:1fr 1fr;}}
+.checks li{display:flex;gap:10px;font-size:.95rem;color:var(--night-muted);align-items:flex-start;}
+.checks svg{width:15px;height:15px;flex:none;margin-top:4px;stroke:#E793A5;fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;}
+
+/* ============ cities ============ */
+.cities{display:grid;gap:1px;background:var(--line);border:1px solid var(--line);}
+@media (min-width:600px){.cities{grid-template-columns:repeat(2,1fr);}}
+@media (min-width:960px){.cities{grid-template-columns:repeat(4,1fr);}}
+.city{background:var(--paper);padding:20px 19px;display:flex;flex-direction:column;gap:5px;text-decoration:none;min-height:118px;}
+.city.soon{background:var(--shell);}
+.city b{font-weight:650;font-size:1.04rem;letter-spacing:-.018em;}
+.city .cc{font-family:var(--mono);font-size:10.5px;letter-spacing:.07em;color:var(--muted);text-transform:uppercase;}
+.city .st{margin-top:auto;font-family:var(--mono);font-size:10.5px;letter-spacing:.05em;}
+.city .st.live{color:var(--green);}
+.city .st.next{color:var(--muted);}
+.city:not(.soon):hover{background:var(--rose-wash);}
+
+/* ============ ecosystem ============ */
+.eco-grid{display:grid;gap:1px;background:var(--night-line);border:1px solid var(--night-line);margin-top:clamp(26px,4vw,40px);}
+@media (min-width:620px){.eco-grid{grid-template-columns:repeat(2,1fr);}}
+@media (min-width:1020px){.eco-grid{grid-template-columns:repeat(4,1fr);}}
+.eco{background:var(--night);padding:24px 22px 26px;display:flex;flex-direction:column;gap:9px;min-height:190px;}
+.eco .co{font-family:var(--mono);font-size:10.5px;letter-spacing:.13em;text-transform:uppercase;color:#E793A5;}
+.eco b{font-weight:650;font-size:1.06rem;letter-spacing:-.018em;}
+.eco p{margin:0;font-size:.92rem;color:var(--night-muted);line-height:1.55;}
+.eco .step{margin-top:auto;font-family:var(--mono);font-size:2rem;font-weight:600;color:var(--night-line);letter-spacing:-.04em;line-height:1;}
+
+/* ============ partners ============ */
+.tiers{display:grid;gap:18px;}
+@media (min-width:820px){.tiers{grid-template-columns:repeat(3,1fr);}}
+.tier{border:1px solid var(--line);padding:24px 23px 26px;display:flex;flex-direction:column;gap:12px;background:var(--paper);}
+.tier .tn{font-family:var(--mono);font-size:10.5px;letter-spacing:.13em;text-transform:uppercase;color:var(--rose);}
+.tier p{margin:0;font-size:.94rem;color:var(--ink-2);}
+.logos{display:flex;flex-wrap:wrap;gap:7px;margin-top:auto;padding-top:6px;}
+.logos span{
+  font-family:var(--mono);font-size:10.5px;letter-spacing:.03em;
+  border:1px solid var(--line);padding:5px 9px;color:var(--ink-2);background:var(--shell);
+}
+
+/* ============ stats ============ */
+.stats{display:grid;gap:1px;background:var(--line);border-block:1px solid var(--line);}
+@media (min-width:560px){.stats{grid-template-columns:repeat(2,1fr);}}
+@media (min-width:980px){.stats{grid-template-columns:repeat(4,1fr);}}
+.stat{background:var(--paper);padding:28px 22px;}
+.stat b{display:block;font-size:clamp(2rem,4vw,2.9rem);font-weight:700;letter-spacing:-.045em;line-height:1;margin-bottom:8px;}
+.stat span{font-family:var(--mono);font-size:11px;letter-spacing:.07em;color:var(--muted);text-transform:uppercase;}
+
+/* ============ quotes ============ */
+.quotes{display:grid;gap:18px;}
+@media (min-width:900px){.quotes{grid-template-columns:repeat(3,1fr);}}
+.quote{border:1px solid var(--line);padding:24px 23px;display:flex;flex-direction:column;gap:14px;background:var(--paper);}
+.quote .stars{display:flex;gap:2px;}
+.quote .stars svg{width:14px;height:14px;fill:var(--rose);stroke:none;}
+.quote blockquote{margin:0;font-size:1rem;line-height:1.55;color:var(--ink);}
+.quote .who{margin-top:auto;font-family:var(--mono);font-size:10.5px;letter-spacing:.05em;color:var(--muted);line-height:1.6;}
+.placeholder-note{
+  border:1px dashed var(--line-2);background:var(--shell);
+  padding:13px 16px;margin-top:16px;
+  font-family:var(--mono);font-size:11px;letter-spacing:.03em;color:var(--muted);line-height:1.6;
+}
+
+/* ============ faq ============ */
+.faq{border-top:1px solid var(--line);}
+.faq details{border-bottom:1px solid var(--line);}
+.faq summary{
+  padding:19px 0;font-weight:620;font-size:1.03rem;letter-spacing:-.015em;
+  cursor:pointer;list-style:none;display:flex;justify-content:space-between;gap:18px;align-items:center;
+}
+.faq summary::-webkit-details-marker{display:none;}
+.faq summary::after{content:"+";font-family:var(--mono);font-weight:400;color:var(--rose);font-size:1.3rem;line-height:1;flex:none;}
+.faq details[open] summary::after{content:"–";}
+.faq details p{margin:0 0 19px;color:var(--ink-2);max-width:66ch;font-size:.97rem;}
+
+/* ============ cta ============ */
+.finale{background:var(--rose);color:#fff;padding:clamp(56px,8vw,96px) 0;}
+.finale .display{max-width:16ch;margin-bottom:18px;}
+.finale .display em{color:#FBDDE4;}
+.finale p{font-size:1.08rem;color:#FDF2F4;max-width:52ch;margin:0 0 28px;}
+.finale .btn-primary{background:var(--paper);color:var(--rose-deep);border-color:var(--paper);}
+.finale .btn-primary:hover{background:#FBDDE4;border-color:#FBDDE4;}
+.finale .btn-outline{border-color:rgba(255,255,255,.5);color:#fff;}
+.finale .btn-outline:hover{border-color:#fff;}
+
+/* ============ footer ============ */
+footer.ft{background:var(--night);color:var(--night-muted);padding:clamp(48px,6vw,74px) 0 30px;}
+.ft-grid{display:grid;gap:32px;margin-bottom:44px;}
+@media (min-width:700px){.ft-grid{grid-template-columns:1.5fr 1fr 1fr 1fr;}}
+.ft h4{font-family:var(--mono);font-size:10.5px;letter-spacing:.13em;text-transform:uppercase;color:var(--night-ink);margin-bottom:15px;font-weight:600;}
+.ft ul{list-style:none;padding:0;margin:0;display:grid;gap:9px;}
+.ft a{text-decoration:none;font-size:.93rem;}
+.ft a:hover{color:var(--night-ink);}
+.ft .logo b{color:var(--night-ink);}
+.ft-about p{font-size:.93rem;margin:14px 0 0;max-width:34ch;line-height:1.6;}
+.ft-contact{font-family:var(--mono);font-size:11.5px;line-height:1.9;letter-spacing:.03em;margin-top:14px;}
+.ft-contact a{font-size:11.5px;}
+.ft-base{
+  border-top:1px solid var(--night-line);padding-top:22px;
+  display:flex;flex-wrap:wrap;gap:10px 26px;justify-content:space-between;
+  font-family:var(--mono);font-size:10.5px;letter-spacing:.05em;
+}
+
+/* ============ CMS overlay ============ */
+.cmsbtn{
+  position:fixed;right:16px;bottom:16px;z-index:90;
+  background:var(--ink);color:#fff;border:1px solid var(--ink);
+  font-family:var(--mono);font-size:10.5px;letter-spacing:.09em;text-transform:uppercase;
+  padding:11px 15px;border-radius:2px;box-shadow:0 10px 30px -12px rgba(0,0,0,.5);
+}
+.cmsbtn[aria-pressed="true"]{background:var(--rose);border-color:var(--rose);}
+[data-cms] {position:relative;}
+body.cms [data-cms]{outline:1.5px dashed var(--rose);outline-offset:-1px;}
+body.cms [data-cms]::before{
+  content:attr(data-cms);position:absolute;top:0;left:0;z-index:40;
+  background:var(--rose);color:#fff;
+  font-family:var(--mono);font-size:9.5px;letter-spacing:.09em;text-transform:uppercase;
+  padding:3px 8px;pointer-events:none;white-space:nowrap;font-weight:600;
+}
+.note{
+  border-left:2.5px solid var(--amber);background:var(--amber-wash);
+  padding:14px 17px;margin-top:22px;
+  font-size:.9rem;color:#6E4A20;max-width:64ch;
+}
+.note b{font-family:var(--mono);font-size:10px;letter-spacing:.11em;text-transform:uppercase;display:block;margin-bottom:5px;color:var(--amber);}
+</style>
+
+<header class="nav">
+  <div class="bound nav-in">
+    <a class="logo" href="#top"><span class="bubble"></span><b>growth<span>hub</span></b></a>
+    <nav class="nav-links">
+      <a href="#spaces">Workspaces</a>
+      <a href="#allowance">Membership</a>
+      <a href="#cities">Locations</a>
+      <a href="#ecosystem">Business setup</a>
+      <a href="#partners">Partners</a>
+    </nav>
+    <div class="nav-right">
+      <button class="lang" type="button">العربية</button>
+      <a class="btn btn-outline nav-hide-sm" href="#partners">List your space</a>
+      <a class="btn btn-primary" href="#">Sign in</a>
+    </div>
+  </div>
+</header>
+
+<main id="top">
+
+<!-- ========== HERO ========== -->
+<section class="hero" data-cms="CMS · Hero banner">
+  <div class="bound">
+    <div class="hero-grid">
+      <div class="hero-copy">
+        <h1 class="display">Land. Launch. <em>Lead.</em></h1>
+        <p class="hero-ar ar">مساحة عمل تعكس قوة علامتك</p>
+        <p class="lede">Private offices, meeting rooms and event space across Bahrain and Saudi Arabia — with the company formation, accounting and marketing teams that get you operating, in the same building.</p>
+        <div class="hero-cta">
+          <a class="btn btn-primary" href="#spaces">Browse workspaces</a>
+          <a class="btn btn-outline" href="#ecosystem">Set up my company</a>
+        </div>
+        <div class="trust">
+          <div><b>3</b>centres live</div>
+          <div><b>61</b>offices in Al-Khobar</div>
+          <div><b>2,000+</b>ecosystem clients</div>
+          <div><b>2</b>countries, 6 by 2030</div>
+        </div>
+      </div>
+
+      <aside class="avail" data-cms="CMS · Featured availability">
+        <div class="avail-head">
+          <span class="t">Available now — Al-Khobar</span>
+          <span class="pulse"><i></i>Live</span>
+        </div>
+        <div class="avail-row">
+          <span class="nm">Horizon Office <span class="left-pill left-ok">9 left</span></span>
+          <span class="mt">The Collective · 6–7 m² · 2 seats · 10 hrs</span>
+          <span class="pr">4,500<span>SAR / month</span></span>
+        </div>
+        <div class="avail-row">
+          <span class="nm">Growth Office <span class="left-pill left-low">2 left</span></span>
+          <span class="mt">The Collective · 9–12 m² · 3 seats · 15 hrs</span>
+          <span class="pr">6,200<span>SAR / month</span></span>
+        </div>
+        <div class="avail-row">
+          <span class="nm">Zone A Office <span class="left-pill left-ok">4 left</span></span>
+          <span class="mt">The Elevate · 14th floor · 3 seats · 15 hrs</span>
+          <span class="pr">7,000<span>SAR / month</span></span>
+        </div>
+        <div class="avail-row">
+          <span class="nm">Vista <span class="left-pill left-ok">Today 14:00</span></span>
+          <span class="mt">Meeting room · 10 seats · book by the hour</span>
+          <span class="pr">120<span>SAR / hour</span></span>
+        </div>
+        <div class="avail-foot"><a href="#spaces">See all 61 offices and 6 meeting spaces →</a></div>
+      </aside>
+    </div>
+
+    <!-- dual-mode search -->
+    <div class="searchwrap" data-cms="CMS · Search section">
+      <div class="search">
+        <div class="modes" role="tablist" aria-label="Search mode">
+          <button class="mode" role="tab" id="tab-month" aria-selected="true" aria-controls="p-month" type="button">
+            Monthly office<small>Membership</small>
+          </button>
+          <button class="mode" role="tab" id="tab-hour" aria-selected="false" aria-controls="p-hour" type="button">
+            Meeting &amp; event space<small>By the hour or day</small>
+          </button>
+        </div>
+
+        <div class="fields" id="p-month" role="tabpanel" aria-labelledby="tab-month">
+          <div class="field">
+            <label for="m-city">City</label>
+            <select id="m-city"><option>Al-Khobar, Saudi Arabia</option><option>Adliya, Bahrain</option><option>Diplomatic Area, Bahrain</option></select>
+          </div>
+          <div class="field">
+            <label for="m-type">Office type</label>
+            <select id="m-type"><option>Any private office</option><option>The Collective — startups</option><option>The Elevate — premium</option><option>The Apex — prestige</option><option>Virtual office</option></select>
+          </div>
+          <div class="field">
+            <label for="m-team">Team size</label>
+            <select id="m-team"><option>1–2 people</option><option>3–4 people</option><option>5–10 people</option><option>10+ people</option></select>
+          </div>
+          <div class="field">
+            <label for="m-from">Move in</label>
+            <input id="m-from" type="month" value="2026-09">
+          </div>
+          <div class="field field-go"><button class="btn btn-primary" type="button">Check availability</button></div>
+        </div>
+
+        <div class="fields" id="p-hour" role="tabpanel" aria-labelledby="tab-hour" hidden>
+          <div class="field">
+            <label for="h-city">City</label>
+            <select id="h-city"><option>Al-Khobar, Saudi Arabia</option><option>Adliya, Bahrain</option><option>Diplomatic Area, Bahrain</option></select>
+          </div>
+          <div class="field">
+            <label for="h-type">Space</label>
+            <select id="h-type"><option>Meeting room</option><option>Meeting pod</option><option>Event hall</option><option>Open-air meeting area</option></select>
+          </div>
+          <div class="field">
+            <label for="h-date">Date</label>
+            <input id="h-date" type="date" value="2026-08-17">
+          </div>
+          <div class="field">
+            <label for="h-people">People</label>
+            <select id="h-people"><option>2 people</option><option>4 people</option><option>10 people</option><option>20+ people</option></select>
+          </div>
+          <div class="field field-go"><button class="btn btn-primary" type="button">Search</button></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ========== CATEGORIES ========== -->
+<section class="band" data-cms="CMS · Categories">
+  <div class="bound">
+    <div class="band-head-row">
+      <div class="band-head">
+        <p class="kicker">What you need</p>
+        <h2 class="h2">Six ways to work here.</h2>
+      </div>
+      <a class="btn btn-ghost" href="#spaces">All space types →</a>
+    </div>
+    <div class="cats">
+      <a class="cat" href="#spaces">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="6" width="18" height="12" rx="1"/><path d="M3 11h18M9 18v2M15 18v2"/></svg>
+        <b>Private offices</b><span>61 units · from SAR 4,500</span>
+      </a>
+      <a class="cat" href="#spaces">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="3.2"/><path d="M12 3v3M12 18v3M3 12h3M18 12h3M5.6 5.6l2.1 2.1M16.3 16.3l2.1 2.1M18.4 5.6l-2.1 2.1M7.7 16.3l-2.1 2.1"/></svg>
+        <b>Meeting rooms</b><span>Pair · Pivot · Vista</span>
+      </a>
+      <a class="cat" href="#spaces">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 20h18M5 20V9l7-5 7 5v11"/><path d="M10 20v-5h4v5"/></svg>
+        <b>Event hall</b><span>Launches &amp; seminars</span>
+      </a>
+      <a class="cat" href="#spaces">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="7" width="18" height="12" rx="1.5"/><path d="M8 7V5a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2M3 13h18"/></svg>
+        <b>Virtual office</b><span>Address &amp; mail handling</span>
+      </a>
+      <a class="cat" href="#spaces">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 19V7a2 2 0 0 1 2-2h6l2 2h4a2 2 0 0 1 2 2v10a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2Z"/><path d="M9 13h6"/></svg>
+        <b>Incubator desks</b><span>Startup Nest programmes</span>
+      </a>
+      <a class="cat" href="#spaces">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 21s-7-4.6-7-10a7 7 0 1 1 14 0c0 5.4-7 10-7 10Z"/><circle cx="12" cy="11" r="2.5"/></svg>
+        <b>Open-air meeting</b><span>Rooftop, Al-Khobar</span>
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- ========== FEATURED SPACES ========== -->
+<section class="band band-shell" id="spaces" data-cms="CMS · Featured workspaces">
+  <div class="bound">
+    <div class="band-head-row">
+      <div class="band-head">
+        <p class="kicker">Al-Khobar · 13th, 14th &amp; 2nd floors</p>
+        <h2 class="h2">Every office comes with <em>hours</em>, not just walls.</h2>
+        <p class="lede">Three collections, one building. Prices are all-in — electricity, water, WiFi, printing, reception, mail handling, pantry and cleaning are already inside.</p>
+      </div>
+      <a class="btn btn-outline" href="#">View the full catalogue</a>
+    </div>
+
+    <div class="spaces">
+      <article class="space">
+        <div class="space-img"><canvas data-art="1" width="480" height="300" aria-hidden="true"></canvas><span class="space-tag">The Collective · 2nd floor</span></div>
+        <div class="space-body">
+          <h3 class="h3">Horizon Office</h3>
+          <p class="space-loc">Growth Hub Al-Khobar, Saudi Arabia</p>
+          <div class="specs"><span class="spec">6–7 m²</span><span class="spec">2 seats</span><span class="spec hours">10 meeting hrs / mo</span></div>
+          <div class="space-foot">
+            <span class="price">SAR 4,500<span>per month · 9 available</span></span>
+            <a class="btn btn-ghost" href="#">Book →</a>
+          </div>
+        </div>
+      </article>
+
+      <article class="space">
+        <div class="space-img"><canvas data-art="2" width="480" height="300" aria-hidden="true"></canvas><span class="space-tag">The Elevate · 14th floor</span></div>
+        <div class="space-body">
+          <h3 class="h3">Zone A Office</h3>
+          <p class="space-loc">Growth Hub Al-Khobar, Saudi Arabia</p>
+          <div class="specs"><span class="spec">8–13 m²</span><span class="spec">3 seats</span><span class="spec hours">15 meeting hrs / mo</span></div>
+          <div class="space-foot">
+            <span class="price">SAR 7,000<span>per month · 4 available</span></span>
+            <a class="btn btn-ghost" href="#">Book →</a>
+          </div>
+        </div>
+      </article>
+
+      <article class="space">
+        <div class="space-img"><canvas data-art="3" width="480" height="300" aria-hidden="true"></canvas><span class="space-tag">The Apex · 13th floor</span></div>
+        <div class="space-body">
+          <h3 class="h3">Prestige Office</h3>
+          <p class="space-loc">Growth Hub Al-Khobar, Saudi Arabia</p>
+          <div class="specs"><span class="spec">8–13 m²</span><span class="spec">Office assistant</span><span class="spec hours">20 meeting hrs / mo</span></div>
+          <div class="space-foot">
+            <span class="price">SAR 8,500<span>per month · 3 available</span></span>
+            <a class="btn btn-ghost" href="#">Book →</a>
+          </div>
+        </div>
+      </article>
+    </div>
+
+    <div class="note">
+      <b>Design note</b>
+      Unit counts shown here are illustrative — the catalogue gives totals per collection (43 / 7 / 11) but not current occupancy. These numbers come from the availability engine once real occupancy data is connected.
+    </div>
+  </div>
+</section>
+
+<!-- ========== ALLOWANCE BAND ========== -->
+<section class="band band-night" id="allowance" data-cms="CMS · Why GrowthHub">
+  <div class="bound">
+    <div class="allow-grid">
+      <div>
+        <p class="kicker on-night">The difference</p>
+        <h2 class="h2">Your meeting hours travel with you.</h2>
+        <p class="lede">Every office includes a monthly allowance of meeting-room time. Book from your dashboard, watch the balance draw down, and only pay when you go past it — across any Growth Hub centre, not just your own.</p>
+        <ul class="checks">
+          <li><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20 6 9 17l-5-5"/></svg>Balance visible before you book</li>
+          <li><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20 6 9 17l-5-5"/></svg>Overage billed at the room rate</li>
+          <li><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20 6 9 17l-5-5"/></svg>Valid at every centre</li>
+          <li><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20 6 9 17l-5-5"/></svg>Unused hours reset monthly</li>
+        </ul>
+      </div>
+      <div class="meter">
+        <div class="meter-top">
+          <span class="lbl">Meeting hours — August</span>
+          <span class="val">9<small> / 15 left</small></span>
+        </div>
+        <div class="bar"><i></i></div>
+        <p class="meter-note">6 hrs used · Growth Office · resets 1 September</p>
+        <div class="meter-split">
+          <div><span class="k">SAR 0</span><span class="d">Due for this booking</span></div>
+          <div><span class="k">Vista</span><span class="d">17 Aug · 14:00–16:00</span></div>
+        </div>
+      </div>
+    </div>
+    <div class="note" style="background:#2E2428;border-left-color:#E793A5;color:var(--night-muted);">
+      <b style="color:#E793A5;">Scope flag</b>
+      This is the model the Khobar catalogue already runs on, and the BRD does not describe it — it files Membership under Phase 3. Everything on this band depends on that decision going the other way.
+    </div>
+  </div>
+</section>
+
+<!-- ========== CITIES ========== -->
+<section class="band" id="cities" data-cms="CMS · Popular cities">
+  <div class="bound">
+    <div class="band-head">
+      <p class="kicker">Where we are</p>
+      <h2 class="h2">Three centres open. Five more coming.</h2>
+    </div>
+    <div class="cities">
+      <a class="city" href="#"><span class="cc">Saudi Arabia</span><b>Al-Khobar</b><span class="st live">● 61 offices · 6 meeting spaces</span></a>
+      <a class="city" href="#"><span class="cc">Bahrain</span><b>Adliya</b><span class="st live">● Open now</span></a>
+      <a class="city" href="#"><span class="cc">Bahrain</span><b>Diplomatic Area</b><span class="st live">● Open now</span></a>
+      <div class="city soon"><span class="cc">Saudi Arabia</span><b>Riyadh</b><span class="st next">Opening 2027</span></div>
+      <div class="city soon"><span class="cc">Kuwait</span><b>Kuwait City</b><span class="st next">Opening 2027</span></div>
+      <div class="city soon"><span class="cc">Saudi Arabia</span><b>Jeddah</b><span class="st next">Opening 2028</span></div>
+      <div class="city soon"><span class="cc">United Arab Emirates</span><b>UAE</b><span class="st next">Opening 2028</span></div>
+      <div class="city soon"><span class="cc">Qatar</span><b>Qatar</b><span class="st next">Opening 2028</span></div>
+    </div>
+  </div>
+</section>
+
+<!-- ========== ECOSYSTEM ========== -->
+<section class="band band-night" id="ecosystem" data-cms="CMS · Ecosystem services">
+  <div class="bound">
+    <div class="band-head">
+      <p class="kicker on-night">More than four walls</p>
+      <h2 class="h2">Book the office. <em>Register the company.</em> Same day.</h2>
+      <p class="lede">Nobody opens in a new market by renting a room. The teams that handle formation, licensing, audit and go-to-market are ecosystem partners in this building — so the whole thing is one conversation, not five.</p>
+    </div>
+    <div class="eco-grid">
+      <div class="eco">
+        <span class="co">Fahdan</span>
+        <b>Commercial registration</b>
+        <p>CR, licensing, visas and government liaison in Bahrain and Saudi Arabia. Your registered address is the office you just booked.</p>
+        <span class="step">01</span>
+      </div>
+      <div class="eco">
+        <span class="co">Keystone · DC Accounting</span>
+        <b>Audit &amp; accounting</b>
+        <p>Bookkeeping, VAT and statutory audit across both markets, set up before your first filing deadline arrives.</p>
+        <span class="step">02</span>
+      </div>
+      <div class="eco">
+        <span class="co">The Hook</span>
+        <b>Brand &amp; go-to-market</b>
+        <p>Positioning, identity and the campaign that tells the market you have landed. Strategy consultation is included with membership.</p>
+        <span class="step">03</span>
+      </div>
+      <div class="eco">
+        <span class="co">Startup Nest</span>
+        <b>Incubation &amp; investment</b>
+        <p>Accelerator programmes, founder support and investor introductions. Universal incubator access is a SAR 500 add-on.</p>
+        <span class="step">04</span>
+      </div>
+    </div>
+    <div style="margin-top:28px;"><a class="btn btn-night" href="#">Talk to the setup team</a></div>
+  </div>
+</section>
+
+<!-- ========== STATS ========== -->
+<section data-cms="CMS · Statistics">
+  <div class="stats">
+    <div class="stat"><b class="num">2,000+</b><span>Clients in the ecosystem</span></div>
+    <div class="stat"><b class="num">61</b><span>Offices in Al-Khobar</span></div>
+    <div class="stat"><b class="num">15+</b><span>Ecosystem service companies</span></div>
+    <div class="stat"><b class="num">6 hrs</b><span>Response time, guaranteed</span></div>
+  </div>
+</section>
+
+<!-- ========== PARTNERS ========== -->
+<section class="band band-shell" id="partners" data-cms="CMS · Partners">
+  <div class="bound">
+    <div class="band-head-row">
+      <div class="band-head">
+        <p class="kicker">The network</p>
+        <h2 class="h2">Three kinds of partner.</h2>
+      </div>
+      <a class="btn btn-primary" href="#">List your workspace</a>
+    </div>
+    <div class="tiers">
+      <div class="tier">
+        <span class="tn">Ecosystem partners</span>
+        <h3 class="h3">Independent companies, shared clients</h3>
+        <p>Service companies inside the ecosystem — formation, audit, marketing, technology, HR. Each stays independently owned and run.</p>
+        <div class="logos"><span>Fahdan</span><span>The Hook</span><span>Keystone Auditing</span><span>DC Accounting</span><span>Arboura</span><span>Startup Nest</span><span>Property Hub</span><span>Sahalat</span></div>
+      </div>
+      <div class="tier">
+        <span class="tn">Network partners</span>
+        <h3 class="h3">Business centres in the marketplace</h3>
+        <p>Independent centres that list their space here, open their meeting rooms to members, and share in the referral programme.</p>
+        <div class="logos"><span>Dammam Business Centre</span><span>Al-Ahsa Centre</span><span>+ apply to join</span></div>
+      </div>
+      <div class="tier">
+        <span class="tn">Associated partners</span>
+        <h3 class="h3">Institutions and programmes</h3>
+        <p>Government bodies, funds and enterprise programmes that support founders across the Kingdom and the wider GCC.</p>
+        <div class="logos"><span>Monsha'at</span><span>Bakkar</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ========== TESTIMONIALS ========== -->
+<section class="band" data-cms="CMS · Testimonials">
+  <div class="bound">
+    <div class="band-head">
+      <p class="kicker">Members</p>
+      <h2 class="h2">What tenants say.</h2>
+    </div>
+    <div class="quotes">
+      <div class="quote">
+        <div class="stars" aria-label="5 out of 5"><svg viewBox="0 0 24 24"><path d="m12 2 3 6.5 7 .9-5 4.8 1.2 7L12 17.8 5.8 21.2 7 14.2 2 9.4l7-.9Z"/></svg><svg viewBox="0 0 24 24"><path d="m12 2 3 6.5 7 .9-5 4.8 1.2 7L12 17.8 5.8 21.2 7 14.2 2 9.4l7-.9Z"/></svg><svg viewBox="0 0 24 24"><path d="m12 2 3 6.5 7 .9-5 4.8 1.2 7L12 17.8 5.8 21.2 7 14.2 2 9.4l7-.9Z"/></svg><svg viewBox="0 0 24 24"><path d="m12 2 3 6.5 7 .9-5 4.8 1.2 7L12 17.8 5.8 21.2 7 14.2 2 9.4l7-.9Z"/></svg><svg viewBox="0 0 24 24"><path d="m12 2 3 6.5 7 .9-5 4.8 1.2 7L12 17.8 5.8 21.2 7 14.2 2 9.4l7-.9Z"/></svg></div>
+        <blockquote>Placeholder — a member describing how quickly they got from signing the office to trading, and the part the setup team played.</blockquote>
+        <p class="who">Name · Role<br>Company · The Collective, Al-Khobar</p>
+      </div>
+      <div class="quote">
+        <div class="stars" aria-label="5 out of 5"><svg viewBox="0 0 24 24"><path d="m12 2 3 6.5 7 .9-5 4.8 1.2 7L12 17.8 5.8 21.2 7 14.2 2 9.4l7-.9Z"/></svg><svg viewBox="0 0 24 24"><path d="m12 2 3 6.5 7 .9-5 4.8 1.2 7L12 17.8 5.8 21.2 7 14.2 2 9.4l7-.9Z"/></svg><svg viewBox="0 0 24 24"><path d="m12 2 3 6.5 7 .9-5 4.8 1.2 7L12 17.8 5.8 21.2 7 14.2 2 9.4l7-.9Z"/></svg><svg viewBox="0 0 24 24"><path d="m12 2 3 6.5 7 .9-5 4.8 1.2 7L12 17.8 5.8 21.2 7 14.2 2 9.4l7-.9Z"/></svg><svg viewBox="0 0 24 24"><path d="m12 2 3 6.5 7 .9-5 4.8 1.2 7L12 17.8 5.8 21.2 7 14.2 2 9.4l7-.9Z"/></svg></div>
+        <blockquote>Placeholder — a tenant on the included meeting hours and what it replaced. Ideally names a specific number.</blockquote>
+        <p class="who">Name · Role<br>Company · The Elevate, Al-Khobar</p>
+      </div>
+      <div class="quote">
+        <div class="stars" aria-label="5 out of 5"><svg viewBox="0 0 24 24"><path d="m12 2 3 6.5 7 .9-5 4.8 1.2 7L12 17.8 5.8 21.2 7 14.2 2 9.4l7-.9Z"/></svg><svg viewBox="0 0 24 24"><path d="m12 2 3 6.5 7 .9-5 4.8 1.2 7L12 17.8 5.8 21.2 7 14.2 2 9.4l7-.9Z"/></svg><svg viewBox="0 0 24 24"><path d="m12 2 3 6.5 7 .9-5 4.8 1.2 7L12 17.8 5.8 21.2 7 14.2 2 9.4l7-.9Z"/></svg><svg viewBox="0 0 24 24"><path d="m12 2 3 6.5 7 .9-5 4.8 1.2 7L12 17.8 5.8 21.2 7 14.2 2 9.4l7-.9Z"/></svg><svg viewBox="0 0 24 24"><path d="m12 2 3 6.5 7 .9-5 4.8 1.2 7L12 17.8 5.8 21.2 7 14.2 2 9.4l7-.9Z"/></svg></div>
+        <blockquote>Placeholder — an Arabic-language testimonial, so the section proves the RTL treatment in production.</blockquote>
+        <p class="who">Name · Role<br>Company · Adliya, Bahrain</p>
+      </div>
+    </div>
+    <div class="placeholder-note">Placeholder copy. Real testimonials need names, companies, photos and written consent before this section can go live — never invented.</div>
+  </div>
+</section>
+
+<!-- ========== FAQ ========== -->
+<section class="band band-shell" data-cms="CMS · FAQ">
+  <div class="bound">
+    <div class="band-head">
+      <p class="kicker">Questions</p>
+      <h2 class="h2">Before you book.</h2>
+    </div>
+    <div class="faq">
+      <details open>
+        <summary>What is actually included in the monthly price?</summary>
+        <p>Electricity and water, high-speed WiFi, printing facilities, administration support, reception and mail handling, pantry access with water, coffee and tea, and office cleaning. Plus your monthly meeting-room allowance — 10, 15 or 20 hours depending on the collection.</p>
+      </details>
+      <details>
+        <summary>Can I add parking, a gym membership or another desk?</summary>
+        <p>Yes. Parking and gym membership are SAR 600 a month each, an additional desk is SAR 200, and universal access to all Growth Hub incubators is SAR 500. Add-ons attach to your membership and appear on the same invoice.</p>
+      </details>
+      <details>
+        <summary>Can I use my company address for commercial registration?</summary>
+        <p>Yes — that is the point of being in the ecosystem. Fahdan handles CR, licensing and visas in both Bahrain and Saudi Arabia, and your Growth Hub office is the registered address.</p>
+      </details>
+      <details>
+        <summary>Do my meeting hours work at other centres?</summary>
+        <p>Your allowance is valid at any Growth Hub centre. Book from your dashboard and the balance draws down wherever the room is.</p>
+      </details>
+      <details>
+        <summary>How do I list my own business centre here?</summary>
+        <p>Apply through the Network Partner programme. Once approved you manage your own listings, availability and pricing, and take part in the referral and commission programme.</p>
+      </details>
+    </div>
+  </div>
+</section>
+
+<!-- ========== FINALE ========== -->
+<section class="finale" data-cms="CMS · Closing CTA">
+  <div class="bound">
+    <h2 class="display">Because your business needs more than <em>four walls.</em></h2>
+    <p>Come and see the building. Viewings take twenty minutes, and someone from the setup team will be there if you want to talk about registration too.</p>
+    <div class="hero-cta" style="margin-bottom:0;">
+      <a class="btn btn-primary" href="#">Book a viewing</a>
+      <a class="btn btn-outline" href="#">Download the catalogue</a>
+    </div>
+  </div>
+</section>
+
+</main>
+
+<!-- ========== FOOTER ========== -->
+<footer class="ft" data-cms="CMS · Footer">
+  <div class="bound">
+    <div class="ft-grid">
+      <div class="ft-about">
+        <a class="logo" href="#top"><span class="bubble"></span><b>growth<span style="color:#E793A5;">hub</span></b></a>
+        <p>Flexible workspace and the business ecosystem around it, across Bahrain and Saudi Arabia.</p>
+        <div class="ft-contact">
+          <a href="tel:+966506678277">+966 50 667 8277</a><br>
+          <a href="mailto:info@businesshub.space">info@businesshub.space</a><br>
+          Al-Khobar, Kingdom of Saudi Arabia
+        </div>
+      </div>
+      <div>
+        <h4>Workspaces</h4>
+        <ul>
+          <li><a href="#spaces">Private offices</a></li>
+          <li><a href="#spaces">Meeting rooms</a></li>
+          <li><a href="#spaces">Event hall</a></li>
+          <li><a href="#spaces">Virtual office</a></li>
+          <li><a href="#cities">All locations</a></li>
+        </ul>
+      </div>
+      <div>
+        <h4>Ecosystem</h4>
+        <ul>
+          <li><a href="#ecosystem">Company registration</a></li>
+          <li><a href="#ecosystem">Accounting &amp; audit</a></li>
+          <li><a href="#ecosystem">Brand &amp; marketing</a></li>
+          <li><a href="#ecosystem">Incubation</a></li>
+          <li><a href="#partners">Become a partner</a></li>
+        </ul>
+      </div>
+      <div>
+        <h4>Company</h4>
+        <ul>
+          <li><a href="#">About Growth Hub</a></li>
+          <li><a href="#">Blog</a></li>
+          <li><a href="#">Careers</a></li>
+          <li><a href="#">Contact us</a></li>
+          <li><a href="#">Help centre</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="ft-base">
+      <span>© 2026 Growth Hub Global</span>
+      <span><a href="#">Privacy</a> · <a href="#">Terms</a> · <a href="#">Cancellation</a> · <a href="#">Refunds</a> · <a href="#">Cookies</a></span>
+      <span>English · العربية</span>
+    </div>
+  </div>
+</footer>
+
+<button class="cmsbtn" id="cmsToggle" type="button" aria-pressed="false">Show CMS blocks</button>
+
+<script>
+(function(){
+  /* ---- dual-mode search tabs ---- */
+  var tabs=[document.getElementById('tab-month'),document.getElementById('tab-hour')];
+  var panels=[document.getElementById('p-month'),document.getElementById('p-hour')];
+  function select(i){
+    tabs.forEach(function(t,n){t.setAttribute('aria-selected',n===i?'true':'false');});
+    panels.forEach(function(p,n){if(n===i){p.removeAttribute('hidden');}else{p.setAttribute('hidden','');}});
+  }
+  tabs.forEach(function(t,i){
+    t.addEventListener('click',function(){select(i);});
+    t.addEventListener('keydown',function(e){
+      if(e.key==='ArrowRight'||e.key==='ArrowLeft'){
+        e.preventDefault();var n=(i+1)%2;select(n);tabs[n].focus();
+      }
+    });
+  });
+
+  /* ---- CMS block overlay ---- */
+  var btn=document.getElementById('cmsToggle');
+  btn.addEventListener('click',function(){
+    var on=document.body.classList.toggle('cms');
+    btn.setAttribute('aria-pressed',on?'true':'false');
+    btn.textContent=on?'Hide CMS blocks':'Show CMS blocks';
+  });
+
+  /* ---- placeholder imagery: soft architectural gradients ---- */
+  var palettes=[
+    [[35,27,30],[142,46,68],[195,64,93]],
+    [[30,24,28],[70,45,58],[152,98,41]],
+    [[24,20,24],[110,40,60],[233,147,165]]
+  ];
+  document.querySelectorAll('canvas[data-art]').forEach(function(c){
+    var idx=(parseInt(c.getAttribute('data-art'),10)-1)%palettes.length;
+    var p=palettes[idx], x=c.getContext('2d'), w=c.width, h=c.height;
+    var g=x.createLinearGradient(0,0,w,h);
+    g.addColorStop(0,'rgb('+p[0].join(',')+')');
+    g.addColorStop(.62,'rgb('+p[1].join(',')+')');
+    g.addColorStop(1,'rgb('+p[2].join(',')+')');
+    x.fillStyle=g; x.fillRect(0,0,w,h);
+    /* faint window grid, echoing a tower facade */
+    x.strokeStyle='rgba(255,255,255,.075)'; x.lineWidth=1;
+    for(var i=1;i<9;i++){x.beginPath();x.moveTo(i*w/9,0);x.lineTo(i*w/9,h);x.stroke();}
+    for(var j=1;j<6;j++){x.beginPath();x.moveTo(0,j*h/6);x.lineTo(w,j*h/6);x.stroke();}
+    x.fillStyle='rgba(255,255,255,.055)';
+    for(var k=0;k<11;k++){
+      var cx=Math.floor((k*4+idx*3)%9), cy=Math.floor((k*3+idx)%6);
+      x.fillRect(cx*w/9,cy*h/6,w/9,h/6);
+    }
+  });
+})();
+</script>
+</body>
+</html>
