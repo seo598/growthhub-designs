@@ -15,6 +15,7 @@ Design screens for the **GrowthHub** workspace marketplace
 | 04 | [Customer dashboard](dashboard.html) | Membership, meeting-hours ledger, bookings, invoices, wishlist |
 | 05 | [Membership plans](membership.html) | The paid benefits tier for people without an office |
 | 06 | [Homepage — rebuilt](homepage-v2.html) | The corrected brand; the tower as hero, navigation and inventory browser |
+| 07 | [The working site — clickable](app-home.html) | Seven pages captured from the running application, with working navigation |
 
 Each page is a single self-contained HTML file — no build step, no external
 requests. The filters, tabs, calendars and booking calculator all work.
@@ -24,6 +25,13 @@ requests. The filters, tabs, calendars and booking calculator all work.
 speech-bubble mark to a plain blob. Screen 06 corrects all three: the mark is
 real SVG geometry, the palette is derived from the logo with every contrast
 ratio computed, and the type is Rubik. Screen 01 is kept only for comparison.
+
+**Screen 07 is the one to open.** It is the real application captured page by
+page, and the navigation works — click between Offices, Meeting hours,
+Membership, Ecosystem, Locations and What we publish exactly as you would on
+the live site. Search, booking, the customer account and the admin panel read
+and write a database, so they cannot be captured; those links land on a page
+that says so rather than breaking.
 
 Screens 01–04 are designs. **Screen 05 is a capture of the working
 application** — the real `/membership` page as a signed-out visitor sees it,
