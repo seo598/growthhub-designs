@@ -13,9 +13,15 @@ Design screens for the **GrowthHub** workspace marketplace
 | 02 | [Search results](search.html) | Monthly vs hourly kept separate, working filters, map view |
 | 03 | [Venue detail](venue.html) | One venue, twelve bookable spaces, availability calendar, booking card |
 | 04 | [Customer dashboard](dashboard.html) | Membership, meeting-hours ledger, bookings, invoices, wishlist |
+| 05 | [Membership plans](membership.html) | The paid benefits tier for people without an office |
 
 Each page is a single self-contained HTML file — no build step, no external
 requests. The filters, tabs, calendars and booking calculator all work.
+
+Screens 01–04 are designs. **Screen 05 is a capture of the working
+application** — the real `/membership` page as a signed-out visitor sees it,
+styles inlined so it opens without a server. The join buttons are live in the
+app and inert here.
 
 ## About the data
 
