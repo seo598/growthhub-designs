@@ -1,5 +1,5 @@
 
-/* /_next/static/css/app/layout.css?v=1786976611425 */
+/* /_next/static/css/app/layout.css?v=1786977601112 */
 /*!*****************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************!*\
   !*** css ./node_modules/next/dist/build/webpack/loaders/css-loader/src/index.js??ruleSet[1].rules[14].oneOf[2].use[1]!./node_modules/next/dist/build/webpack/loaders/next-font-loader/index.js??ruleSet[1].rules[14].oneOf[2].use[2]!./node_modules/next/font/google/target.css?{"path":"app\\layout.jsx","import":"Rubik","arguments":[{"subsets":["latin","latin-ext"],"weight":["300","400","500","600","700"],"variable":"--font-rubik","display":"swap"}],"variableName":"rubik"} ***!
   \*****************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************/
@@ -298,8 +298,13 @@
   --line: #DFD8D9;
   --line-2: #C9BCC0;
   --rose: #A9425A;        /* AA-safe: text, links, buttons, focus */
-  --rose-brand: #D2758B;  /* the signature: bubble, large fills, ≥24px only */
-  --rose-mid: #C3556F;    /* hover on brand fills */
+  --rose-brand: #D2758B;  /* the signature: DECORATION ONLY — no text at any size.
+                             White on it is 3.15:1, which clears large-text 3:1 and
+                             fails normal-text 4.5:1, so "≥24px only" was a rule that
+                             needed a human to remember a threshold. It didn't survive
+                             contact: .pbub (15px) and .cfgtotal's label and .sm sat on
+                             it at 3.15, 2.67 and 2.58. Both now use --rose. Verify with
+                             `node scripts/contrast.mjs`. */
   --rose-deep: #843346;
   --rose-wash: #FCF3F5;
   --rose-100: #F8E7EB;
@@ -891,8 +896,10 @@ h2.sec { font-weight: 650; letter-spacing: -.018em; font-size: 1.15rem; margin: 
 .opt2 input { width: 16px; height: 16px; accent-color: var(--rose); margin: 0; flex: none; }
 .opt2 .on { flex: 1 1; }
 .opt2 .op { font-weight: 600; white-space: nowrap; }
-.cfgtotal { background: var(--rose-brand); color: #fff; padding: 20px 18px; display: flex; flex-direction: column; gap: 6px; position: relative; }
-.cfgtotal::after { content: ""; position: absolute; inset-inline-start: 22px; bottom: -13px; width: 0; height: 0; border: 7px solid transparent; border-top-color: var(--rose-brand); border-inline-start-width: 0; border-inline-end-width: 16px; }
+/* --rose, not --rose-brand: this panel carries a 13px .sm line and a label, and
+   on the brand pink those measured 2.58:1 and 2.67:1. */
+.cfgtotal { background: var(--rose); color: #fff; padding: 20px 18px; display: flex; flex-direction: column; gap: 6px; position: relative; }
+.cfgtotal::after { content: ""; position: absolute; inset-inline-start: 22px; bottom: -13px; width: 0; height: 0; border: 7px solid transparent; border-top-color: var(--rose); border-inline-start-width: 0; border-inline-end-width: 16px; }
 .cfgtotal .lbl { color: #FCE7EC; }
 .cfgtotal b { font-size: clamp(1.6rem,3.4vw,2.2rem); line-height: 1; letter-spacing: -.03em; font-weight: 700; }
 .cfgtotal .sm { font-size: .82rem; color: #FBE2E8; }
@@ -928,8 +935,10 @@ h2.sec { font-weight: 650; letter-spacing: -.018em; font-size: 1.15rem; margin: 
 .walls i:nth-child(3) { background: var(--muted); }
 .wallgap { width: 12px; border: 1.5px dashed var(--muted-2); -webkit-border-start: 0; border-inline-start: 0; }
 .pbubs { display: flex; flex-wrap: wrap; gap: 10px; }
-.pbub { background: var(--rose-brand); color: #fff; padding: 12px 18px; font-weight: 600; font-size: .93rem; position: relative; border-radius: 20px 20px 20px 3px; }
-.pbub::after { content: ""; position: absolute; inset-inline-start: 0; bottom: -9px; width: 0; height: 0; border: 5px solid transparent; border-top-color: var(--rose-brand); border-inline-start-width: 0; border-inline-end-width: 11px; }
+/* Speech-bubble shape keeps the brand gesture; the fill is --rose because the
+   text is 15px semibold — 3.15:1 on the brand pink, short of 4.5:1. */
+.pbub { background: var(--rose); color: #fff; padding: 12px 18px; font-weight: 600; font-size: .93rem; position: relative; border-radius: 20px 20px 20px 3px; }
+.pbub::after { content: ""; position: absolute; inset-inline-start: 0; bottom: -9px; width: 0; height: 0; border: 5px solid transparent; border-top-color: var(--rose); border-inline-start-width: 0; border-inline-end-width: 11px; }
 .pbub.empty { background: transparent; color: var(--muted); border: 1.5px dashed var(--muted-2); }
 .pbub.empty::after { display: none; }
 .partnergrid { display: grid; grid-template-columns: repeat(auto-fill,minmax(230px,1fr)); grid-gap: 1px; gap: 1px; background: var(--line); border: 1px solid var(--line); }
@@ -995,7 +1004,7 @@ h2.sec { font-weight: 650; letter-spacing: -.018em; font-size: 1.15rem; margin: 
 .repeat-note { grid-column: 1 / -1; margin: 0; font-size: .84rem; color: var(--ink-2); line-height: 1.55; max-width: 64ch; }
 
 
-/* /_next/static/css/app/layout.css?v=1786976612415 */
+/* /_next/static/css/app/layout.css?v=1786977602082 */
 /*!*****************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************!*\
   !*** css ./node_modules/next/dist/build/webpack/loaders/css-loader/src/index.js??ruleSet[1].rules[14].oneOf[2].use[1]!./node_modules/next/dist/build/webpack/loaders/next-font-loader/index.js??ruleSet[1].rules[14].oneOf[2].use[2]!./node_modules/next/font/google/target.css?{"path":"app\\layout.jsx","import":"Rubik","arguments":[{"subsets":["latin","latin-ext"],"weight":["300","400","500","600","700"],"variable":"--font-rubik","display":"swap"}],"variableName":"rubik"} ***!
   \*****************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************/
@@ -1083,8 +1092,13 @@ h2.sec { font-weight: 650; letter-spacing: -.018em; font-size: 1.15rem; margin: 
   --line: #DFD8D9;
   --line-2: #C9BCC0;
   --rose: #A9425A;        /* AA-safe: text, links, buttons, focus */
-  --rose-brand: #D2758B;  /* the signature: bubble, large fills, ≥24px only */
-  --rose-mid: #C3556F;    /* hover on brand fills */
+  --rose-brand: #D2758B;  /* the signature: DECORATION ONLY — no text at any size.
+                             White on it is 3.15:1, which clears large-text 3:1 and
+                             fails normal-text 4.5:1, so "≥24px only" was a rule that
+                             needed a human to remember a threshold. It didn't survive
+                             contact: .pbub (15px) and .cfgtotal's label and .sm sat on
+                             it at 3.15, 2.67 and 2.58. Both now use --rose. Verify with
+                             `node scripts/contrast.mjs`. */
   --rose-deep: #843346;
   --rose-wash: #FCF3F5;
   --rose-100: #F8E7EB;
@@ -1676,8 +1690,10 @@ h2.sec { font-weight: 650; letter-spacing: -.018em; font-size: 1.15rem; margin: 
 .opt2 input { width: 16px; height: 16px; accent-color: var(--rose); margin: 0; flex: none; }
 .opt2 .on { flex: 1 1; }
 .opt2 .op { font-weight: 600; white-space: nowrap; }
-.cfgtotal { background: var(--rose-brand); color: #fff; padding: 20px 18px; display: flex; flex-direction: column; gap: 6px; position: relative; }
-.cfgtotal::after { content: ""; position: absolute; inset-inline-start: 22px; bottom: -13px; width: 0; height: 0; border: 7px solid transparent; border-top-color: var(--rose-brand); border-inline-start-width: 0; border-inline-end-width: 16px; }
+/* --rose, not --rose-brand: this panel carries a 13px .sm line and a label, and
+   on the brand pink those measured 2.58:1 and 2.67:1. */
+.cfgtotal { background: var(--rose); color: #fff; padding: 20px 18px; display: flex; flex-direction: column; gap: 6px; position: relative; }
+.cfgtotal::after { content: ""; position: absolute; inset-inline-start: 22px; bottom: -13px; width: 0; height: 0; border: 7px solid transparent; border-top-color: var(--rose); border-inline-start-width: 0; border-inline-end-width: 16px; }
 .cfgtotal .lbl { color: #FCE7EC; }
 .cfgtotal b { font-size: clamp(1.6rem,3.4vw,2.2rem); line-height: 1; letter-spacing: -.03em; font-weight: 700; }
 .cfgtotal .sm { font-size: .82rem; color: #FBE2E8; }
@@ -1713,8 +1729,10 @@ h2.sec { font-weight: 650; letter-spacing: -.018em; font-size: 1.15rem; margin: 
 .walls i:nth-child(3) { background: var(--muted); }
 .wallgap { width: 12px; border: 1.5px dashed var(--muted-2); -webkit-border-start: 0; border-inline-start: 0; }
 .pbubs { display: flex; flex-wrap: wrap; gap: 10px; }
-.pbub { background: var(--rose-brand); color: #fff; padding: 12px 18px; font-weight: 600; font-size: .93rem; position: relative; border-radius: 20px 20px 20px 3px; }
-.pbub::after { content: ""; position: absolute; inset-inline-start: 0; bottom: -9px; width: 0; height: 0; border: 5px solid transparent; border-top-color: var(--rose-brand); border-inline-start-width: 0; border-inline-end-width: 11px; }
+/* Speech-bubble shape keeps the brand gesture; the fill is --rose because the
+   text is 15px semibold — 3.15:1 on the brand pink, short of 4.5:1. */
+.pbub { background: var(--rose); color: #fff; padding: 12px 18px; font-weight: 600; font-size: .93rem; position: relative; border-radius: 20px 20px 20px 3px; }
+.pbub::after { content: ""; position: absolute; inset-inline-start: 0; bottom: -9px; width: 0; height: 0; border: 5px solid transparent; border-top-color: var(--rose); border-inline-start-width: 0; border-inline-end-width: 11px; }
 .pbub.empty { background: transparent; color: var(--muted); border: 1.5px dashed var(--muted-2); }
 .pbub.empty::after { display: none; }
 .partnergrid { display: grid; grid-template-columns: repeat(auto-fill,minmax(230px,1fr)); grid-gap: 1px; gap: 1px; background: var(--line); border: 1px solid var(--line); }
@@ -1780,7 +1798,7 @@ h2.sec { font-weight: 650; letter-spacing: -.018em; font-size: 1.15rem; margin: 
 .repeat-note { grid-column: 1 / -1; margin: 0; font-size: .84rem; color: var(--ink-2); line-height: 1.55; max-width: 64ch; }
 
 
-/* /_next/static/css/app/layout.css?v=1786976613345 */
+/* /_next/static/css/app/layout.css?v=1786977604170 */
 /*!*****************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************!*\
   !*** css ./node_modules/next/dist/build/webpack/loaders/css-loader/src/index.js??ruleSet[1].rules[14].oneOf[2].use[1]!./node_modules/next/dist/build/webpack/loaders/next-font-loader/index.js??ruleSet[1].rules[14].oneOf[2].use[2]!./node_modules/next/font/google/target.css?{"path":"app\\layout.jsx","import":"Rubik","arguments":[{"subsets":["latin","latin-ext"],"weight":["300","400","500","600","700"],"variable":"--font-rubik","display":"swap"}],"variableName":"rubik"} ***!
   \*****************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************/
@@ -1868,8 +1886,13 @@ h2.sec { font-weight: 650; letter-spacing: -.018em; font-size: 1.15rem; margin: 
   --line: #DFD8D9;
   --line-2: #C9BCC0;
   --rose: #A9425A;        /* AA-safe: text, links, buttons, focus */
-  --rose-brand: #D2758B;  /* the signature: bubble, large fills, ≥24px only */
-  --rose-mid: #C3556F;    /* hover on brand fills */
+  --rose-brand: #D2758B;  /* the signature: DECORATION ONLY — no text at any size.
+                             White on it is 3.15:1, which clears large-text 3:1 and
+                             fails normal-text 4.5:1, so "≥24px only" was a rule that
+                             needed a human to remember a threshold. It didn't survive
+                             contact: .pbub (15px) and .cfgtotal's label and .sm sat on
+                             it at 3.15, 2.67 and 2.58. Both now use --rose. Verify with
+                             `node scripts/contrast.mjs`. */
   --rose-deep: #843346;
   --rose-wash: #FCF3F5;
   --rose-100: #F8E7EB;
@@ -2461,8 +2484,10 @@ h2.sec { font-weight: 650; letter-spacing: -.018em; font-size: 1.15rem; margin: 
 .opt2 input { width: 16px; height: 16px; accent-color: var(--rose); margin: 0; flex: none; }
 .opt2 .on { flex: 1 1; }
 .opt2 .op { font-weight: 600; white-space: nowrap; }
-.cfgtotal { background: var(--rose-brand); color: #fff; padding: 20px 18px; display: flex; flex-direction: column; gap: 6px; position: relative; }
-.cfgtotal::after { content: ""; position: absolute; inset-inline-start: 22px; bottom: -13px; width: 0; height: 0; border: 7px solid transparent; border-top-color: var(--rose-brand); border-inline-start-width: 0; border-inline-end-width: 16px; }
+/* --rose, not --rose-brand: this panel carries a 13px .sm line and a label, and
+   on the brand pink those measured 2.58:1 and 2.67:1. */
+.cfgtotal { background: var(--rose); color: #fff; padding: 20px 18px; display: flex; flex-direction: column; gap: 6px; position: relative; }
+.cfgtotal::after { content: ""; position: absolute; inset-inline-start: 22px; bottom: -13px; width: 0; height: 0; border: 7px solid transparent; border-top-color: var(--rose); border-inline-start-width: 0; border-inline-end-width: 16px; }
 .cfgtotal .lbl { color: #FCE7EC; }
 .cfgtotal b { font-size: clamp(1.6rem,3.4vw,2.2rem); line-height: 1; letter-spacing: -.03em; font-weight: 700; }
 .cfgtotal .sm { font-size: .82rem; color: #FBE2E8; }
@@ -2498,8 +2523,10 @@ h2.sec { font-weight: 650; letter-spacing: -.018em; font-size: 1.15rem; margin: 
 .walls i:nth-child(3) { background: var(--muted); }
 .wallgap { width: 12px; border: 1.5px dashed var(--muted-2); -webkit-border-start: 0; border-inline-start: 0; }
 .pbubs { display: flex; flex-wrap: wrap; gap: 10px; }
-.pbub { background: var(--rose-brand); color: #fff; padding: 12px 18px; font-weight: 600; font-size: .93rem; position: relative; border-radius: 20px 20px 20px 3px; }
-.pbub::after { content: ""; position: absolute; inset-inline-start: 0; bottom: -9px; width: 0; height: 0; border: 5px solid transparent; border-top-color: var(--rose-brand); border-inline-start-width: 0; border-inline-end-width: 11px; }
+/* Speech-bubble shape keeps the brand gesture; the fill is --rose because the
+   text is 15px semibold — 3.15:1 on the brand pink, short of 4.5:1. */
+.pbub { background: var(--rose); color: #fff; padding: 12px 18px; font-weight: 600; font-size: .93rem; position: relative; border-radius: 20px 20px 20px 3px; }
+.pbub::after { content: ""; position: absolute; inset-inline-start: 0; bottom: -9px; width: 0; height: 0; border: 5px solid transparent; border-top-color: var(--rose); border-inline-start-width: 0; border-inline-end-width: 11px; }
 .pbub.empty { background: transparent; color: var(--muted); border: 1.5px dashed var(--muted-2); }
 .pbub.empty::after { display: none; }
 .partnergrid { display: grid; grid-template-columns: repeat(auto-fill,minmax(230px,1fr)); grid-gap: 1px; gap: 1px; background: var(--line); border: 1px solid var(--line); }
@@ -2565,7 +2592,7 @@ h2.sec { font-weight: 650; letter-spacing: -.018em; font-size: 1.15rem; margin: 
 .repeat-note { grid-column: 1 / -1; margin: 0; font-size: .84rem; color: var(--ink-2); line-height: 1.55; max-width: 64ch; }
 
 
-/* /_next/static/css/app/layout.css?v=1786976614173 */
+/* /_next/static/css/app/layout.css?v=1786977605138 */
 /*!*****************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************!*\
   !*** css ./node_modules/next/dist/build/webpack/loaders/css-loader/src/index.js??ruleSet[1].rules[14].oneOf[2].use[1]!./node_modules/next/dist/build/webpack/loaders/next-font-loader/index.js??ruleSet[1].rules[14].oneOf[2].use[2]!./node_modules/next/font/google/target.css?{"path":"app\\layout.jsx","import":"Rubik","arguments":[{"subsets":["latin","latin-ext"],"weight":["300","400","500","600","700"],"variable":"--font-rubik","display":"swap"}],"variableName":"rubik"} ***!
   \*****************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************/
@@ -2653,8 +2680,13 @@ h2.sec { font-weight: 650; letter-spacing: -.018em; font-size: 1.15rem; margin: 
   --line: #DFD8D9;
   --line-2: #C9BCC0;
   --rose: #A9425A;        /* AA-safe: text, links, buttons, focus */
-  --rose-brand: #D2758B;  /* the signature: bubble, large fills, ≥24px only */
-  --rose-mid: #C3556F;    /* hover on brand fills */
+  --rose-brand: #D2758B;  /* the signature: DECORATION ONLY — no text at any size.
+                             White on it is 3.15:1, which clears large-text 3:1 and
+                             fails normal-text 4.5:1, so "≥24px only" was a rule that
+                             needed a human to remember a threshold. It didn't survive
+                             contact: .pbub (15px) and .cfgtotal's label and .sm sat on
+                             it at 3.15, 2.67 and 2.58. Both now use --rose. Verify with
+                             `node scripts/contrast.mjs`. */
   --rose-deep: #843346;
   --rose-wash: #FCF3F5;
   --rose-100: #F8E7EB;
@@ -3246,8 +3278,10 @@ h2.sec { font-weight: 650; letter-spacing: -.018em; font-size: 1.15rem; margin: 
 .opt2 input { width: 16px; height: 16px; accent-color: var(--rose); margin: 0; flex: none; }
 .opt2 .on { flex: 1 1; }
 .opt2 .op { font-weight: 600; white-space: nowrap; }
-.cfgtotal { background: var(--rose-brand); color: #fff; padding: 20px 18px; display: flex; flex-direction: column; gap: 6px; position: relative; }
-.cfgtotal::after { content: ""; position: absolute; inset-inline-start: 22px; bottom: -13px; width: 0; height: 0; border: 7px solid transparent; border-top-color: var(--rose-brand); border-inline-start-width: 0; border-inline-end-width: 16px; }
+/* --rose, not --rose-brand: this panel carries a 13px .sm line and a label, and
+   on the brand pink those measured 2.58:1 and 2.67:1. */
+.cfgtotal { background: var(--rose); color: #fff; padding: 20px 18px; display: flex; flex-direction: column; gap: 6px; position: relative; }
+.cfgtotal::after { content: ""; position: absolute; inset-inline-start: 22px; bottom: -13px; width: 0; height: 0; border: 7px solid transparent; border-top-color: var(--rose); border-inline-start-width: 0; border-inline-end-width: 16px; }
 .cfgtotal .lbl { color: #FCE7EC; }
 .cfgtotal b { font-size: clamp(1.6rem,3.4vw,2.2rem); line-height: 1; letter-spacing: -.03em; font-weight: 700; }
 .cfgtotal .sm { font-size: .82rem; color: #FBE2E8; }
@@ -3283,8 +3317,10 @@ h2.sec { font-weight: 650; letter-spacing: -.018em; font-size: 1.15rem; margin: 
 .walls i:nth-child(3) { background: var(--muted); }
 .wallgap { width: 12px; border: 1.5px dashed var(--muted-2); -webkit-border-start: 0; border-inline-start: 0; }
 .pbubs { display: flex; flex-wrap: wrap; gap: 10px; }
-.pbub { background: var(--rose-brand); color: #fff; padding: 12px 18px; font-weight: 600; font-size: .93rem; position: relative; border-radius: 20px 20px 20px 3px; }
-.pbub::after { content: ""; position: absolute; inset-inline-start: 0; bottom: -9px; width: 0; height: 0; border: 5px solid transparent; border-top-color: var(--rose-brand); border-inline-start-width: 0; border-inline-end-width: 11px; }
+/* Speech-bubble shape keeps the brand gesture; the fill is --rose because the
+   text is 15px semibold — 3.15:1 on the brand pink, short of 4.5:1. */
+.pbub { background: var(--rose); color: #fff; padding: 12px 18px; font-weight: 600; font-size: .93rem; position: relative; border-radius: 20px 20px 20px 3px; }
+.pbub::after { content: ""; position: absolute; inset-inline-start: 0; bottom: -9px; width: 0; height: 0; border: 5px solid transparent; border-top-color: var(--rose); border-inline-start-width: 0; border-inline-end-width: 11px; }
 .pbub.empty { background: transparent; color: var(--muted); border: 1.5px dashed var(--muted-2); }
 .pbub.empty::after { display: none; }
 .partnergrid { display: grid; grid-template-columns: repeat(auto-fill,minmax(230px,1fr)); grid-gap: 1px; gap: 1px; background: var(--line); border: 1px solid var(--line); }
@@ -3350,7 +3386,7 @@ h2.sec { font-weight: 650; letter-spacing: -.018em; font-size: 1.15rem; margin: 
 .repeat-note { grid-column: 1 / -1; margin: 0; font-size: .84rem; color: var(--ink-2); line-height: 1.55; max-width: 64ch; }
 
 
-/* /_next/static/css/app/layout.css?v=1786976615117 */
+/* /_next/static/css/app/layout.css?v=1786977606226 */
 /*!*****************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************!*\
   !*** css ./node_modules/next/dist/build/webpack/loaders/css-loader/src/index.js??ruleSet[1].rules[14].oneOf[2].use[1]!./node_modules/next/dist/build/webpack/loaders/next-font-loader/index.js??ruleSet[1].rules[14].oneOf[2].use[2]!./node_modules/next/font/google/target.css?{"path":"app\\layout.jsx","import":"Rubik","arguments":[{"subsets":["latin","latin-ext"],"weight":["300","400","500","600","700"],"variable":"--font-rubik","display":"swap"}],"variableName":"rubik"} ***!
   \*****************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************/
@@ -3438,8 +3474,13 @@ h2.sec { font-weight: 650; letter-spacing: -.018em; font-size: 1.15rem; margin: 
   --line: #DFD8D9;
   --line-2: #C9BCC0;
   --rose: #A9425A;        /* AA-safe: text, links, buttons, focus */
-  --rose-brand: #D2758B;  /* the signature: bubble, large fills, ≥24px only */
-  --rose-mid: #C3556F;    /* hover on brand fills */
+  --rose-brand: #D2758B;  /* the signature: DECORATION ONLY — no text at any size.
+                             White on it is 3.15:1, which clears large-text 3:1 and
+                             fails normal-text 4.5:1, so "≥24px only" was a rule that
+                             needed a human to remember a threshold. It didn't survive
+                             contact: .pbub (15px) and .cfgtotal's label and .sm sat on
+                             it at 3.15, 2.67 and 2.58. Both now use --rose. Verify with
+                             `node scripts/contrast.mjs`. */
   --rose-deep: #843346;
   --rose-wash: #FCF3F5;
   --rose-100: #F8E7EB;
@@ -4031,8 +4072,10 @@ h2.sec { font-weight: 650; letter-spacing: -.018em; font-size: 1.15rem; margin: 
 .opt2 input { width: 16px; height: 16px; accent-color: var(--rose); margin: 0; flex: none; }
 .opt2 .on { flex: 1 1; }
 .opt2 .op { font-weight: 600; white-space: nowrap; }
-.cfgtotal { background: var(--rose-brand); color: #fff; padding: 20px 18px; display: flex; flex-direction: column; gap: 6px; position: relative; }
-.cfgtotal::after { content: ""; position: absolute; inset-inline-start: 22px; bottom: -13px; width: 0; height: 0; border: 7px solid transparent; border-top-color: var(--rose-brand); border-inline-start-width: 0; border-inline-end-width: 16px; }
+/* --rose, not --rose-brand: this panel carries a 13px .sm line and a label, and
+   on the brand pink those measured 2.58:1 and 2.67:1. */
+.cfgtotal { background: var(--rose); color: #fff; padding: 20px 18px; display: flex; flex-direction: column; gap: 6px; position: relative; }
+.cfgtotal::after { content: ""; position: absolute; inset-inline-start: 22px; bottom: -13px; width: 0; height: 0; border: 7px solid transparent; border-top-color: var(--rose); border-inline-start-width: 0; border-inline-end-width: 16px; }
 .cfgtotal .lbl { color: #FCE7EC; }
 .cfgtotal b { font-size: clamp(1.6rem,3.4vw,2.2rem); line-height: 1; letter-spacing: -.03em; font-weight: 700; }
 .cfgtotal .sm { font-size: .82rem; color: #FBE2E8; }
@@ -4068,8 +4111,10 @@ h2.sec { font-weight: 650; letter-spacing: -.018em; font-size: 1.15rem; margin: 
 .walls i:nth-child(3) { background: var(--muted); }
 .wallgap { width: 12px; border: 1.5px dashed var(--muted-2); -webkit-border-start: 0; border-inline-start: 0; }
 .pbubs { display: flex; flex-wrap: wrap; gap: 10px; }
-.pbub { background: var(--rose-brand); color: #fff; padding: 12px 18px; font-weight: 600; font-size: .93rem; position: relative; border-radius: 20px 20px 20px 3px; }
-.pbub::after { content: ""; position: absolute; inset-inline-start: 0; bottom: -9px; width: 0; height: 0; border: 5px solid transparent; border-top-color: var(--rose-brand); border-inline-start-width: 0; border-inline-end-width: 11px; }
+/* Speech-bubble shape keeps the brand gesture; the fill is --rose because the
+   text is 15px semibold — 3.15:1 on the brand pink, short of 4.5:1. */
+.pbub { background: var(--rose); color: #fff; padding: 12px 18px; font-weight: 600; font-size: .93rem; position: relative; border-radius: 20px 20px 20px 3px; }
+.pbub::after { content: ""; position: absolute; inset-inline-start: 0; bottom: -9px; width: 0; height: 0; border: 5px solid transparent; border-top-color: var(--rose); border-inline-start-width: 0; border-inline-end-width: 11px; }
 .pbub.empty { background: transparent; color: var(--muted); border: 1.5px dashed var(--muted-2); }
 .pbub.empty::after { display: none; }
 .partnergrid { display: grid; grid-template-columns: repeat(auto-fill,minmax(230px,1fr)); grid-gap: 1px; gap: 1px; background: var(--line); border: 1px solid var(--line); }
@@ -4135,7 +4180,7 @@ h2.sec { font-weight: 650; letter-spacing: -.018em; font-size: 1.15rem; margin: 
 .repeat-note { grid-column: 1 / -1; margin: 0; font-size: .84rem; color: var(--ink-2); line-height: 1.55; max-width: 64ch; }
 
 
-/* /_next/static/css/app/layout.css?v=1786976616091 */
+/* /_next/static/css/app/layout.css?v=1786977608063 */
 /*!*****************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************!*\
   !*** css ./node_modules/next/dist/build/webpack/loaders/css-loader/src/index.js??ruleSet[1].rules[14].oneOf[2].use[1]!./node_modules/next/dist/build/webpack/loaders/next-font-loader/index.js??ruleSet[1].rules[14].oneOf[2].use[2]!./node_modules/next/font/google/target.css?{"path":"app\\layout.jsx","import":"Rubik","arguments":[{"subsets":["latin","latin-ext"],"weight":["300","400","500","600","700"],"variable":"--font-rubik","display":"swap"}],"variableName":"rubik"} ***!
   \*****************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************/
@@ -4223,8 +4268,13 @@ h2.sec { font-weight: 650; letter-spacing: -.018em; font-size: 1.15rem; margin: 
   --line: #DFD8D9;
   --line-2: #C9BCC0;
   --rose: #A9425A;        /* AA-safe: text, links, buttons, focus */
-  --rose-brand: #D2758B;  /* the signature: bubble, large fills, ≥24px only */
-  --rose-mid: #C3556F;    /* hover on brand fills */
+  --rose-brand: #D2758B;  /* the signature: DECORATION ONLY — no text at any size.
+                             White on it is 3.15:1, which clears large-text 3:1 and
+                             fails normal-text 4.5:1, so "≥24px only" was a rule that
+                             needed a human to remember a threshold. It didn't survive
+                             contact: .pbub (15px) and .cfgtotal's label and .sm sat on
+                             it at 3.15, 2.67 and 2.58. Both now use --rose. Verify with
+                             `node scripts/contrast.mjs`. */
   --rose-deep: #843346;
   --rose-wash: #FCF3F5;
   --rose-100: #F8E7EB;
@@ -4816,8 +4866,10 @@ h2.sec { font-weight: 650; letter-spacing: -.018em; font-size: 1.15rem; margin: 
 .opt2 input { width: 16px; height: 16px; accent-color: var(--rose); margin: 0; flex: none; }
 .opt2 .on { flex: 1 1; }
 .opt2 .op { font-weight: 600; white-space: nowrap; }
-.cfgtotal { background: var(--rose-brand); color: #fff; padding: 20px 18px; display: flex; flex-direction: column; gap: 6px; position: relative; }
-.cfgtotal::after { content: ""; position: absolute; inset-inline-start: 22px; bottom: -13px; width: 0; height: 0; border: 7px solid transparent; border-top-color: var(--rose-brand); border-inline-start-width: 0; border-inline-end-width: 16px; }
+/* --rose, not --rose-brand: this panel carries a 13px .sm line and a label, and
+   on the brand pink those measured 2.58:1 and 2.67:1. */
+.cfgtotal { background: var(--rose); color: #fff; padding: 20px 18px; display: flex; flex-direction: column; gap: 6px; position: relative; }
+.cfgtotal::after { content: ""; position: absolute; inset-inline-start: 22px; bottom: -13px; width: 0; height: 0; border: 7px solid transparent; border-top-color: var(--rose); border-inline-start-width: 0; border-inline-end-width: 16px; }
 .cfgtotal .lbl { color: #FCE7EC; }
 .cfgtotal b { font-size: clamp(1.6rem,3.4vw,2.2rem); line-height: 1; letter-spacing: -.03em; font-weight: 700; }
 .cfgtotal .sm { font-size: .82rem; color: #FBE2E8; }
@@ -4853,8 +4905,10 @@ h2.sec { font-weight: 650; letter-spacing: -.018em; font-size: 1.15rem; margin: 
 .walls i:nth-child(3) { background: var(--muted); }
 .wallgap { width: 12px; border: 1.5px dashed var(--muted-2); -webkit-border-start: 0; border-inline-start: 0; }
 .pbubs { display: flex; flex-wrap: wrap; gap: 10px; }
-.pbub { background: var(--rose-brand); color: #fff; padding: 12px 18px; font-weight: 600; font-size: .93rem; position: relative; border-radius: 20px 20px 20px 3px; }
-.pbub::after { content: ""; position: absolute; inset-inline-start: 0; bottom: -9px; width: 0; height: 0; border: 5px solid transparent; border-top-color: var(--rose-brand); border-inline-start-width: 0; border-inline-end-width: 11px; }
+/* Speech-bubble shape keeps the brand gesture; the fill is --rose because the
+   text is 15px semibold — 3.15:1 on the brand pink, short of 4.5:1. */
+.pbub { background: var(--rose); color: #fff; padding: 12px 18px; font-weight: 600; font-size: .93rem; position: relative; border-radius: 20px 20px 20px 3px; }
+.pbub::after { content: ""; position: absolute; inset-inline-start: 0; bottom: -9px; width: 0; height: 0; border: 5px solid transparent; border-top-color: var(--rose); border-inline-start-width: 0; border-inline-end-width: 11px; }
 .pbub.empty { background: transparent; color: var(--muted); border: 1.5px dashed var(--muted-2); }
 .pbub.empty::after { display: none; }
 .partnergrid { display: grid; grid-template-columns: repeat(auto-fill,minmax(230px,1fr)); grid-gap: 1px; gap: 1px; background: var(--line); border: 1px solid var(--line); }
@@ -4920,7 +4974,7 @@ h2.sec { font-weight: 650; letter-spacing: -.018em; font-size: 1.15rem; margin: 
 .repeat-note { grid-column: 1 / -1; margin: 0; font-size: .84rem; color: var(--ink-2); line-height: 1.55; max-width: 64ch; }
 
 
-/* /_next/static/css/app/layout.css?v=1786976618531 */
+/* /_next/static/css/app/layout.css?v=1786977610291 */
 /*!*****************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************!*\
   !*** css ./node_modules/next/dist/build/webpack/loaders/css-loader/src/index.js??ruleSet[1].rules[14].oneOf[2].use[1]!./node_modules/next/dist/build/webpack/loaders/next-font-loader/index.js??ruleSet[1].rules[14].oneOf[2].use[2]!./node_modules/next/font/google/target.css?{"path":"app\\layout.jsx","import":"Rubik","arguments":[{"subsets":["latin","latin-ext"],"weight":["300","400","500","600","700"],"variable":"--font-rubik","display":"swap"}],"variableName":"rubik"} ***!
   \*****************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************/
@@ -5008,8 +5062,13 @@ h2.sec { font-weight: 650; letter-spacing: -.018em; font-size: 1.15rem; margin: 
   --line: #DFD8D9;
   --line-2: #C9BCC0;
   --rose: #A9425A;        /* AA-safe: text, links, buttons, focus */
-  --rose-brand: #D2758B;  /* the signature: bubble, large fills, ≥24px only */
-  --rose-mid: #C3556F;    /* hover on brand fills */
+  --rose-brand: #D2758B;  /* the signature: DECORATION ONLY — no text at any size.
+                             White on it is 3.15:1, which clears large-text 3:1 and
+                             fails normal-text 4.5:1, so "≥24px only" was a rule that
+                             needed a human to remember a threshold. It didn't survive
+                             contact: .pbub (15px) and .cfgtotal's label and .sm sat on
+                             it at 3.15, 2.67 and 2.58. Both now use --rose. Verify with
+                             `node scripts/contrast.mjs`. */
   --rose-deep: #843346;
   --rose-wash: #FCF3F5;
   --rose-100: #F8E7EB;
@@ -5601,8 +5660,10 @@ h2.sec { font-weight: 650; letter-spacing: -.018em; font-size: 1.15rem; margin: 
 .opt2 input { width: 16px; height: 16px; accent-color: var(--rose); margin: 0; flex: none; }
 .opt2 .on { flex: 1 1; }
 .opt2 .op { font-weight: 600; white-space: nowrap; }
-.cfgtotal { background: var(--rose-brand); color: #fff; padding: 20px 18px; display: flex; flex-direction: column; gap: 6px; position: relative; }
-.cfgtotal::after { content: ""; position: absolute; inset-inline-start: 22px; bottom: -13px; width: 0; height: 0; border: 7px solid transparent; border-top-color: var(--rose-brand); border-inline-start-width: 0; border-inline-end-width: 16px; }
+/* --rose, not --rose-brand: this panel carries a 13px .sm line and a label, and
+   on the brand pink those measured 2.58:1 and 2.67:1. */
+.cfgtotal { background: var(--rose); color: #fff; padding: 20px 18px; display: flex; flex-direction: column; gap: 6px; position: relative; }
+.cfgtotal::after { content: ""; position: absolute; inset-inline-start: 22px; bottom: -13px; width: 0; height: 0; border: 7px solid transparent; border-top-color: var(--rose); border-inline-start-width: 0; border-inline-end-width: 16px; }
 .cfgtotal .lbl { color: #FCE7EC; }
 .cfgtotal b { font-size: clamp(1.6rem,3.4vw,2.2rem); line-height: 1; letter-spacing: -.03em; font-weight: 700; }
 .cfgtotal .sm { font-size: .82rem; color: #FBE2E8; }
@@ -5638,8 +5699,10 @@ h2.sec { font-weight: 650; letter-spacing: -.018em; font-size: 1.15rem; margin: 
 .walls i:nth-child(3) { background: var(--muted); }
 .wallgap { width: 12px; border: 1.5px dashed var(--muted-2); -webkit-border-start: 0; border-inline-start: 0; }
 .pbubs { display: flex; flex-wrap: wrap; gap: 10px; }
-.pbub { background: var(--rose-brand); color: #fff; padding: 12px 18px; font-weight: 600; font-size: .93rem; position: relative; border-radius: 20px 20px 20px 3px; }
-.pbub::after { content: ""; position: absolute; inset-inline-start: 0; bottom: -9px; width: 0; height: 0; border: 5px solid transparent; border-top-color: var(--rose-brand); border-inline-start-width: 0; border-inline-end-width: 11px; }
+/* Speech-bubble shape keeps the brand gesture; the fill is --rose because the
+   text is 15px semibold — 3.15:1 on the brand pink, short of 4.5:1. */
+.pbub { background: var(--rose); color: #fff; padding: 12px 18px; font-weight: 600; font-size: .93rem; position: relative; border-radius: 20px 20px 20px 3px; }
+.pbub::after { content: ""; position: absolute; inset-inline-start: 0; bottom: -9px; width: 0; height: 0; border: 5px solid transparent; border-top-color: var(--rose); border-inline-start-width: 0; border-inline-end-width: 11px; }
 .pbub.empty { background: transparent; color: var(--muted); border: 1.5px dashed var(--muted-2); }
 .pbub.empty::after { display: none; }
 .partnergrid { display: grid; grid-template-columns: repeat(auto-fill,minmax(230px,1fr)); grid-gap: 1px; gap: 1px; background: var(--line); border: 1px solid var(--line); }
@@ -5705,7 +5768,7 @@ h2.sec { font-weight: 650; letter-spacing: -.018em; font-size: 1.15rem; margin: 
 .repeat-note { grid-column: 1 / -1; margin: 0; font-size: .84rem; color: var(--ink-2); line-height: 1.55; max-width: 64ch; }
 
 
-/* /_next/static/css/app/layout.css?v=1786976622007 */
+/* /_next/static/css/app/layout.css?v=1786977612771 */
 /*!*****************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************!*\
   !*** css ./node_modules/next/dist/build/webpack/loaders/css-loader/src/index.js??ruleSet[1].rules[14].oneOf[2].use[1]!./node_modules/next/dist/build/webpack/loaders/next-font-loader/index.js??ruleSet[1].rules[14].oneOf[2].use[2]!./node_modules/next/font/google/target.css?{"path":"app\\layout.jsx","import":"Rubik","arguments":[{"subsets":["latin","latin-ext"],"weight":["300","400","500","600","700"],"variable":"--font-rubik","display":"swap"}],"variableName":"rubik"} ***!
   \*****************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************/
@@ -5793,8 +5856,13 @@ h2.sec { font-weight: 650; letter-spacing: -.018em; font-size: 1.15rem; margin: 
   --line: #DFD8D9;
   --line-2: #C9BCC0;
   --rose: #A9425A;        /* AA-safe: text, links, buttons, focus */
-  --rose-brand: #D2758B;  /* the signature: bubble, large fills, ≥24px only */
-  --rose-mid: #C3556F;    /* hover on brand fills */
+  --rose-brand: #D2758B;  /* the signature: DECORATION ONLY — no text at any size.
+                             White on it is 3.15:1, which clears large-text 3:1 and
+                             fails normal-text 4.5:1, so "≥24px only" was a rule that
+                             needed a human to remember a threshold. It didn't survive
+                             contact: .pbub (15px) and .cfgtotal's label and .sm sat on
+                             it at 3.15, 2.67 and 2.58. Both now use --rose. Verify with
+                             `node scripts/contrast.mjs`. */
   --rose-deep: #843346;
   --rose-wash: #FCF3F5;
   --rose-100: #F8E7EB;
@@ -6386,8 +6454,10 @@ h2.sec { font-weight: 650; letter-spacing: -.018em; font-size: 1.15rem; margin: 
 .opt2 input { width: 16px; height: 16px; accent-color: var(--rose); margin: 0; flex: none; }
 .opt2 .on { flex: 1 1; }
 .opt2 .op { font-weight: 600; white-space: nowrap; }
-.cfgtotal { background: var(--rose-brand); color: #fff; padding: 20px 18px; display: flex; flex-direction: column; gap: 6px; position: relative; }
-.cfgtotal::after { content: ""; position: absolute; inset-inline-start: 22px; bottom: -13px; width: 0; height: 0; border: 7px solid transparent; border-top-color: var(--rose-brand); border-inline-start-width: 0; border-inline-end-width: 16px; }
+/* --rose, not --rose-brand: this panel carries a 13px .sm line and a label, and
+   on the brand pink those measured 2.58:1 and 2.67:1. */
+.cfgtotal { background: var(--rose); color: #fff; padding: 20px 18px; display: flex; flex-direction: column; gap: 6px; position: relative; }
+.cfgtotal::after { content: ""; position: absolute; inset-inline-start: 22px; bottom: -13px; width: 0; height: 0; border: 7px solid transparent; border-top-color: var(--rose); border-inline-start-width: 0; border-inline-end-width: 16px; }
 .cfgtotal .lbl { color: #FCE7EC; }
 .cfgtotal b { font-size: clamp(1.6rem,3.4vw,2.2rem); line-height: 1; letter-spacing: -.03em; font-weight: 700; }
 .cfgtotal .sm { font-size: .82rem; color: #FBE2E8; }
@@ -6423,8 +6493,10 @@ h2.sec { font-weight: 650; letter-spacing: -.018em; font-size: 1.15rem; margin: 
 .walls i:nth-child(3) { background: var(--muted); }
 .wallgap { width: 12px; border: 1.5px dashed var(--muted-2); -webkit-border-start: 0; border-inline-start: 0; }
 .pbubs { display: flex; flex-wrap: wrap; gap: 10px; }
-.pbub { background: var(--rose-brand); color: #fff; padding: 12px 18px; font-weight: 600; font-size: .93rem; position: relative; border-radius: 20px 20px 20px 3px; }
-.pbub::after { content: ""; position: absolute; inset-inline-start: 0; bottom: -9px; width: 0; height: 0; border: 5px solid transparent; border-top-color: var(--rose-brand); border-inline-start-width: 0; border-inline-end-width: 11px; }
+/* Speech-bubble shape keeps the brand gesture; the fill is --rose because the
+   text is 15px semibold — 3.15:1 on the brand pink, short of 4.5:1. */
+.pbub { background: var(--rose); color: #fff; padding: 12px 18px; font-weight: 600; font-size: .93rem; position: relative; border-radius: 20px 20px 20px 3px; }
+.pbub::after { content: ""; position: absolute; inset-inline-start: 0; bottom: -9px; width: 0; height: 0; border: 5px solid transparent; border-top-color: var(--rose); border-inline-start-width: 0; border-inline-end-width: 11px; }
 .pbub.empty { background: transparent; color: var(--muted); border: 1.5px dashed var(--muted-2); }
 .pbub.empty::after { display: none; }
 .partnergrid { display: grid; grid-template-columns: repeat(auto-fill,minmax(230px,1fr)); grid-gap: 1px; gap: 1px; background: var(--line); border: 1px solid var(--line); }
@@ -6490,7 +6562,7 @@ h2.sec { font-weight: 650; letter-spacing: -.018em; font-size: 1.15rem; margin: 
 .repeat-note { grid-column: 1 / -1; margin: 0; font-size: .84rem; color: var(--ink-2); line-height: 1.55; max-width: 64ch; }
 
 
-/* /_next/static/css/app/layout.css?v=1786976622943 */
+/* /_next/static/css/app/layout.css?v=1786977613883 */
 /*!*****************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************!*\
   !*** css ./node_modules/next/dist/build/webpack/loaders/css-loader/src/index.js??ruleSet[1].rules[14].oneOf[2].use[1]!./node_modules/next/dist/build/webpack/loaders/next-font-loader/index.js??ruleSet[1].rules[14].oneOf[2].use[2]!./node_modules/next/font/google/target.css?{"path":"app\\layout.jsx","import":"Rubik","arguments":[{"subsets":["latin","latin-ext"],"weight":["300","400","500","600","700"],"variable":"--font-rubik","display":"swap"}],"variableName":"rubik"} ***!
   \*****************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************/
@@ -6578,8 +6650,13 @@ h2.sec { font-weight: 650; letter-spacing: -.018em; font-size: 1.15rem; margin: 
   --line: #DFD8D9;
   --line-2: #C9BCC0;
   --rose: #A9425A;        /* AA-safe: text, links, buttons, focus */
-  --rose-brand: #D2758B;  /* the signature: bubble, large fills, ≥24px only */
-  --rose-mid: #C3556F;    /* hover on brand fills */
+  --rose-brand: #D2758B;  /* the signature: DECORATION ONLY — no text at any size.
+                             White on it is 3.15:1, which clears large-text 3:1 and
+                             fails normal-text 4.5:1, so "≥24px only" was a rule that
+                             needed a human to remember a threshold. It didn't survive
+                             contact: .pbub (15px) and .cfgtotal's label and .sm sat on
+                             it at 3.15, 2.67 and 2.58. Both now use --rose. Verify with
+                             `node scripts/contrast.mjs`. */
   --rose-deep: #843346;
   --rose-wash: #FCF3F5;
   --rose-100: #F8E7EB;
@@ -7171,8 +7248,10 @@ h2.sec { font-weight: 650; letter-spacing: -.018em; font-size: 1.15rem; margin: 
 .opt2 input { width: 16px; height: 16px; accent-color: var(--rose); margin: 0; flex: none; }
 .opt2 .on { flex: 1 1; }
 .opt2 .op { font-weight: 600; white-space: nowrap; }
-.cfgtotal { background: var(--rose-brand); color: #fff; padding: 20px 18px; display: flex; flex-direction: column; gap: 6px; position: relative; }
-.cfgtotal::after { content: ""; position: absolute; inset-inline-start: 22px; bottom: -13px; width: 0; height: 0; border: 7px solid transparent; border-top-color: var(--rose-brand); border-inline-start-width: 0; border-inline-end-width: 16px; }
+/* --rose, not --rose-brand: this panel carries a 13px .sm line and a label, and
+   on the brand pink those measured 2.58:1 and 2.67:1. */
+.cfgtotal { background: var(--rose); color: #fff; padding: 20px 18px; display: flex; flex-direction: column; gap: 6px; position: relative; }
+.cfgtotal::after { content: ""; position: absolute; inset-inline-start: 22px; bottom: -13px; width: 0; height: 0; border: 7px solid transparent; border-top-color: var(--rose); border-inline-start-width: 0; border-inline-end-width: 16px; }
 .cfgtotal .lbl { color: #FCE7EC; }
 .cfgtotal b { font-size: clamp(1.6rem,3.4vw,2.2rem); line-height: 1; letter-spacing: -.03em; font-weight: 700; }
 .cfgtotal .sm { font-size: .82rem; color: #FBE2E8; }
@@ -7208,8 +7287,10 @@ h2.sec { font-weight: 650; letter-spacing: -.018em; font-size: 1.15rem; margin: 
 .walls i:nth-child(3) { background: var(--muted); }
 .wallgap { width: 12px; border: 1.5px dashed var(--muted-2); -webkit-border-start: 0; border-inline-start: 0; }
 .pbubs { display: flex; flex-wrap: wrap; gap: 10px; }
-.pbub { background: var(--rose-brand); color: #fff; padding: 12px 18px; font-weight: 600; font-size: .93rem; position: relative; border-radius: 20px 20px 20px 3px; }
-.pbub::after { content: ""; position: absolute; inset-inline-start: 0; bottom: -9px; width: 0; height: 0; border: 5px solid transparent; border-top-color: var(--rose-brand); border-inline-start-width: 0; border-inline-end-width: 11px; }
+/* Speech-bubble shape keeps the brand gesture; the fill is --rose because the
+   text is 15px semibold — 3.15:1 on the brand pink, short of 4.5:1. */
+.pbub { background: var(--rose); color: #fff; padding: 12px 18px; font-weight: 600; font-size: .93rem; position: relative; border-radius: 20px 20px 20px 3px; }
+.pbub::after { content: ""; position: absolute; inset-inline-start: 0; bottom: -9px; width: 0; height: 0; border: 5px solid transparent; border-top-color: var(--rose); border-inline-start-width: 0; border-inline-end-width: 11px; }
 .pbub.empty { background: transparent; color: var(--muted); border: 1.5px dashed var(--muted-2); }
 .pbub.empty::after { display: none; }
 .partnergrid { display: grid; grid-template-columns: repeat(auto-fill,minmax(230px,1fr)); grid-gap: 1px; gap: 1px; background: var(--line); border: 1px solid var(--line); }
@@ -7275,7 +7356,7 @@ h2.sec { font-weight: 650; letter-spacing: -.018em; font-size: 1.15rem; margin: 
 .repeat-note { grid-column: 1 / -1; margin: 0; font-size: .84rem; color: var(--ink-2); line-height: 1.55; max-width: 64ch; }
 
 
-/* /_next/static/css/app/layout.css?v=1786976623288 */
+/* /_next/static/css/app/layout.css?v=1786977614472 */
 /*!*****************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************!*\
   !*** css ./node_modules/next/dist/build/webpack/loaders/css-loader/src/index.js??ruleSet[1].rules[14].oneOf[2].use[1]!./node_modules/next/dist/build/webpack/loaders/next-font-loader/index.js??ruleSet[1].rules[14].oneOf[2].use[2]!./node_modules/next/font/google/target.css?{"path":"app\\layout.jsx","import":"Rubik","arguments":[{"subsets":["latin","latin-ext"],"weight":["300","400","500","600","700"],"variable":"--font-rubik","display":"swap"}],"variableName":"rubik"} ***!
   \*****************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************/
@@ -7363,8 +7444,13 @@ h2.sec { font-weight: 650; letter-spacing: -.018em; font-size: 1.15rem; margin: 
   --line: #DFD8D9;
   --line-2: #C9BCC0;
   --rose: #A9425A;        /* AA-safe: text, links, buttons, focus */
-  --rose-brand: #D2758B;  /* the signature: bubble, large fills, ≥24px only */
-  --rose-mid: #C3556F;    /* hover on brand fills */
+  --rose-brand: #D2758B;  /* the signature: DECORATION ONLY — no text at any size.
+                             White on it is 3.15:1, which clears large-text 3:1 and
+                             fails normal-text 4.5:1, so "≥24px only" was a rule that
+                             needed a human to remember a threshold. It didn't survive
+                             contact: .pbub (15px) and .cfgtotal's label and .sm sat on
+                             it at 3.15, 2.67 and 2.58. Both now use --rose. Verify with
+                             `node scripts/contrast.mjs`. */
   --rose-deep: #843346;
   --rose-wash: #FCF3F5;
   --rose-100: #F8E7EB;
@@ -7956,8 +8042,10 @@ h2.sec { font-weight: 650; letter-spacing: -.018em; font-size: 1.15rem; margin: 
 .opt2 input { width: 16px; height: 16px; accent-color: var(--rose); margin: 0; flex: none; }
 .opt2 .on { flex: 1 1; }
 .opt2 .op { font-weight: 600; white-space: nowrap; }
-.cfgtotal { background: var(--rose-brand); color: #fff; padding: 20px 18px; display: flex; flex-direction: column; gap: 6px; position: relative; }
-.cfgtotal::after { content: ""; position: absolute; inset-inline-start: 22px; bottom: -13px; width: 0; height: 0; border: 7px solid transparent; border-top-color: var(--rose-brand); border-inline-start-width: 0; border-inline-end-width: 16px; }
+/* --rose, not --rose-brand: this panel carries a 13px .sm line and a label, and
+   on the brand pink those measured 2.58:1 and 2.67:1. */
+.cfgtotal { background: var(--rose); color: #fff; padding: 20px 18px; display: flex; flex-direction: column; gap: 6px; position: relative; }
+.cfgtotal::after { content: ""; position: absolute; inset-inline-start: 22px; bottom: -13px; width: 0; height: 0; border: 7px solid transparent; border-top-color: var(--rose); border-inline-start-width: 0; border-inline-end-width: 16px; }
 .cfgtotal .lbl { color: #FCE7EC; }
 .cfgtotal b { font-size: clamp(1.6rem,3.4vw,2.2rem); line-height: 1; letter-spacing: -.03em; font-weight: 700; }
 .cfgtotal .sm { font-size: .82rem; color: #FBE2E8; }
@@ -7993,8 +8081,10 @@ h2.sec { font-weight: 650; letter-spacing: -.018em; font-size: 1.15rem; margin: 
 .walls i:nth-child(3) { background: var(--muted); }
 .wallgap { width: 12px; border: 1.5px dashed var(--muted-2); -webkit-border-start: 0; border-inline-start: 0; }
 .pbubs { display: flex; flex-wrap: wrap; gap: 10px; }
-.pbub { background: var(--rose-brand); color: #fff; padding: 12px 18px; font-weight: 600; font-size: .93rem; position: relative; border-radius: 20px 20px 20px 3px; }
-.pbub::after { content: ""; position: absolute; inset-inline-start: 0; bottom: -9px; width: 0; height: 0; border: 5px solid transparent; border-top-color: var(--rose-brand); border-inline-start-width: 0; border-inline-end-width: 11px; }
+/* Speech-bubble shape keeps the brand gesture; the fill is --rose because the
+   text is 15px semibold — 3.15:1 on the brand pink, short of 4.5:1. */
+.pbub { background: var(--rose); color: #fff; padding: 12px 18px; font-weight: 600; font-size: .93rem; position: relative; border-radius: 20px 20px 20px 3px; }
+.pbub::after { content: ""; position: absolute; inset-inline-start: 0; bottom: -9px; width: 0; height: 0; border: 5px solid transparent; border-top-color: var(--rose); border-inline-start-width: 0; border-inline-end-width: 11px; }
 .pbub.empty { background: transparent; color: var(--muted); border: 1.5px dashed var(--muted-2); }
 .pbub.empty::after { display: none; }
 .partnergrid { display: grid; grid-template-columns: repeat(auto-fill,minmax(230px,1fr)); grid-gap: 1px; gap: 1px; background: var(--line); border: 1px solid var(--line); }
@@ -8060,7 +8150,7 @@ h2.sec { font-weight: 650; letter-spacing: -.018em; font-size: 1.15rem; margin: 
 .repeat-note { grid-column: 1 / -1; margin: 0; font-size: .84rem; color: var(--ink-2); line-height: 1.55; max-width: 64ch; }
 
 
-/* /_next/static/css/app/layout.css?v=1786976623542 */
+/* /_next/static/css/app/layout.css?v=1786977614779 */
 /*!*****************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************!*\
   !*** css ./node_modules/next/dist/build/webpack/loaders/css-loader/src/index.js??ruleSet[1].rules[14].oneOf[2].use[1]!./node_modules/next/dist/build/webpack/loaders/next-font-loader/index.js??ruleSet[1].rules[14].oneOf[2].use[2]!./node_modules/next/font/google/target.css?{"path":"app\\layout.jsx","import":"Rubik","arguments":[{"subsets":["latin","latin-ext"],"weight":["300","400","500","600","700"],"variable":"--font-rubik","display":"swap"}],"variableName":"rubik"} ***!
   \*****************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************/
@@ -8148,8 +8238,13 @@ h2.sec { font-weight: 650; letter-spacing: -.018em; font-size: 1.15rem; margin: 
   --line: #DFD8D9;
   --line-2: #C9BCC0;
   --rose: #A9425A;        /* AA-safe: text, links, buttons, focus */
-  --rose-brand: #D2758B;  /* the signature: bubble, large fills, ≥24px only */
-  --rose-mid: #C3556F;    /* hover on brand fills */
+  --rose-brand: #D2758B;  /* the signature: DECORATION ONLY — no text at any size.
+                             White on it is 3.15:1, which clears large-text 3:1 and
+                             fails normal-text 4.5:1, so "≥24px only" was a rule that
+                             needed a human to remember a threshold. It didn't survive
+                             contact: .pbub (15px) and .cfgtotal's label and .sm sat on
+                             it at 3.15, 2.67 and 2.58. Both now use --rose. Verify with
+                             `node scripts/contrast.mjs`. */
   --rose-deep: #843346;
   --rose-wash: #FCF3F5;
   --rose-100: #F8E7EB;
@@ -8741,8 +8836,10 @@ h2.sec { font-weight: 650; letter-spacing: -.018em; font-size: 1.15rem; margin: 
 .opt2 input { width: 16px; height: 16px; accent-color: var(--rose); margin: 0; flex: none; }
 .opt2 .on { flex: 1 1; }
 .opt2 .op { font-weight: 600; white-space: nowrap; }
-.cfgtotal { background: var(--rose-brand); color: #fff; padding: 20px 18px; display: flex; flex-direction: column; gap: 6px; position: relative; }
-.cfgtotal::after { content: ""; position: absolute; inset-inline-start: 22px; bottom: -13px; width: 0; height: 0; border: 7px solid transparent; border-top-color: var(--rose-brand); border-inline-start-width: 0; border-inline-end-width: 16px; }
+/* --rose, not --rose-brand: this panel carries a 13px .sm line and a label, and
+   on the brand pink those measured 2.58:1 and 2.67:1. */
+.cfgtotal { background: var(--rose); color: #fff; padding: 20px 18px; display: flex; flex-direction: column; gap: 6px; position: relative; }
+.cfgtotal::after { content: ""; position: absolute; inset-inline-start: 22px; bottom: -13px; width: 0; height: 0; border: 7px solid transparent; border-top-color: var(--rose); border-inline-start-width: 0; border-inline-end-width: 16px; }
 .cfgtotal .lbl { color: #FCE7EC; }
 .cfgtotal b { font-size: clamp(1.6rem,3.4vw,2.2rem); line-height: 1; letter-spacing: -.03em; font-weight: 700; }
 .cfgtotal .sm { font-size: .82rem; color: #FBE2E8; }
@@ -8778,8 +8875,10 @@ h2.sec { font-weight: 650; letter-spacing: -.018em; font-size: 1.15rem; margin: 
 .walls i:nth-child(3) { background: var(--muted); }
 .wallgap { width: 12px; border: 1.5px dashed var(--muted-2); -webkit-border-start: 0; border-inline-start: 0; }
 .pbubs { display: flex; flex-wrap: wrap; gap: 10px; }
-.pbub { background: var(--rose-brand); color: #fff; padding: 12px 18px; font-weight: 600; font-size: .93rem; position: relative; border-radius: 20px 20px 20px 3px; }
-.pbub::after { content: ""; position: absolute; inset-inline-start: 0; bottom: -9px; width: 0; height: 0; border: 5px solid transparent; border-top-color: var(--rose-brand); border-inline-start-width: 0; border-inline-end-width: 11px; }
+/* Speech-bubble shape keeps the brand gesture; the fill is --rose because the
+   text is 15px semibold — 3.15:1 on the brand pink, short of 4.5:1. */
+.pbub { background: var(--rose); color: #fff; padding: 12px 18px; font-weight: 600; font-size: .93rem; position: relative; border-radius: 20px 20px 20px 3px; }
+.pbub::after { content: ""; position: absolute; inset-inline-start: 0; bottom: -9px; width: 0; height: 0; border: 5px solid transparent; border-top-color: var(--rose); border-inline-start-width: 0; border-inline-end-width: 11px; }
 .pbub.empty { background: transparent; color: var(--muted); border: 1.5px dashed var(--muted-2); }
 .pbub.empty::after { display: none; }
 .partnergrid { display: grid; grid-template-columns: repeat(auto-fill,minmax(230px,1fr)); grid-gap: 1px; gap: 1px; background: var(--line); border: 1px solid var(--line); }
@@ -8845,7 +8944,7 @@ h2.sec { font-weight: 650; letter-spacing: -.018em; font-size: 1.15rem; margin: 
 .repeat-note { grid-column: 1 / -1; margin: 0; font-size: .84rem; color: var(--ink-2); line-height: 1.55; max-width: 64ch; }
 
 
-/* /_next/static/css/app/layout.css?v=1786976625156 */
+/* /_next/static/css/app/layout.css?v=1786977615593 */
 /*!*****************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************!*\
   !*** css ./node_modules/next/dist/build/webpack/loaders/css-loader/src/index.js??ruleSet[1].rules[14].oneOf[2].use[1]!./node_modules/next/dist/build/webpack/loaders/next-font-loader/index.js??ruleSet[1].rules[14].oneOf[2].use[2]!./node_modules/next/font/google/target.css?{"path":"app\\layout.jsx","import":"Rubik","arguments":[{"subsets":["latin","latin-ext"],"weight":["300","400","500","600","700"],"variable":"--font-rubik","display":"swap"}],"variableName":"rubik"} ***!
   \*****************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************/
@@ -8933,8 +9032,13 @@ h2.sec { font-weight: 650; letter-spacing: -.018em; font-size: 1.15rem; margin: 
   --line: #DFD8D9;
   --line-2: #C9BCC0;
   --rose: #A9425A;        /* AA-safe: text, links, buttons, focus */
-  --rose-brand: #D2758B;  /* the signature: bubble, large fills, ≥24px only */
-  --rose-mid: #C3556F;    /* hover on brand fills */
+  --rose-brand: #D2758B;  /* the signature: DECORATION ONLY — no text at any size.
+                             White on it is 3.15:1, which clears large-text 3:1 and
+                             fails normal-text 4.5:1, so "≥24px only" was a rule that
+                             needed a human to remember a threshold. It didn't survive
+                             contact: .pbub (15px) and .cfgtotal's label and .sm sat on
+                             it at 3.15, 2.67 and 2.58. Both now use --rose. Verify with
+                             `node scripts/contrast.mjs`. */
   --rose-deep: #843346;
   --rose-wash: #FCF3F5;
   --rose-100: #F8E7EB;
@@ -9526,8 +9630,10 @@ h2.sec { font-weight: 650; letter-spacing: -.018em; font-size: 1.15rem; margin: 
 .opt2 input { width: 16px; height: 16px; accent-color: var(--rose); margin: 0; flex: none; }
 .opt2 .on { flex: 1 1; }
 .opt2 .op { font-weight: 600; white-space: nowrap; }
-.cfgtotal { background: var(--rose-brand); color: #fff; padding: 20px 18px; display: flex; flex-direction: column; gap: 6px; position: relative; }
-.cfgtotal::after { content: ""; position: absolute; inset-inline-start: 22px; bottom: -13px; width: 0; height: 0; border: 7px solid transparent; border-top-color: var(--rose-brand); border-inline-start-width: 0; border-inline-end-width: 16px; }
+/* --rose, not --rose-brand: this panel carries a 13px .sm line and a label, and
+   on the brand pink those measured 2.58:1 and 2.67:1. */
+.cfgtotal { background: var(--rose); color: #fff; padding: 20px 18px; display: flex; flex-direction: column; gap: 6px; position: relative; }
+.cfgtotal::after { content: ""; position: absolute; inset-inline-start: 22px; bottom: -13px; width: 0; height: 0; border: 7px solid transparent; border-top-color: var(--rose); border-inline-start-width: 0; border-inline-end-width: 16px; }
 .cfgtotal .lbl { color: #FCE7EC; }
 .cfgtotal b { font-size: clamp(1.6rem,3.4vw,2.2rem); line-height: 1; letter-spacing: -.03em; font-weight: 700; }
 .cfgtotal .sm { font-size: .82rem; color: #FBE2E8; }
@@ -9563,8 +9669,10 @@ h2.sec { font-weight: 650; letter-spacing: -.018em; font-size: 1.15rem; margin: 
 .walls i:nth-child(3) { background: var(--muted); }
 .wallgap { width: 12px; border: 1.5px dashed var(--muted-2); -webkit-border-start: 0; border-inline-start: 0; }
 .pbubs { display: flex; flex-wrap: wrap; gap: 10px; }
-.pbub { background: var(--rose-brand); color: #fff; padding: 12px 18px; font-weight: 600; font-size: .93rem; position: relative; border-radius: 20px 20px 20px 3px; }
-.pbub::after { content: ""; position: absolute; inset-inline-start: 0; bottom: -9px; width: 0; height: 0; border: 5px solid transparent; border-top-color: var(--rose-brand); border-inline-start-width: 0; border-inline-end-width: 11px; }
+/* Speech-bubble shape keeps the brand gesture; the fill is --rose because the
+   text is 15px semibold — 3.15:1 on the brand pink, short of 4.5:1. */
+.pbub { background: var(--rose); color: #fff; padding: 12px 18px; font-weight: 600; font-size: .93rem; position: relative; border-radius: 20px 20px 20px 3px; }
+.pbub::after { content: ""; position: absolute; inset-inline-start: 0; bottom: -9px; width: 0; height: 0; border: 5px solid transparent; border-top-color: var(--rose); border-inline-start-width: 0; border-inline-end-width: 11px; }
 .pbub.empty { background: transparent; color: var(--muted); border: 1.5px dashed var(--muted-2); }
 .pbub.empty::after { display: none; }
 .partnergrid { display: grid; grid-template-columns: repeat(auto-fill,minmax(230px,1fr)); grid-gap: 1px; gap: 1px; background: var(--line); border: 1px solid var(--line); }
@@ -9630,7 +9738,7 @@ h2.sec { font-weight: 650; letter-spacing: -.018em; font-size: 1.15rem; margin: 
 .repeat-note { grid-column: 1 / -1; margin: 0; font-size: .84rem; color: var(--ink-2); line-height: 1.55; max-width: 64ch; }
 
 
-/* /_next/static/css/app/layout.css?v=1786976628655 */
+/* /_next/static/css/app/layout.css?v=1786977618239 */
 /*!*****************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************!*\
   !*** css ./node_modules/next/dist/build/webpack/loaders/css-loader/src/index.js??ruleSet[1].rules[14].oneOf[2].use[1]!./node_modules/next/dist/build/webpack/loaders/next-font-loader/index.js??ruleSet[1].rules[14].oneOf[2].use[2]!./node_modules/next/font/google/target.css?{"path":"app\\layout.jsx","import":"Rubik","arguments":[{"subsets":["latin","latin-ext"],"weight":["300","400","500","600","700"],"variable":"--font-rubik","display":"swap"}],"variableName":"rubik"} ***!
   \*****************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************/
@@ -9718,8 +9826,13 @@ h2.sec { font-weight: 650; letter-spacing: -.018em; font-size: 1.15rem; margin: 
   --line: #DFD8D9;
   --line-2: #C9BCC0;
   --rose: #A9425A;        /* AA-safe: text, links, buttons, focus */
-  --rose-brand: #D2758B;  /* the signature: bubble, large fills, ≥24px only */
-  --rose-mid: #C3556F;    /* hover on brand fills */
+  --rose-brand: #D2758B;  /* the signature: DECORATION ONLY — no text at any size.
+                             White on it is 3.15:1, which clears large-text 3:1 and
+                             fails normal-text 4.5:1, so "≥24px only" was a rule that
+                             needed a human to remember a threshold. It didn't survive
+                             contact: .pbub (15px) and .cfgtotal's label and .sm sat on
+                             it at 3.15, 2.67 and 2.58. Both now use --rose. Verify with
+                             `node scripts/contrast.mjs`. */
   --rose-deep: #843346;
   --rose-wash: #FCF3F5;
   --rose-100: #F8E7EB;
@@ -10311,8 +10424,10 @@ h2.sec { font-weight: 650; letter-spacing: -.018em; font-size: 1.15rem; margin: 
 .opt2 input { width: 16px; height: 16px; accent-color: var(--rose); margin: 0; flex: none; }
 .opt2 .on { flex: 1 1; }
 .opt2 .op { font-weight: 600; white-space: nowrap; }
-.cfgtotal { background: var(--rose-brand); color: #fff; padding: 20px 18px; display: flex; flex-direction: column; gap: 6px; position: relative; }
-.cfgtotal::after { content: ""; position: absolute; inset-inline-start: 22px; bottom: -13px; width: 0; height: 0; border: 7px solid transparent; border-top-color: var(--rose-brand); border-inline-start-width: 0; border-inline-end-width: 16px; }
+/* --rose, not --rose-brand: this panel carries a 13px .sm line and a label, and
+   on the brand pink those measured 2.58:1 and 2.67:1. */
+.cfgtotal { background: var(--rose); color: #fff; padding: 20px 18px; display: flex; flex-direction: column; gap: 6px; position: relative; }
+.cfgtotal::after { content: ""; position: absolute; inset-inline-start: 22px; bottom: -13px; width: 0; height: 0; border: 7px solid transparent; border-top-color: var(--rose); border-inline-start-width: 0; border-inline-end-width: 16px; }
 .cfgtotal .lbl { color: #FCE7EC; }
 .cfgtotal b { font-size: clamp(1.6rem,3.4vw,2.2rem); line-height: 1; letter-spacing: -.03em; font-weight: 700; }
 .cfgtotal .sm { font-size: .82rem; color: #FBE2E8; }
@@ -10348,8 +10463,10 @@ h2.sec { font-weight: 650; letter-spacing: -.018em; font-size: 1.15rem; margin: 
 .walls i:nth-child(3) { background: var(--muted); }
 .wallgap { width: 12px; border: 1.5px dashed var(--muted-2); -webkit-border-start: 0; border-inline-start: 0; }
 .pbubs { display: flex; flex-wrap: wrap; gap: 10px; }
-.pbub { background: var(--rose-brand); color: #fff; padding: 12px 18px; font-weight: 600; font-size: .93rem; position: relative; border-radius: 20px 20px 20px 3px; }
-.pbub::after { content: ""; position: absolute; inset-inline-start: 0; bottom: -9px; width: 0; height: 0; border: 5px solid transparent; border-top-color: var(--rose-brand); border-inline-start-width: 0; border-inline-end-width: 11px; }
+/* Speech-bubble shape keeps the brand gesture; the fill is --rose because the
+   text is 15px semibold — 3.15:1 on the brand pink, short of 4.5:1. */
+.pbub { background: var(--rose); color: #fff; padding: 12px 18px; font-weight: 600; font-size: .93rem; position: relative; border-radius: 20px 20px 20px 3px; }
+.pbub::after { content: ""; position: absolute; inset-inline-start: 0; bottom: -9px; width: 0; height: 0; border: 5px solid transparent; border-top-color: var(--rose); border-inline-start-width: 0; border-inline-end-width: 11px; }
 .pbub.empty { background: transparent; color: var(--muted); border: 1.5px dashed var(--muted-2); }
 .pbub.empty::after { display: none; }
 .partnergrid { display: grid; grid-template-columns: repeat(auto-fill,minmax(230px,1fr)); grid-gap: 1px; gap: 1px; background: var(--line); border: 1px solid var(--line); }
@@ -10415,7 +10532,7 @@ h2.sec { font-weight: 650; letter-spacing: -.018em; font-size: 1.15rem; margin: 
 .repeat-note { grid-column: 1 / -1; margin: 0; font-size: .84rem; color: var(--ink-2); line-height: 1.55; max-width: 64ch; }
 
 
-/* /_next/static/css/app/layout.css?v=1786976629353 */
+/* /_next/static/css/app/layout.css?v=1786977619185 */
 /*!*****************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************!*\
   !*** css ./node_modules/next/dist/build/webpack/loaders/css-loader/src/index.js??ruleSet[1].rules[14].oneOf[2].use[1]!./node_modules/next/dist/build/webpack/loaders/next-font-loader/index.js??ruleSet[1].rules[14].oneOf[2].use[2]!./node_modules/next/font/google/target.css?{"path":"app\\layout.jsx","import":"Rubik","arguments":[{"subsets":["latin","latin-ext"],"weight":["300","400","500","600","700"],"variable":"--font-rubik","display":"swap"}],"variableName":"rubik"} ***!
   \*****************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************/
@@ -10503,8 +10620,13 @@ h2.sec { font-weight: 650; letter-spacing: -.018em; font-size: 1.15rem; margin: 
   --line: #DFD8D9;
   --line-2: #C9BCC0;
   --rose: #A9425A;        /* AA-safe: text, links, buttons, focus */
-  --rose-brand: #D2758B;  /* the signature: bubble, large fills, ≥24px only */
-  --rose-mid: #C3556F;    /* hover on brand fills */
+  --rose-brand: #D2758B;  /* the signature: DECORATION ONLY — no text at any size.
+                             White on it is 3.15:1, which clears large-text 3:1 and
+                             fails normal-text 4.5:1, so "≥24px only" was a rule that
+                             needed a human to remember a threshold. It didn't survive
+                             contact: .pbub (15px) and .cfgtotal's label and .sm sat on
+                             it at 3.15, 2.67 and 2.58. Both now use --rose. Verify with
+                             `node scripts/contrast.mjs`. */
   --rose-deep: #843346;
   --rose-wash: #FCF3F5;
   --rose-100: #F8E7EB;
@@ -11096,8 +11218,10 @@ h2.sec { font-weight: 650; letter-spacing: -.018em; font-size: 1.15rem; margin: 
 .opt2 input { width: 16px; height: 16px; accent-color: var(--rose); margin: 0; flex: none; }
 .opt2 .on { flex: 1 1; }
 .opt2 .op { font-weight: 600; white-space: nowrap; }
-.cfgtotal { background: var(--rose-brand); color: #fff; padding: 20px 18px; display: flex; flex-direction: column; gap: 6px; position: relative; }
-.cfgtotal::after { content: ""; position: absolute; inset-inline-start: 22px; bottom: -13px; width: 0; height: 0; border: 7px solid transparent; border-top-color: var(--rose-brand); border-inline-start-width: 0; border-inline-end-width: 16px; }
+/* --rose, not --rose-brand: this panel carries a 13px .sm line and a label, and
+   on the brand pink those measured 2.58:1 and 2.67:1. */
+.cfgtotal { background: var(--rose); color: #fff; padding: 20px 18px; display: flex; flex-direction: column; gap: 6px; position: relative; }
+.cfgtotal::after { content: ""; position: absolute; inset-inline-start: 22px; bottom: -13px; width: 0; height: 0; border: 7px solid transparent; border-top-color: var(--rose); border-inline-start-width: 0; border-inline-end-width: 16px; }
 .cfgtotal .lbl { color: #FCE7EC; }
 .cfgtotal b { font-size: clamp(1.6rem,3.4vw,2.2rem); line-height: 1; letter-spacing: -.03em; font-weight: 700; }
 .cfgtotal .sm { font-size: .82rem; color: #FBE2E8; }
@@ -11133,8 +11257,10 @@ h2.sec { font-weight: 650; letter-spacing: -.018em; font-size: 1.15rem; margin: 
 .walls i:nth-child(3) { background: var(--muted); }
 .wallgap { width: 12px; border: 1.5px dashed var(--muted-2); -webkit-border-start: 0; border-inline-start: 0; }
 .pbubs { display: flex; flex-wrap: wrap; gap: 10px; }
-.pbub { background: var(--rose-brand); color: #fff; padding: 12px 18px; font-weight: 600; font-size: .93rem; position: relative; border-radius: 20px 20px 20px 3px; }
-.pbub::after { content: ""; position: absolute; inset-inline-start: 0; bottom: -9px; width: 0; height: 0; border: 5px solid transparent; border-top-color: var(--rose-brand); border-inline-start-width: 0; border-inline-end-width: 11px; }
+/* Speech-bubble shape keeps the brand gesture; the fill is --rose because the
+   text is 15px semibold — 3.15:1 on the brand pink, short of 4.5:1. */
+.pbub { background: var(--rose); color: #fff; padding: 12px 18px; font-weight: 600; font-size: .93rem; position: relative; border-radius: 20px 20px 20px 3px; }
+.pbub::after { content: ""; position: absolute; inset-inline-start: 0; bottom: -9px; width: 0; height: 0; border: 5px solid transparent; border-top-color: var(--rose); border-inline-start-width: 0; border-inline-end-width: 11px; }
 .pbub.empty { background: transparent; color: var(--muted); border: 1.5px dashed var(--muted-2); }
 .pbub.empty::after { display: none; }
 .partnergrid { display: grid; grid-template-columns: repeat(auto-fill,minmax(230px,1fr)); grid-gap: 1px; gap: 1px; background: var(--line); border: 1px solid var(--line); }
@@ -11200,7 +11326,7 @@ h2.sec { font-weight: 650; letter-spacing: -.018em; font-size: 1.15rem; margin: 
 .repeat-note { grid-column: 1 / -1; margin: 0; font-size: .84rem; color: var(--ink-2); line-height: 1.55; max-width: 64ch; }
 
 
-/* /_next/static/css/app/layout.css?v=1786976629614 */
+/* /_next/static/css/app/layout.css?v=1786977619650 */
 /*!*****************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************!*\
   !*** css ./node_modules/next/dist/build/webpack/loaders/css-loader/src/index.js??ruleSet[1].rules[14].oneOf[2].use[1]!./node_modules/next/dist/build/webpack/loaders/next-font-loader/index.js??ruleSet[1].rules[14].oneOf[2].use[2]!./node_modules/next/font/google/target.css?{"path":"app\\layout.jsx","import":"Rubik","arguments":[{"subsets":["latin","latin-ext"],"weight":["300","400","500","600","700"],"variable":"--font-rubik","display":"swap"}],"variableName":"rubik"} ***!
   \*****************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************/
@@ -11288,8 +11414,13 @@ h2.sec { font-weight: 650; letter-spacing: -.018em; font-size: 1.15rem; margin: 
   --line: #DFD8D9;
   --line-2: #C9BCC0;
   --rose: #A9425A;        /* AA-safe: text, links, buttons, focus */
-  --rose-brand: #D2758B;  /* the signature: bubble, large fills, ≥24px only */
-  --rose-mid: #C3556F;    /* hover on brand fills */
+  --rose-brand: #D2758B;  /* the signature: DECORATION ONLY — no text at any size.
+                             White on it is 3.15:1, which clears large-text 3:1 and
+                             fails normal-text 4.5:1, so "≥24px only" was a rule that
+                             needed a human to remember a threshold. It didn't survive
+                             contact: .pbub (15px) and .cfgtotal's label and .sm sat on
+                             it at 3.15, 2.67 and 2.58. Both now use --rose. Verify with
+                             `node scripts/contrast.mjs`. */
   --rose-deep: #843346;
   --rose-wash: #FCF3F5;
   --rose-100: #F8E7EB;
@@ -11881,8 +12012,10 @@ h2.sec { font-weight: 650; letter-spacing: -.018em; font-size: 1.15rem; margin: 
 .opt2 input { width: 16px; height: 16px; accent-color: var(--rose); margin: 0; flex: none; }
 .opt2 .on { flex: 1 1; }
 .opt2 .op { font-weight: 600; white-space: nowrap; }
-.cfgtotal { background: var(--rose-brand); color: #fff; padding: 20px 18px; display: flex; flex-direction: column; gap: 6px; position: relative; }
-.cfgtotal::after { content: ""; position: absolute; inset-inline-start: 22px; bottom: -13px; width: 0; height: 0; border: 7px solid transparent; border-top-color: var(--rose-brand); border-inline-start-width: 0; border-inline-end-width: 16px; }
+/* --rose, not --rose-brand: this panel carries a 13px .sm line and a label, and
+   on the brand pink those measured 2.58:1 and 2.67:1. */
+.cfgtotal { background: var(--rose); color: #fff; padding: 20px 18px; display: flex; flex-direction: column; gap: 6px; position: relative; }
+.cfgtotal::after { content: ""; position: absolute; inset-inline-start: 22px; bottom: -13px; width: 0; height: 0; border: 7px solid transparent; border-top-color: var(--rose); border-inline-start-width: 0; border-inline-end-width: 16px; }
 .cfgtotal .lbl { color: #FCE7EC; }
 .cfgtotal b { font-size: clamp(1.6rem,3.4vw,2.2rem); line-height: 1; letter-spacing: -.03em; font-weight: 700; }
 .cfgtotal .sm { font-size: .82rem; color: #FBE2E8; }
@@ -11918,8 +12051,10 @@ h2.sec { font-weight: 650; letter-spacing: -.018em; font-size: 1.15rem; margin: 
 .walls i:nth-child(3) { background: var(--muted); }
 .wallgap { width: 12px; border: 1.5px dashed var(--muted-2); -webkit-border-start: 0; border-inline-start: 0; }
 .pbubs { display: flex; flex-wrap: wrap; gap: 10px; }
-.pbub { background: var(--rose-brand); color: #fff; padding: 12px 18px; font-weight: 600; font-size: .93rem; position: relative; border-radius: 20px 20px 20px 3px; }
-.pbub::after { content: ""; position: absolute; inset-inline-start: 0; bottom: -9px; width: 0; height: 0; border: 5px solid transparent; border-top-color: var(--rose-brand); border-inline-start-width: 0; border-inline-end-width: 11px; }
+/* Speech-bubble shape keeps the brand gesture; the fill is --rose because the
+   text is 15px semibold — 3.15:1 on the brand pink, short of 4.5:1. */
+.pbub { background: var(--rose); color: #fff; padding: 12px 18px; font-weight: 600; font-size: .93rem; position: relative; border-radius: 20px 20px 20px 3px; }
+.pbub::after { content: ""; position: absolute; inset-inline-start: 0; bottom: -9px; width: 0; height: 0; border: 5px solid transparent; border-top-color: var(--rose); border-inline-start-width: 0; border-inline-end-width: 11px; }
 .pbub.empty { background: transparent; color: var(--muted); border: 1.5px dashed var(--muted-2); }
 .pbub.empty::after { display: none; }
 .partnergrid { display: grid; grid-template-columns: repeat(auto-fill,minmax(230px,1fr)); grid-gap: 1px; gap: 1px; background: var(--line); border: 1px solid var(--line); }
@@ -11985,7 +12120,7 @@ h2.sec { font-weight: 650; letter-spacing: -.018em; font-size: 1.15rem; margin: 
 .repeat-note { grid-column: 1 / -1; margin: 0; font-size: .84rem; color: var(--ink-2); line-height: 1.55; max-width: 64ch; }
 
 
-/* /_next/static/css/app/layout.css?v=1786976630820 */
+/* /_next/static/css/app/layout.css?v=1786977619901 */
 /*!*****************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************!*\
   !*** css ./node_modules/next/dist/build/webpack/loaders/css-loader/src/index.js??ruleSet[1].rules[14].oneOf[2].use[1]!./node_modules/next/dist/build/webpack/loaders/next-font-loader/index.js??ruleSet[1].rules[14].oneOf[2].use[2]!./node_modules/next/font/google/target.css?{"path":"app\\layout.jsx","import":"Rubik","arguments":[{"subsets":["latin","latin-ext"],"weight":["300","400","500","600","700"],"variable":"--font-rubik","display":"swap"}],"variableName":"rubik"} ***!
   \*****************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************/
@@ -12073,8 +12208,13 @@ h2.sec { font-weight: 650; letter-spacing: -.018em; font-size: 1.15rem; margin: 
   --line: #DFD8D9;
   --line-2: #C9BCC0;
   --rose: #A9425A;        /* AA-safe: text, links, buttons, focus */
-  --rose-brand: #D2758B;  /* the signature: bubble, large fills, ≥24px only */
-  --rose-mid: #C3556F;    /* hover on brand fills */
+  --rose-brand: #D2758B;  /* the signature: DECORATION ONLY — no text at any size.
+                             White on it is 3.15:1, which clears large-text 3:1 and
+                             fails normal-text 4.5:1, so "≥24px only" was a rule that
+                             needed a human to remember a threshold. It didn't survive
+                             contact: .pbub (15px) and .cfgtotal's label and .sm sat on
+                             it at 3.15, 2.67 and 2.58. Both now use --rose. Verify with
+                             `node scripts/contrast.mjs`. */
   --rose-deep: #843346;
   --rose-wash: #FCF3F5;
   --rose-100: #F8E7EB;
@@ -12666,8 +12806,10 @@ h2.sec { font-weight: 650; letter-spacing: -.018em; font-size: 1.15rem; margin: 
 .opt2 input { width: 16px; height: 16px; accent-color: var(--rose); margin: 0; flex: none; }
 .opt2 .on { flex: 1 1; }
 .opt2 .op { font-weight: 600; white-space: nowrap; }
-.cfgtotal { background: var(--rose-brand); color: #fff; padding: 20px 18px; display: flex; flex-direction: column; gap: 6px; position: relative; }
-.cfgtotal::after { content: ""; position: absolute; inset-inline-start: 22px; bottom: -13px; width: 0; height: 0; border: 7px solid transparent; border-top-color: var(--rose-brand); border-inline-start-width: 0; border-inline-end-width: 16px; }
+/* --rose, not --rose-brand: this panel carries a 13px .sm line and a label, and
+   on the brand pink those measured 2.58:1 and 2.67:1. */
+.cfgtotal { background: var(--rose); color: #fff; padding: 20px 18px; display: flex; flex-direction: column; gap: 6px; position: relative; }
+.cfgtotal::after { content: ""; position: absolute; inset-inline-start: 22px; bottom: -13px; width: 0; height: 0; border: 7px solid transparent; border-top-color: var(--rose); border-inline-start-width: 0; border-inline-end-width: 16px; }
 .cfgtotal .lbl { color: #FCE7EC; }
 .cfgtotal b { font-size: clamp(1.6rem,3.4vw,2.2rem); line-height: 1; letter-spacing: -.03em; font-weight: 700; }
 .cfgtotal .sm { font-size: .82rem; color: #FBE2E8; }
@@ -12703,8 +12845,10 @@ h2.sec { font-weight: 650; letter-spacing: -.018em; font-size: 1.15rem; margin: 
 .walls i:nth-child(3) { background: var(--muted); }
 .wallgap { width: 12px; border: 1.5px dashed var(--muted-2); -webkit-border-start: 0; border-inline-start: 0; }
 .pbubs { display: flex; flex-wrap: wrap; gap: 10px; }
-.pbub { background: var(--rose-brand); color: #fff; padding: 12px 18px; font-weight: 600; font-size: .93rem; position: relative; border-radius: 20px 20px 20px 3px; }
-.pbub::after { content: ""; position: absolute; inset-inline-start: 0; bottom: -9px; width: 0; height: 0; border: 5px solid transparent; border-top-color: var(--rose-brand); border-inline-start-width: 0; border-inline-end-width: 11px; }
+/* Speech-bubble shape keeps the brand gesture; the fill is --rose because the
+   text is 15px semibold — 3.15:1 on the brand pink, short of 4.5:1. */
+.pbub { background: var(--rose); color: #fff; padding: 12px 18px; font-weight: 600; font-size: .93rem; position: relative; border-radius: 20px 20px 20px 3px; }
+.pbub::after { content: ""; position: absolute; inset-inline-start: 0; bottom: -9px; width: 0; height: 0; border: 5px solid transparent; border-top-color: var(--rose); border-inline-start-width: 0; border-inline-end-width: 11px; }
 .pbub.empty { background: transparent; color: var(--muted); border: 1.5px dashed var(--muted-2); }
 .pbub.empty::after { display: none; }
 .partnergrid { display: grid; grid-template-columns: repeat(auto-fill,minmax(230px,1fr)); grid-gap: 1px; gap: 1px; background: var(--line); border: 1px solid var(--line); }
@@ -12770,7 +12914,7 @@ h2.sec { font-weight: 650; letter-spacing: -.018em; font-size: 1.15rem; margin: 
 .repeat-note { grid-column: 1 / -1; margin: 0; font-size: .84rem; color: var(--ink-2); line-height: 1.55; max-width: 64ch; }
 
 
-/* /_next/static/css/app/layout.css?v=1786976632107 */
+/* /_next/static/css/app/layout.css?v=1786977620977 */
 /*!*****************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************!*\
   !*** css ./node_modules/next/dist/build/webpack/loaders/css-loader/src/index.js??ruleSet[1].rules[14].oneOf[2].use[1]!./node_modules/next/dist/build/webpack/loaders/next-font-loader/index.js??ruleSet[1].rules[14].oneOf[2].use[2]!./node_modules/next/font/google/target.css?{"path":"app\\layout.jsx","import":"Rubik","arguments":[{"subsets":["latin","latin-ext"],"weight":["300","400","500","600","700"],"variable":"--font-rubik","display":"swap"}],"variableName":"rubik"} ***!
   \*****************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************/
@@ -12858,8 +13002,13 @@ h2.sec { font-weight: 650; letter-spacing: -.018em; font-size: 1.15rem; margin: 
   --line: #DFD8D9;
   --line-2: #C9BCC0;
   --rose: #A9425A;        /* AA-safe: text, links, buttons, focus */
-  --rose-brand: #D2758B;  /* the signature: bubble, large fills, ≥24px only */
-  --rose-mid: #C3556F;    /* hover on brand fills */
+  --rose-brand: #D2758B;  /* the signature: DECORATION ONLY — no text at any size.
+                             White on it is 3.15:1, which clears large-text 3:1 and
+                             fails normal-text 4.5:1, so "≥24px only" was a rule that
+                             needed a human to remember a threshold. It didn't survive
+                             contact: .pbub (15px) and .cfgtotal's label and .sm sat on
+                             it at 3.15, 2.67 and 2.58. Both now use --rose. Verify with
+                             `node scripts/contrast.mjs`. */
   --rose-deep: #843346;
   --rose-wash: #FCF3F5;
   --rose-100: #F8E7EB;
@@ -13451,8 +13600,10 @@ h2.sec { font-weight: 650; letter-spacing: -.018em; font-size: 1.15rem; margin: 
 .opt2 input { width: 16px; height: 16px; accent-color: var(--rose); margin: 0; flex: none; }
 .opt2 .on { flex: 1 1; }
 .opt2 .op { font-weight: 600; white-space: nowrap; }
-.cfgtotal { background: var(--rose-brand); color: #fff; padding: 20px 18px; display: flex; flex-direction: column; gap: 6px; position: relative; }
-.cfgtotal::after { content: ""; position: absolute; inset-inline-start: 22px; bottom: -13px; width: 0; height: 0; border: 7px solid transparent; border-top-color: var(--rose-brand); border-inline-start-width: 0; border-inline-end-width: 16px; }
+/* --rose, not --rose-brand: this panel carries a 13px .sm line and a label, and
+   on the brand pink those measured 2.58:1 and 2.67:1. */
+.cfgtotal { background: var(--rose); color: #fff; padding: 20px 18px; display: flex; flex-direction: column; gap: 6px; position: relative; }
+.cfgtotal::after { content: ""; position: absolute; inset-inline-start: 22px; bottom: -13px; width: 0; height: 0; border: 7px solid transparent; border-top-color: var(--rose); border-inline-start-width: 0; border-inline-end-width: 16px; }
 .cfgtotal .lbl { color: #FCE7EC; }
 .cfgtotal b { font-size: clamp(1.6rem,3.4vw,2.2rem); line-height: 1; letter-spacing: -.03em; font-weight: 700; }
 .cfgtotal .sm { font-size: .82rem; color: #FBE2E8; }
@@ -13488,8 +13639,10 @@ h2.sec { font-weight: 650; letter-spacing: -.018em; font-size: 1.15rem; margin: 
 .walls i:nth-child(3) { background: var(--muted); }
 .wallgap { width: 12px; border: 1.5px dashed var(--muted-2); -webkit-border-start: 0; border-inline-start: 0; }
 .pbubs { display: flex; flex-wrap: wrap; gap: 10px; }
-.pbub { background: var(--rose-brand); color: #fff; padding: 12px 18px; font-weight: 600; font-size: .93rem; position: relative; border-radius: 20px 20px 20px 3px; }
-.pbub::after { content: ""; position: absolute; inset-inline-start: 0; bottom: -9px; width: 0; height: 0; border: 5px solid transparent; border-top-color: var(--rose-brand); border-inline-start-width: 0; border-inline-end-width: 11px; }
+/* Speech-bubble shape keeps the brand gesture; the fill is --rose because the
+   text is 15px semibold — 3.15:1 on the brand pink, short of 4.5:1. */
+.pbub { background: var(--rose); color: #fff; padding: 12px 18px; font-weight: 600; font-size: .93rem; position: relative; border-radius: 20px 20px 20px 3px; }
+.pbub::after { content: ""; position: absolute; inset-inline-start: 0; bottom: -9px; width: 0; height: 0; border: 5px solid transparent; border-top-color: var(--rose); border-inline-start-width: 0; border-inline-end-width: 11px; }
 .pbub.empty { background: transparent; color: var(--muted); border: 1.5px dashed var(--muted-2); }
 .pbub.empty::after { display: none; }
 .partnergrid { display: grid; grid-template-columns: repeat(auto-fill,minmax(230px,1fr)); grid-gap: 1px; gap: 1px; background: var(--line); border: 1px solid var(--line); }
@@ -13555,7 +13708,7 @@ h2.sec { font-weight: 650; letter-spacing: -.018em; font-size: 1.15rem; margin: 
 .repeat-note { grid-column: 1 / -1; margin: 0; font-size: .84rem; color: var(--ink-2); line-height: 1.55; max-width: 64ch; }
 
 
-/* /_next/static/css/app/layout.css?v=1786976633243 */
+/* /_next/static/css/app/layout.css?v=1786977623014 */
 /*!*****************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************!*\
   !*** css ./node_modules/next/dist/build/webpack/loaders/css-loader/src/index.js??ruleSet[1].rules[14].oneOf[2].use[1]!./node_modules/next/dist/build/webpack/loaders/next-font-loader/index.js??ruleSet[1].rules[14].oneOf[2].use[2]!./node_modules/next/font/google/target.css?{"path":"app\\layout.jsx","import":"Rubik","arguments":[{"subsets":["latin","latin-ext"],"weight":["300","400","500","600","700"],"variable":"--font-rubik","display":"swap"}],"variableName":"rubik"} ***!
   \*****************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************/
@@ -13643,8 +13796,13 @@ h2.sec { font-weight: 650; letter-spacing: -.018em; font-size: 1.15rem; margin: 
   --line: #DFD8D9;
   --line-2: #C9BCC0;
   --rose: #A9425A;        /* AA-safe: text, links, buttons, focus */
-  --rose-brand: #D2758B;  /* the signature: bubble, large fills, ≥24px only */
-  --rose-mid: #C3556F;    /* hover on brand fills */
+  --rose-brand: #D2758B;  /* the signature: DECORATION ONLY — no text at any size.
+                             White on it is 3.15:1, which clears large-text 3:1 and
+                             fails normal-text 4.5:1, so "≥24px only" was a rule that
+                             needed a human to remember a threshold. It didn't survive
+                             contact: .pbub (15px) and .cfgtotal's label and .sm sat on
+                             it at 3.15, 2.67 and 2.58. Both now use --rose. Verify with
+                             `node scripts/contrast.mjs`. */
   --rose-deep: #843346;
   --rose-wash: #FCF3F5;
   --rose-100: #F8E7EB;
@@ -14236,8 +14394,10 @@ h2.sec { font-weight: 650; letter-spacing: -.018em; font-size: 1.15rem; margin: 
 .opt2 input { width: 16px; height: 16px; accent-color: var(--rose); margin: 0; flex: none; }
 .opt2 .on { flex: 1 1; }
 .opt2 .op { font-weight: 600; white-space: nowrap; }
-.cfgtotal { background: var(--rose-brand); color: #fff; padding: 20px 18px; display: flex; flex-direction: column; gap: 6px; position: relative; }
-.cfgtotal::after { content: ""; position: absolute; inset-inline-start: 22px; bottom: -13px; width: 0; height: 0; border: 7px solid transparent; border-top-color: var(--rose-brand); border-inline-start-width: 0; border-inline-end-width: 16px; }
+/* --rose, not --rose-brand: this panel carries a 13px .sm line and a label, and
+   on the brand pink those measured 2.58:1 and 2.67:1. */
+.cfgtotal { background: var(--rose); color: #fff; padding: 20px 18px; display: flex; flex-direction: column; gap: 6px; position: relative; }
+.cfgtotal::after { content: ""; position: absolute; inset-inline-start: 22px; bottom: -13px; width: 0; height: 0; border: 7px solid transparent; border-top-color: var(--rose); border-inline-start-width: 0; border-inline-end-width: 16px; }
 .cfgtotal .lbl { color: #FCE7EC; }
 .cfgtotal b { font-size: clamp(1.6rem,3.4vw,2.2rem); line-height: 1; letter-spacing: -.03em; font-weight: 700; }
 .cfgtotal .sm { font-size: .82rem; color: #FBE2E8; }
@@ -14273,8 +14433,10 @@ h2.sec { font-weight: 650; letter-spacing: -.018em; font-size: 1.15rem; margin: 
 .walls i:nth-child(3) { background: var(--muted); }
 .wallgap { width: 12px; border: 1.5px dashed var(--muted-2); -webkit-border-start: 0; border-inline-start: 0; }
 .pbubs { display: flex; flex-wrap: wrap; gap: 10px; }
-.pbub { background: var(--rose-brand); color: #fff; padding: 12px 18px; font-weight: 600; font-size: .93rem; position: relative; border-radius: 20px 20px 20px 3px; }
-.pbub::after { content: ""; position: absolute; inset-inline-start: 0; bottom: -9px; width: 0; height: 0; border: 5px solid transparent; border-top-color: var(--rose-brand); border-inline-start-width: 0; border-inline-end-width: 11px; }
+/* Speech-bubble shape keeps the brand gesture; the fill is --rose because the
+   text is 15px semibold — 3.15:1 on the brand pink, short of 4.5:1. */
+.pbub { background: var(--rose); color: #fff; padding: 12px 18px; font-weight: 600; font-size: .93rem; position: relative; border-radius: 20px 20px 20px 3px; }
+.pbub::after { content: ""; position: absolute; inset-inline-start: 0; bottom: -9px; width: 0; height: 0; border: 5px solid transparent; border-top-color: var(--rose); border-inline-start-width: 0; border-inline-end-width: 11px; }
 .pbub.empty { background: transparent; color: var(--muted); border: 1.5px dashed var(--muted-2); }
 .pbub.empty::after { display: none; }
 .partnergrid { display: grid; grid-template-columns: repeat(auto-fill,minmax(230px,1fr)); grid-gap: 1px; gap: 1px; background: var(--line); border: 1px solid var(--line); }
@@ -14340,7 +14502,7 @@ h2.sec { font-weight: 650; letter-spacing: -.018em; font-size: 1.15rem; margin: 
 .repeat-note { grid-column: 1 / -1; margin: 0; font-size: .84rem; color: var(--ink-2); line-height: 1.55; max-width: 64ch; }
 
 
-/* /_next/static/css/app/layout.css?v=1786976634348 */
+/* /_next/static/css/app/layout.css?v=1786977626185 */
 /*!*****************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************!*\
   !*** css ./node_modules/next/dist/build/webpack/loaders/css-loader/src/index.js??ruleSet[1].rules[14].oneOf[2].use[1]!./node_modules/next/dist/build/webpack/loaders/next-font-loader/index.js??ruleSet[1].rules[14].oneOf[2].use[2]!./node_modules/next/font/google/target.css?{"path":"app\\layout.jsx","import":"Rubik","arguments":[{"subsets":["latin","latin-ext"],"weight":["300","400","500","600","700"],"variable":"--font-rubik","display":"swap"}],"variableName":"rubik"} ***!
   \*****************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************/
@@ -14428,8 +14590,13 @@ h2.sec { font-weight: 650; letter-spacing: -.018em; font-size: 1.15rem; margin: 
   --line: #DFD8D9;
   --line-2: #C9BCC0;
   --rose: #A9425A;        /* AA-safe: text, links, buttons, focus */
-  --rose-brand: #D2758B;  /* the signature: bubble, large fills, ≥24px only */
-  --rose-mid: #C3556F;    /* hover on brand fills */
+  --rose-brand: #D2758B;  /* the signature: DECORATION ONLY — no text at any size.
+                             White on it is 3.15:1, which clears large-text 3:1 and
+                             fails normal-text 4.5:1, so "≥24px only" was a rule that
+                             needed a human to remember a threshold. It didn't survive
+                             contact: .pbub (15px) and .cfgtotal's label and .sm sat on
+                             it at 3.15, 2.67 and 2.58. Both now use --rose. Verify with
+                             `node scripts/contrast.mjs`. */
   --rose-deep: #843346;
   --rose-wash: #FCF3F5;
   --rose-100: #F8E7EB;
@@ -15021,8 +15188,10 @@ h2.sec { font-weight: 650; letter-spacing: -.018em; font-size: 1.15rem; margin: 
 .opt2 input { width: 16px; height: 16px; accent-color: var(--rose); margin: 0; flex: none; }
 .opt2 .on { flex: 1 1; }
 .opt2 .op { font-weight: 600; white-space: nowrap; }
-.cfgtotal { background: var(--rose-brand); color: #fff; padding: 20px 18px; display: flex; flex-direction: column; gap: 6px; position: relative; }
-.cfgtotal::after { content: ""; position: absolute; inset-inline-start: 22px; bottom: -13px; width: 0; height: 0; border: 7px solid transparent; border-top-color: var(--rose-brand); border-inline-start-width: 0; border-inline-end-width: 16px; }
+/* --rose, not --rose-brand: this panel carries a 13px .sm line and a label, and
+   on the brand pink those measured 2.58:1 and 2.67:1. */
+.cfgtotal { background: var(--rose); color: #fff; padding: 20px 18px; display: flex; flex-direction: column; gap: 6px; position: relative; }
+.cfgtotal::after { content: ""; position: absolute; inset-inline-start: 22px; bottom: -13px; width: 0; height: 0; border: 7px solid transparent; border-top-color: var(--rose); border-inline-start-width: 0; border-inline-end-width: 16px; }
 .cfgtotal .lbl { color: #FCE7EC; }
 .cfgtotal b { font-size: clamp(1.6rem,3.4vw,2.2rem); line-height: 1; letter-spacing: -.03em; font-weight: 700; }
 .cfgtotal .sm { font-size: .82rem; color: #FBE2E8; }
@@ -15058,8 +15227,10 @@ h2.sec { font-weight: 650; letter-spacing: -.018em; font-size: 1.15rem; margin: 
 .walls i:nth-child(3) { background: var(--muted); }
 .wallgap { width: 12px; border: 1.5px dashed var(--muted-2); -webkit-border-start: 0; border-inline-start: 0; }
 .pbubs { display: flex; flex-wrap: wrap; gap: 10px; }
-.pbub { background: var(--rose-brand); color: #fff; padding: 12px 18px; font-weight: 600; font-size: .93rem; position: relative; border-radius: 20px 20px 20px 3px; }
-.pbub::after { content: ""; position: absolute; inset-inline-start: 0; bottom: -9px; width: 0; height: 0; border: 5px solid transparent; border-top-color: var(--rose-brand); border-inline-start-width: 0; border-inline-end-width: 11px; }
+/* Speech-bubble shape keeps the brand gesture; the fill is --rose because the
+   text is 15px semibold — 3.15:1 on the brand pink, short of 4.5:1. */
+.pbub { background: var(--rose); color: #fff; padding: 12px 18px; font-weight: 600; font-size: .93rem; position: relative; border-radius: 20px 20px 20px 3px; }
+.pbub::after { content: ""; position: absolute; inset-inline-start: 0; bottom: -9px; width: 0; height: 0; border: 5px solid transparent; border-top-color: var(--rose); border-inline-start-width: 0; border-inline-end-width: 11px; }
 .pbub.empty { background: transparent; color: var(--muted); border: 1.5px dashed var(--muted-2); }
 .pbub.empty::after { display: none; }
 .partnergrid { display: grid; grid-template-columns: repeat(auto-fill,minmax(230px,1fr)); grid-gap: 1px; gap: 1px; background: var(--line); border: 1px solid var(--line); }
@@ -15125,7 +15296,7 @@ h2.sec { font-weight: 650; letter-spacing: -.018em; font-size: 1.15rem; margin: 
 .repeat-note { grid-column: 1 / -1; margin: 0; font-size: .84rem; color: var(--ink-2); line-height: 1.55; max-width: 64ch; }
 
 
-/* /_next/static/css/app/layout.css?v=1786976635749 */
+/* /_next/static/css/app/layout.css?v=1786977629487 */
 /*!*****************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************!*\
   !*** css ./node_modules/next/dist/build/webpack/loaders/css-loader/src/index.js??ruleSet[1].rules[14].oneOf[2].use[1]!./node_modules/next/dist/build/webpack/loaders/next-font-loader/index.js??ruleSet[1].rules[14].oneOf[2].use[2]!./node_modules/next/font/google/target.css?{"path":"app\\layout.jsx","import":"Rubik","arguments":[{"subsets":["latin","latin-ext"],"weight":["300","400","500","600","700"],"variable":"--font-rubik","display":"swap"}],"variableName":"rubik"} ***!
   \*****************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************/
@@ -15213,8 +15384,13 @@ h2.sec { font-weight: 650; letter-spacing: -.018em; font-size: 1.15rem; margin: 
   --line: #DFD8D9;
   --line-2: #C9BCC0;
   --rose: #A9425A;        /* AA-safe: text, links, buttons, focus */
-  --rose-brand: #D2758B;  /* the signature: bubble, large fills, ≥24px only */
-  --rose-mid: #C3556F;    /* hover on brand fills */
+  --rose-brand: #D2758B;  /* the signature: DECORATION ONLY — no text at any size.
+                             White on it is 3.15:1, which clears large-text 3:1 and
+                             fails normal-text 4.5:1, so "≥24px only" was a rule that
+                             needed a human to remember a threshold. It didn't survive
+                             contact: .pbub (15px) and .cfgtotal's label and .sm sat on
+                             it at 3.15, 2.67 and 2.58. Both now use --rose. Verify with
+                             `node scripts/contrast.mjs`. */
   --rose-deep: #843346;
   --rose-wash: #FCF3F5;
   --rose-100: #F8E7EB;
@@ -15806,8 +15982,10 @@ h2.sec { font-weight: 650; letter-spacing: -.018em; font-size: 1.15rem; margin: 
 .opt2 input { width: 16px; height: 16px; accent-color: var(--rose); margin: 0; flex: none; }
 .opt2 .on { flex: 1 1; }
 .opt2 .op { font-weight: 600; white-space: nowrap; }
-.cfgtotal { background: var(--rose-brand); color: #fff; padding: 20px 18px; display: flex; flex-direction: column; gap: 6px; position: relative; }
-.cfgtotal::after { content: ""; position: absolute; inset-inline-start: 22px; bottom: -13px; width: 0; height: 0; border: 7px solid transparent; border-top-color: var(--rose-brand); border-inline-start-width: 0; border-inline-end-width: 16px; }
+/* --rose, not --rose-brand: this panel carries a 13px .sm line and a label, and
+   on the brand pink those measured 2.58:1 and 2.67:1. */
+.cfgtotal { background: var(--rose); color: #fff; padding: 20px 18px; display: flex; flex-direction: column; gap: 6px; position: relative; }
+.cfgtotal::after { content: ""; position: absolute; inset-inline-start: 22px; bottom: -13px; width: 0; height: 0; border: 7px solid transparent; border-top-color: var(--rose); border-inline-start-width: 0; border-inline-end-width: 16px; }
 .cfgtotal .lbl { color: #FCE7EC; }
 .cfgtotal b { font-size: clamp(1.6rem,3.4vw,2.2rem); line-height: 1; letter-spacing: -.03em; font-weight: 700; }
 .cfgtotal .sm { font-size: .82rem; color: #FBE2E8; }
@@ -15843,8 +16021,10 @@ h2.sec { font-weight: 650; letter-spacing: -.018em; font-size: 1.15rem; margin: 
 .walls i:nth-child(3) { background: var(--muted); }
 .wallgap { width: 12px; border: 1.5px dashed var(--muted-2); -webkit-border-start: 0; border-inline-start: 0; }
 .pbubs { display: flex; flex-wrap: wrap; gap: 10px; }
-.pbub { background: var(--rose-brand); color: #fff; padding: 12px 18px; font-weight: 600; font-size: .93rem; position: relative; border-radius: 20px 20px 20px 3px; }
-.pbub::after { content: ""; position: absolute; inset-inline-start: 0; bottom: -9px; width: 0; height: 0; border: 5px solid transparent; border-top-color: var(--rose-brand); border-inline-start-width: 0; border-inline-end-width: 11px; }
+/* Speech-bubble shape keeps the brand gesture; the fill is --rose because the
+   text is 15px semibold — 3.15:1 on the brand pink, short of 4.5:1. */
+.pbub { background: var(--rose); color: #fff; padding: 12px 18px; font-weight: 600; font-size: .93rem; position: relative; border-radius: 20px 20px 20px 3px; }
+.pbub::after { content: ""; position: absolute; inset-inline-start: 0; bottom: -9px; width: 0; height: 0; border: 5px solid transparent; border-top-color: var(--rose); border-inline-start-width: 0; border-inline-end-width: 11px; }
 .pbub.empty { background: transparent; color: var(--muted); border: 1.5px dashed var(--muted-2); }
 .pbub.empty::after { display: none; }
 .partnergrid { display: grid; grid-template-columns: repeat(auto-fill,minmax(230px,1fr)); grid-gap: 1px; gap: 1px; background: var(--line); border: 1px solid var(--line); }
@@ -15910,7 +16090,7 @@ h2.sec { font-weight: 650; letter-spacing: -.018em; font-size: 1.15rem; margin: 
 .repeat-note { grid-column: 1 / -1; margin: 0; font-size: .84rem; color: var(--ink-2); line-height: 1.55; max-width: 64ch; }
 
 
-/* /_next/static/css/app/layout.css?v=1786976637555 */
+/* /_next/static/css/app/layout.css?v=1786977632626 */
 /*!*****************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************!*\
   !*** css ./node_modules/next/dist/build/webpack/loaders/css-loader/src/index.js??ruleSet[1].rules[14].oneOf[2].use[1]!./node_modules/next/dist/build/webpack/loaders/next-font-loader/index.js??ruleSet[1].rules[14].oneOf[2].use[2]!./node_modules/next/font/google/target.css?{"path":"app\\layout.jsx","import":"Rubik","arguments":[{"subsets":["latin","latin-ext"],"weight":["300","400","500","600","700"],"variable":"--font-rubik","display":"swap"}],"variableName":"rubik"} ***!
   \*****************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************/
@@ -15998,8 +16178,13 @@ h2.sec { font-weight: 650; letter-spacing: -.018em; font-size: 1.15rem; margin: 
   --line: #DFD8D9;
   --line-2: #C9BCC0;
   --rose: #A9425A;        /* AA-safe: text, links, buttons, focus */
-  --rose-brand: #D2758B;  /* the signature: bubble, large fills, ≥24px only */
-  --rose-mid: #C3556F;    /* hover on brand fills */
+  --rose-brand: #D2758B;  /* the signature: DECORATION ONLY — no text at any size.
+                             White on it is 3.15:1, which clears large-text 3:1 and
+                             fails normal-text 4.5:1, so "≥24px only" was a rule that
+                             needed a human to remember a threshold. It didn't survive
+                             contact: .pbub (15px) and .cfgtotal's label and .sm sat on
+                             it at 3.15, 2.67 and 2.58. Both now use --rose. Verify with
+                             `node scripts/contrast.mjs`. */
   --rose-deep: #843346;
   --rose-wash: #FCF3F5;
   --rose-100: #F8E7EB;
@@ -16591,8 +16776,10 @@ h2.sec { font-weight: 650; letter-spacing: -.018em; font-size: 1.15rem; margin: 
 .opt2 input { width: 16px; height: 16px; accent-color: var(--rose); margin: 0; flex: none; }
 .opt2 .on { flex: 1 1; }
 .opt2 .op { font-weight: 600; white-space: nowrap; }
-.cfgtotal { background: var(--rose-brand); color: #fff; padding: 20px 18px; display: flex; flex-direction: column; gap: 6px; position: relative; }
-.cfgtotal::after { content: ""; position: absolute; inset-inline-start: 22px; bottom: -13px; width: 0; height: 0; border: 7px solid transparent; border-top-color: var(--rose-brand); border-inline-start-width: 0; border-inline-end-width: 16px; }
+/* --rose, not --rose-brand: this panel carries a 13px .sm line and a label, and
+   on the brand pink those measured 2.58:1 and 2.67:1. */
+.cfgtotal { background: var(--rose); color: #fff; padding: 20px 18px; display: flex; flex-direction: column; gap: 6px; position: relative; }
+.cfgtotal::after { content: ""; position: absolute; inset-inline-start: 22px; bottom: -13px; width: 0; height: 0; border: 7px solid transparent; border-top-color: var(--rose); border-inline-start-width: 0; border-inline-end-width: 16px; }
 .cfgtotal .lbl { color: #FCE7EC; }
 .cfgtotal b { font-size: clamp(1.6rem,3.4vw,2.2rem); line-height: 1; letter-spacing: -.03em; font-weight: 700; }
 .cfgtotal .sm { font-size: .82rem; color: #FBE2E8; }
@@ -16628,8 +16815,10 @@ h2.sec { font-weight: 650; letter-spacing: -.018em; font-size: 1.15rem; margin: 
 .walls i:nth-child(3) { background: var(--muted); }
 .wallgap { width: 12px; border: 1.5px dashed var(--muted-2); -webkit-border-start: 0; border-inline-start: 0; }
 .pbubs { display: flex; flex-wrap: wrap; gap: 10px; }
-.pbub { background: var(--rose-brand); color: #fff; padding: 12px 18px; font-weight: 600; font-size: .93rem; position: relative; border-radius: 20px 20px 20px 3px; }
-.pbub::after { content: ""; position: absolute; inset-inline-start: 0; bottom: -9px; width: 0; height: 0; border: 5px solid transparent; border-top-color: var(--rose-brand); border-inline-start-width: 0; border-inline-end-width: 11px; }
+/* Speech-bubble shape keeps the brand gesture; the fill is --rose because the
+   text is 15px semibold — 3.15:1 on the brand pink, short of 4.5:1. */
+.pbub { background: var(--rose); color: #fff; padding: 12px 18px; font-weight: 600; font-size: .93rem; position: relative; border-radius: 20px 20px 20px 3px; }
+.pbub::after { content: ""; position: absolute; inset-inline-start: 0; bottom: -9px; width: 0; height: 0; border: 5px solid transparent; border-top-color: var(--rose); border-inline-start-width: 0; border-inline-end-width: 11px; }
 .pbub.empty { background: transparent; color: var(--muted); border: 1.5px dashed var(--muted-2); }
 .pbub.empty::after { display: none; }
 .partnergrid { display: grid; grid-template-columns: repeat(auto-fill,minmax(230px,1fr)); grid-gap: 1px; gap: 1px; background: var(--line); border: 1px solid var(--line); }
@@ -16695,7 +16884,7 @@ h2.sec { font-weight: 650; letter-spacing: -.018em; font-size: 1.15rem; margin: 
 .repeat-note { grid-column: 1 / -1; margin: 0; font-size: .84rem; color: var(--ink-2); line-height: 1.55; max-width: 64ch; }
 
 
-/* /_next/static/css/app/layout.css?v=1786976640384 */
+/* /_next/static/css/app/layout.css?v=1786977636023 */
 /*!*****************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************!*\
   !*** css ./node_modules/next/dist/build/webpack/loaders/css-loader/src/index.js??ruleSet[1].rules[14].oneOf[2].use[1]!./node_modules/next/dist/build/webpack/loaders/next-font-loader/index.js??ruleSet[1].rules[14].oneOf[2].use[2]!./node_modules/next/font/google/target.css?{"path":"app\\layout.jsx","import":"Rubik","arguments":[{"subsets":["latin","latin-ext"],"weight":["300","400","500","600","700"],"variable":"--font-rubik","display":"swap"}],"variableName":"rubik"} ***!
   \*****************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************/
@@ -16783,8 +16972,13 @@ h2.sec { font-weight: 650; letter-spacing: -.018em; font-size: 1.15rem; margin: 
   --line: #DFD8D9;
   --line-2: #C9BCC0;
   --rose: #A9425A;        /* AA-safe: text, links, buttons, focus */
-  --rose-brand: #D2758B;  /* the signature: bubble, large fills, ≥24px only */
-  --rose-mid: #C3556F;    /* hover on brand fills */
+  --rose-brand: #D2758B;  /* the signature: DECORATION ONLY — no text at any size.
+                             White on it is 3.15:1, which clears large-text 3:1 and
+                             fails normal-text 4.5:1, so "≥24px only" was a rule that
+                             needed a human to remember a threshold. It didn't survive
+                             contact: .pbub (15px) and .cfgtotal's label and .sm sat on
+                             it at 3.15, 2.67 and 2.58. Both now use --rose. Verify with
+                             `node scripts/contrast.mjs`. */
   --rose-deep: #843346;
   --rose-wash: #FCF3F5;
   --rose-100: #F8E7EB;
@@ -17376,8 +17570,10 @@ h2.sec { font-weight: 650; letter-spacing: -.018em; font-size: 1.15rem; margin: 
 .opt2 input { width: 16px; height: 16px; accent-color: var(--rose); margin: 0; flex: none; }
 .opt2 .on { flex: 1 1; }
 .opt2 .op { font-weight: 600; white-space: nowrap; }
-.cfgtotal { background: var(--rose-brand); color: #fff; padding: 20px 18px; display: flex; flex-direction: column; gap: 6px; position: relative; }
-.cfgtotal::after { content: ""; position: absolute; inset-inline-start: 22px; bottom: -13px; width: 0; height: 0; border: 7px solid transparent; border-top-color: var(--rose-brand); border-inline-start-width: 0; border-inline-end-width: 16px; }
+/* --rose, not --rose-brand: this panel carries a 13px .sm line and a label, and
+   on the brand pink those measured 2.58:1 and 2.67:1. */
+.cfgtotal { background: var(--rose); color: #fff; padding: 20px 18px; display: flex; flex-direction: column; gap: 6px; position: relative; }
+.cfgtotal::after { content: ""; position: absolute; inset-inline-start: 22px; bottom: -13px; width: 0; height: 0; border: 7px solid transparent; border-top-color: var(--rose); border-inline-start-width: 0; border-inline-end-width: 16px; }
 .cfgtotal .lbl { color: #FCE7EC; }
 .cfgtotal b { font-size: clamp(1.6rem,3.4vw,2.2rem); line-height: 1; letter-spacing: -.03em; font-weight: 700; }
 .cfgtotal .sm { font-size: .82rem; color: #FBE2E8; }
@@ -17413,8 +17609,10 @@ h2.sec { font-weight: 650; letter-spacing: -.018em; font-size: 1.15rem; margin: 
 .walls i:nth-child(3) { background: var(--muted); }
 .wallgap { width: 12px; border: 1.5px dashed var(--muted-2); -webkit-border-start: 0; border-inline-start: 0; }
 .pbubs { display: flex; flex-wrap: wrap; gap: 10px; }
-.pbub { background: var(--rose-brand); color: #fff; padding: 12px 18px; font-weight: 600; font-size: .93rem; position: relative; border-radius: 20px 20px 20px 3px; }
-.pbub::after { content: ""; position: absolute; inset-inline-start: 0; bottom: -9px; width: 0; height: 0; border: 5px solid transparent; border-top-color: var(--rose-brand); border-inline-start-width: 0; border-inline-end-width: 11px; }
+/* Speech-bubble shape keeps the brand gesture; the fill is --rose because the
+   text is 15px semibold — 3.15:1 on the brand pink, short of 4.5:1. */
+.pbub { background: var(--rose); color: #fff; padding: 12px 18px; font-weight: 600; font-size: .93rem; position: relative; border-radius: 20px 20px 20px 3px; }
+.pbub::after { content: ""; position: absolute; inset-inline-start: 0; bottom: -9px; width: 0; height: 0; border: 5px solid transparent; border-top-color: var(--rose); border-inline-start-width: 0; border-inline-end-width: 11px; }
 .pbub.empty { background: transparent; color: var(--muted); border: 1.5px dashed var(--muted-2); }
 .pbub.empty::after { display: none; }
 .partnergrid { display: grid; grid-template-columns: repeat(auto-fill,minmax(230px,1fr)); grid-gap: 1px; gap: 1px; background: var(--line); border: 1px solid var(--line); }
@@ -17480,7 +17678,7 @@ h2.sec { font-weight: 650; letter-spacing: -.018em; font-size: 1.15rem; margin: 
 .repeat-note { grid-column: 1 / -1; margin: 0; font-size: .84rem; color: var(--ink-2); line-height: 1.55; max-width: 64ch; }
 
 
-/* /_next/static/css/app/layout.css?v=1786976641951 */
+/* /_next/static/css/app/layout.css?v=1786977639751 */
 /*!*****************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************!*\
   !*** css ./node_modules/next/dist/build/webpack/loaders/css-loader/src/index.js??ruleSet[1].rules[14].oneOf[2].use[1]!./node_modules/next/dist/build/webpack/loaders/next-font-loader/index.js??ruleSet[1].rules[14].oneOf[2].use[2]!./node_modules/next/font/google/target.css?{"path":"app\\layout.jsx","import":"Rubik","arguments":[{"subsets":["latin","latin-ext"],"weight":["300","400","500","600","700"],"variable":"--font-rubik","display":"swap"}],"variableName":"rubik"} ***!
   \*****************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************/
@@ -17568,8 +17766,13 @@ h2.sec { font-weight: 650; letter-spacing: -.018em; font-size: 1.15rem; margin: 
   --line: #DFD8D9;
   --line-2: #C9BCC0;
   --rose: #A9425A;        /* AA-safe: text, links, buttons, focus */
-  --rose-brand: #D2758B;  /* the signature: bubble, large fills, ≥24px only */
-  --rose-mid: #C3556F;    /* hover on brand fills */
+  --rose-brand: #D2758B;  /* the signature: DECORATION ONLY — no text at any size.
+                             White on it is 3.15:1, which clears large-text 3:1 and
+                             fails normal-text 4.5:1, so "≥24px only" was a rule that
+                             needed a human to remember a threshold. It didn't survive
+                             contact: .pbub (15px) and .cfgtotal's label and .sm sat on
+                             it at 3.15, 2.67 and 2.58. Both now use --rose. Verify with
+                             `node scripts/contrast.mjs`. */
   --rose-deep: #843346;
   --rose-wash: #FCF3F5;
   --rose-100: #F8E7EB;
@@ -18161,8 +18364,10 @@ h2.sec { font-weight: 650; letter-spacing: -.018em; font-size: 1.15rem; margin: 
 .opt2 input { width: 16px; height: 16px; accent-color: var(--rose); margin: 0; flex: none; }
 .opt2 .on { flex: 1 1; }
 .opt2 .op { font-weight: 600; white-space: nowrap; }
-.cfgtotal { background: var(--rose-brand); color: #fff; padding: 20px 18px; display: flex; flex-direction: column; gap: 6px; position: relative; }
-.cfgtotal::after { content: ""; position: absolute; inset-inline-start: 22px; bottom: -13px; width: 0; height: 0; border: 7px solid transparent; border-top-color: var(--rose-brand); border-inline-start-width: 0; border-inline-end-width: 16px; }
+/* --rose, not --rose-brand: this panel carries a 13px .sm line and a label, and
+   on the brand pink those measured 2.58:1 and 2.67:1. */
+.cfgtotal { background: var(--rose); color: #fff; padding: 20px 18px; display: flex; flex-direction: column; gap: 6px; position: relative; }
+.cfgtotal::after { content: ""; position: absolute; inset-inline-start: 22px; bottom: -13px; width: 0; height: 0; border: 7px solid transparent; border-top-color: var(--rose); border-inline-start-width: 0; border-inline-end-width: 16px; }
 .cfgtotal .lbl { color: #FCE7EC; }
 .cfgtotal b { font-size: clamp(1.6rem,3.4vw,2.2rem); line-height: 1; letter-spacing: -.03em; font-weight: 700; }
 .cfgtotal .sm { font-size: .82rem; color: #FBE2E8; }
@@ -18198,8 +18403,10 @@ h2.sec { font-weight: 650; letter-spacing: -.018em; font-size: 1.15rem; margin: 
 .walls i:nth-child(3) { background: var(--muted); }
 .wallgap { width: 12px; border: 1.5px dashed var(--muted-2); -webkit-border-start: 0; border-inline-start: 0; }
 .pbubs { display: flex; flex-wrap: wrap; gap: 10px; }
-.pbub { background: var(--rose-brand); color: #fff; padding: 12px 18px; font-weight: 600; font-size: .93rem; position: relative; border-radius: 20px 20px 20px 3px; }
-.pbub::after { content: ""; position: absolute; inset-inline-start: 0; bottom: -9px; width: 0; height: 0; border: 5px solid transparent; border-top-color: var(--rose-brand); border-inline-start-width: 0; border-inline-end-width: 11px; }
+/* Speech-bubble shape keeps the brand gesture; the fill is --rose because the
+   text is 15px semibold — 3.15:1 on the brand pink, short of 4.5:1. */
+.pbub { background: var(--rose); color: #fff; padding: 12px 18px; font-weight: 600; font-size: .93rem; position: relative; border-radius: 20px 20px 20px 3px; }
+.pbub::after { content: ""; position: absolute; inset-inline-start: 0; bottom: -9px; width: 0; height: 0; border: 5px solid transparent; border-top-color: var(--rose); border-inline-start-width: 0; border-inline-end-width: 11px; }
 .pbub.empty { background: transparent; color: var(--muted); border: 1.5px dashed var(--muted-2); }
 .pbub.empty::after { display: none; }
 .partnergrid { display: grid; grid-template-columns: repeat(auto-fill,minmax(230px,1fr)); grid-gap: 1px; gap: 1px; background: var(--line); border: 1px solid var(--line); }
@@ -18265,7 +18472,7 @@ h2.sec { font-weight: 650; letter-spacing: -.018em; font-size: 1.15rem; margin: 
 .repeat-note { grid-column: 1 / -1; margin: 0; font-size: .84rem; color: var(--ink-2); line-height: 1.55; max-width: 64ch; }
 
 
-/* /_next/static/css/app/layout.css?v=1786976643241 */
+/* /_next/static/css/app/layout.css?v=1786977643575 */
 /*!*****************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************!*\
   !*** css ./node_modules/next/dist/build/webpack/loaders/css-loader/src/index.js??ruleSet[1].rules[14].oneOf[2].use[1]!./node_modules/next/dist/build/webpack/loaders/next-font-loader/index.js??ruleSet[1].rules[14].oneOf[2].use[2]!./node_modules/next/font/google/target.css?{"path":"app\\layout.jsx","import":"Rubik","arguments":[{"subsets":["latin","latin-ext"],"weight":["300","400","500","600","700"],"variable":"--font-rubik","display":"swap"}],"variableName":"rubik"} ***!
   \*****************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************/
@@ -18353,8 +18560,13 @@ h2.sec { font-weight: 650; letter-spacing: -.018em; font-size: 1.15rem; margin: 
   --line: #DFD8D9;
   --line-2: #C9BCC0;
   --rose: #A9425A;        /* AA-safe: text, links, buttons, focus */
-  --rose-brand: #D2758B;  /* the signature: bubble, large fills, ≥24px only */
-  --rose-mid: #C3556F;    /* hover on brand fills */
+  --rose-brand: #D2758B;  /* the signature: DECORATION ONLY — no text at any size.
+                             White on it is 3.15:1, which clears large-text 3:1 and
+                             fails normal-text 4.5:1, so "≥24px only" was a rule that
+                             needed a human to remember a threshold. It didn't survive
+                             contact: .pbub (15px) and .cfgtotal's label and .sm sat on
+                             it at 3.15, 2.67 and 2.58. Both now use --rose. Verify with
+                             `node scripts/contrast.mjs`. */
   --rose-deep: #843346;
   --rose-wash: #FCF3F5;
   --rose-100: #F8E7EB;
@@ -18946,8 +19158,10 @@ h2.sec { font-weight: 650; letter-spacing: -.018em; font-size: 1.15rem; margin: 
 .opt2 input { width: 16px; height: 16px; accent-color: var(--rose); margin: 0; flex: none; }
 .opt2 .on { flex: 1 1; }
 .opt2 .op { font-weight: 600; white-space: nowrap; }
-.cfgtotal { background: var(--rose-brand); color: #fff; padding: 20px 18px; display: flex; flex-direction: column; gap: 6px; position: relative; }
-.cfgtotal::after { content: ""; position: absolute; inset-inline-start: 22px; bottom: -13px; width: 0; height: 0; border: 7px solid transparent; border-top-color: var(--rose-brand); border-inline-start-width: 0; border-inline-end-width: 16px; }
+/* --rose, not --rose-brand: this panel carries a 13px .sm line and a label, and
+   on the brand pink those measured 2.58:1 and 2.67:1. */
+.cfgtotal { background: var(--rose); color: #fff; padding: 20px 18px; display: flex; flex-direction: column; gap: 6px; position: relative; }
+.cfgtotal::after { content: ""; position: absolute; inset-inline-start: 22px; bottom: -13px; width: 0; height: 0; border: 7px solid transparent; border-top-color: var(--rose); border-inline-start-width: 0; border-inline-end-width: 16px; }
 .cfgtotal .lbl { color: #FCE7EC; }
 .cfgtotal b { font-size: clamp(1.6rem,3.4vw,2.2rem); line-height: 1; letter-spacing: -.03em; font-weight: 700; }
 .cfgtotal .sm { font-size: .82rem; color: #FBE2E8; }
@@ -18983,8 +19197,10 @@ h2.sec { font-weight: 650; letter-spacing: -.018em; font-size: 1.15rem; margin: 
 .walls i:nth-child(3) { background: var(--muted); }
 .wallgap { width: 12px; border: 1.5px dashed var(--muted-2); -webkit-border-start: 0; border-inline-start: 0; }
 .pbubs { display: flex; flex-wrap: wrap; gap: 10px; }
-.pbub { background: var(--rose-brand); color: #fff; padding: 12px 18px; font-weight: 600; font-size: .93rem; position: relative; border-radius: 20px 20px 20px 3px; }
-.pbub::after { content: ""; position: absolute; inset-inline-start: 0; bottom: -9px; width: 0; height: 0; border: 5px solid transparent; border-top-color: var(--rose-brand); border-inline-start-width: 0; border-inline-end-width: 11px; }
+/* Speech-bubble shape keeps the brand gesture; the fill is --rose because the
+   text is 15px semibold — 3.15:1 on the brand pink, short of 4.5:1. */
+.pbub { background: var(--rose); color: #fff; padding: 12px 18px; font-weight: 600; font-size: .93rem; position: relative; border-radius: 20px 20px 20px 3px; }
+.pbub::after { content: ""; position: absolute; inset-inline-start: 0; bottom: -9px; width: 0; height: 0; border: 5px solid transparent; border-top-color: var(--rose); border-inline-start-width: 0; border-inline-end-width: 11px; }
 .pbub.empty { background: transparent; color: var(--muted); border: 1.5px dashed var(--muted-2); }
 .pbub.empty::after { display: none; }
 .partnergrid { display: grid; grid-template-columns: repeat(auto-fill,minmax(230px,1fr)); grid-gap: 1px; gap: 1px; background: var(--line); border: 1px solid var(--line); }
@@ -19050,7 +19266,7 @@ h2.sec { font-weight: 650; letter-spacing: -.018em; font-size: 1.15rem; margin: 
 .repeat-note { grid-column: 1 / -1; margin: 0; font-size: .84rem; color: var(--ink-2); line-height: 1.55; max-width: 64ch; }
 
 
-/* /_next/static/css/app/layout.css?v=1786976646252 */
+/* /_next/static/css/app/layout.css?v=1786977647554 */
 /*!*****************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************!*\
   !*** css ./node_modules/next/dist/build/webpack/loaders/css-loader/src/index.js??ruleSet[1].rules[14].oneOf[2].use[1]!./node_modules/next/dist/build/webpack/loaders/next-font-loader/index.js??ruleSet[1].rules[14].oneOf[2].use[2]!./node_modules/next/font/google/target.css?{"path":"app\\layout.jsx","import":"Rubik","arguments":[{"subsets":["latin","latin-ext"],"weight":["300","400","500","600","700"],"variable":"--font-rubik","display":"swap"}],"variableName":"rubik"} ***!
   \*****************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************/
@@ -19138,8 +19354,13 @@ h2.sec { font-weight: 650; letter-spacing: -.018em; font-size: 1.15rem; margin: 
   --line: #DFD8D9;
   --line-2: #C9BCC0;
   --rose: #A9425A;        /* AA-safe: text, links, buttons, focus */
-  --rose-brand: #D2758B;  /* the signature: bubble, large fills, ≥24px only */
-  --rose-mid: #C3556F;    /* hover on brand fills */
+  --rose-brand: #D2758B;  /* the signature: DECORATION ONLY — no text at any size.
+                             White on it is 3.15:1, which clears large-text 3:1 and
+                             fails normal-text 4.5:1, so "≥24px only" was a rule that
+                             needed a human to remember a threshold. It didn't survive
+                             contact: .pbub (15px) and .cfgtotal's label and .sm sat on
+                             it at 3.15, 2.67 and 2.58. Both now use --rose. Verify with
+                             `node scripts/contrast.mjs`. */
   --rose-deep: #843346;
   --rose-wash: #FCF3F5;
   --rose-100: #F8E7EB;
@@ -19731,8 +19952,10 @@ h2.sec { font-weight: 650; letter-spacing: -.018em; font-size: 1.15rem; margin: 
 .opt2 input { width: 16px; height: 16px; accent-color: var(--rose); margin: 0; flex: none; }
 .opt2 .on { flex: 1 1; }
 .opt2 .op { font-weight: 600; white-space: nowrap; }
-.cfgtotal { background: var(--rose-brand); color: #fff; padding: 20px 18px; display: flex; flex-direction: column; gap: 6px; position: relative; }
-.cfgtotal::after { content: ""; position: absolute; inset-inline-start: 22px; bottom: -13px; width: 0; height: 0; border: 7px solid transparent; border-top-color: var(--rose-brand); border-inline-start-width: 0; border-inline-end-width: 16px; }
+/* --rose, not --rose-brand: this panel carries a 13px .sm line and a label, and
+   on the brand pink those measured 2.58:1 and 2.67:1. */
+.cfgtotal { background: var(--rose); color: #fff; padding: 20px 18px; display: flex; flex-direction: column; gap: 6px; position: relative; }
+.cfgtotal::after { content: ""; position: absolute; inset-inline-start: 22px; bottom: -13px; width: 0; height: 0; border: 7px solid transparent; border-top-color: var(--rose); border-inline-start-width: 0; border-inline-end-width: 16px; }
 .cfgtotal .lbl { color: #FCE7EC; }
 .cfgtotal b { font-size: clamp(1.6rem,3.4vw,2.2rem); line-height: 1; letter-spacing: -.03em; font-weight: 700; }
 .cfgtotal .sm { font-size: .82rem; color: #FBE2E8; }
@@ -19768,8 +19991,10 @@ h2.sec { font-weight: 650; letter-spacing: -.018em; font-size: 1.15rem; margin: 
 .walls i:nth-child(3) { background: var(--muted); }
 .wallgap { width: 12px; border: 1.5px dashed var(--muted-2); -webkit-border-start: 0; border-inline-start: 0; }
 .pbubs { display: flex; flex-wrap: wrap; gap: 10px; }
-.pbub { background: var(--rose-brand); color: #fff; padding: 12px 18px; font-weight: 600; font-size: .93rem; position: relative; border-radius: 20px 20px 20px 3px; }
-.pbub::after { content: ""; position: absolute; inset-inline-start: 0; bottom: -9px; width: 0; height: 0; border: 5px solid transparent; border-top-color: var(--rose-brand); border-inline-start-width: 0; border-inline-end-width: 11px; }
+/* Speech-bubble shape keeps the brand gesture; the fill is --rose because the
+   text is 15px semibold — 3.15:1 on the brand pink, short of 4.5:1. */
+.pbub { background: var(--rose); color: #fff; padding: 12px 18px; font-weight: 600; font-size: .93rem; position: relative; border-radius: 20px 20px 20px 3px; }
+.pbub::after { content: ""; position: absolute; inset-inline-start: 0; bottom: -9px; width: 0; height: 0; border: 5px solid transparent; border-top-color: var(--rose); border-inline-start-width: 0; border-inline-end-width: 11px; }
 .pbub.empty { background: transparent; color: var(--muted); border: 1.5px dashed var(--muted-2); }
 .pbub.empty::after { display: none; }
 .partnergrid { display: grid; grid-template-columns: repeat(auto-fill,minmax(230px,1fr)); grid-gap: 1px; gap: 1px; background: var(--line); border: 1px solid var(--line); }
