@@ -316,6 +316,16 @@
    "file": "book-122.html"
   },
   {
+   "route": "/admin/login",
+   "area": "admin",
+   "file": "admin-login.html"
+  },
+  {
+   "route": "/admin/login/verify",
+   "area": "admin",
+   "file": "admin-login-verify.html"
+  },
+  {
    "route": "/admin",
    "area": "admin",
    "file": "admin.html"

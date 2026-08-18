@@ -1002,3 +1002,33 @@ h2.sec { font-weight: 650; letter-spacing: -.018em; font-size: 1.15rem; margin: 
 .repeat .f { margin: 0; }
 .repeat-note { grid-column: 1 / -1; margin: 0; font-size: .84rem; color: var(--ink-2); line-height: 1.55; max-width: 64ch; }
 
+/* ---- second factor (P3-S5) ---- */
+.login-card-wide { max-width: 560px; }
+.login-label { display: block; font-weight: 600; font-size: .92rem; margin: 14px 0 6px; }
+.login-hint { color: var(--muted); font-size: .87rem; line-height: 1.55; margin: 10px 0 0; }
+.login-link { background: none; border: 0; color: var(--rose); text-decoration: underline; cursor: pointer; font: inherit; font-size: .9rem; margin-top: 14px; padding: 6px; }
+.login-btn-link { display: inline-block; text-align: center; text-decoration: none; }
+
+.enrol-steps { margin: 18px 0 6px; -webkit-padding-start: 20px; padding-inline-start: 20px; display: grid; grid-gap: 18px; gap: 18px; }
+.enrol-steps li { line-height: 1.6; }
+.enrol-note { color: var(--muted); font-size: .87rem; margin: 6px 0 0; line-height: 1.55; }
+.enrol-link { color: var(--rose); font-weight: 600; }
+/* Grouped, generously spaced and selectable — this gets copied by hand off a
+   screen onto a phone, so tracking matters more than tidiness here. */
+.enrol-secret { display: block; margin: 10px 0 0; padding: 12px 14px; background: var(--shell);
+  border: 1px solid var(--line); border-radius: 6px; font-family: ui-monospace, Consolas, monospace;
+  font-size: 1.12rem; letter-spacing: .12em; -webkit-user-select: all; -moz-user-select: all; user-select: all; word-break: break-all; }
+
+.reccodes { list-style: none; padding: 0; margin: 18px 0; display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(160px, 1fr)); grid-gap: 8px; gap: 8px; }
+.reccodes code { display: block; padding: 10px 12px; background: var(--shell);
+  border: 1px solid var(--line); border-radius: 5px; font-family: ui-monospace, Consolas, monospace;
+  font-size: 1rem; letter-spacing: .06em; -webkit-user-select: all; -moz-user-select: all; user-select: all; text-align: center; }
+
+@media print {
+  /* These get printed and put in a safe; drop everything that is not a code. */
+  .login-wrap { display: block; }
+  .login-btn, .login-btn-link, .login-hint { display: none; }
+  .reccodes code { border-color: #000; }
+}
+
