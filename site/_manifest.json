@@ -1,0 +1,530 @@
+{
+ "captured": [
+  {
+   "route": "/",
+   "area": "public",
+   "file": "home.html"
+  },
+  {
+   "route": "/offices",
+   "area": "public",
+   "file": "offices.html"
+  },
+  {
+   "route": "/meeting-hours",
+   "area": "public",
+   "file": "meeting-hours.html"
+  },
+  {
+   "route": "/ecosystem",
+   "area": "public",
+   "file": "ecosystem.html"
+  },
+  {
+   "route": "/locations",
+   "area": "public",
+   "file": "locations.html"
+  },
+  {
+   "route": "/what-we-publish",
+   "area": "public",
+   "file": "what-we-publish.html"
+  },
+  {
+   "route": "/spaces",
+   "area": "public",
+   "file": "spaces.html"
+  },
+  {
+   "route": "/workspaces",
+   "area": "public",
+   "file": "workspaces.html"
+  },
+  {
+   "route": "/membership",
+   "area": "public",
+   "file": "membership.html"
+  },
+  {
+   "route": "/partners",
+   "area": "public",
+   "file": "partners.html"
+  },
+  {
+   "route": "/partner",
+   "area": "public",
+   "file": "partner.html"
+  },
+  {
+   "route": "/contact",
+   "area": "public",
+   "file": "contact.html"
+  },
+  {
+   "route": "/faq",
+   "area": "public",
+   "file": "faq.html"
+  },
+  {
+   "route": "/blog",
+   "area": "public",
+   "file": "blog.html"
+  },
+  {
+   "route": "/ar",
+   "area": "public",
+   "file": "ar.html"
+  },
+  {
+   "route": "/ar/blog",
+   "area": "public",
+   "file": "ar-blog.html"
+  },
+  {
+   "route": "/ar/faq",
+   "area": "public",
+   "file": "ar-faq.html"
+  },
+  {
+   "route": "/ar/partners",
+   "area": "public",
+   "file": "ar-partners.html"
+  },
+  {
+   "route": "/account/login",
+   "area": "public",
+   "file": "account-login.html"
+  },
+  {
+   "route": "/account/register",
+   "area": "public",
+   "file": "account-register.html"
+  },
+  {
+   "route": "/spaces/coworking-spaces",
+   "area": "public",
+   "file": "spaces-coworking-spaces.html"
+  },
+  {
+   "route": "/spaces/private-offices",
+   "area": "public",
+   "file": "spaces-private-offices.html"
+  },
+  {
+   "route": "/spaces/meeting-and-conference",
+   "area": "public",
+   "file": "spaces-meeting-and-conference.html"
+  },
+  {
+   "route": "/spaces/event-spaces",
+   "area": "public",
+   "file": "spaces-event-spaces.html"
+  },
+  {
+   "route": "/spaces/virtual-office-services",
+   "area": "public",
+   "file": "spaces-virtual-office-services.html"
+  },
+  {
+   "route": "/spaces/business-support",
+   "area": "public",
+   "file": "spaces-business-support.html"
+  },
+  {
+   "route": "/spaces/creative-spaces",
+   "area": "public",
+   "file": "spaces-creative-spaces.html"
+  },
+  {
+   "route": "/spaces/technology-spaces",
+   "area": "public",
+   "file": "spaces-technology-spaces.html"
+  },
+  {
+   "route": "/spaces/startup-and-incubation",
+   "area": "public",
+   "file": "spaces-startup-and-incubation.html"
+  },
+  {
+   "route": "/spaces/educational-spaces",
+   "area": "public",
+   "file": "spaces-educational-spaces.html"
+  },
+  {
+   "route": "/spaces/healthcare-and-wellness",
+   "area": "public",
+   "file": "spaces-healthcare-and-wellness.html"
+  },
+  {
+   "route": "/spaces/professional-services",
+   "area": "public",
+   "file": "spaces-professional-services.html"
+  },
+  {
+   "route": "/spaces/retail-and-commercial",
+   "area": "public",
+   "file": "spaces-retail-and-commercial.html"
+  },
+  {
+   "route": "/spaces/outdoor-spaces",
+   "area": "public",
+   "file": "spaces-outdoor-spaces.html"
+  },
+  {
+   "route": "/spaces/hospitality",
+   "area": "public",
+   "file": "spaces-hospitality.html"
+  },
+  {
+   "route": "/spaces/warehousing-and-industrial",
+   "area": "public",
+   "file": "spaces-warehousing-and-industrial.html"
+  },
+  {
+   "route": "/spaces/specialty-spaces",
+   "area": "public",
+   "file": "spaces-specialty-spaces.html"
+  },
+  {
+   "route": "/workspaces/saudi-arabia/al-khobar/growth-hub-al-khobar",
+   "area": "public",
+   "file": "workspaces-saudi-arabia-al-khobar-growth-hub-al-khobar.html"
+  },
+  {
+   "route": "/workspaces/bahrain/adliya/growth-hub-adliya",
+   "area": "public",
+   "file": "workspaces-bahrain-adliya-growth-hub-adliya.html"
+  },
+  {
+   "route": "/workspaces/bahrain/manama/growth-hub-diplomatic-area",
+   "area": "public",
+   "file": "workspaces-bahrain-manama-growth-hub-diplomatic-area.html"
+  },
+  {
+   "route": "/blog/what-is-included-in-a-growth-hub-office",
+   "area": "public",
+   "file": "blog-what-is-included-in-a-growth-hub-office.html"
+  },
+  {
+   "route": "/ar/blog/what-is-included-in-a-growth-hub-office",
+   "area": "public",
+   "file": "ar-blog-what-is-included-in-a-growth-hub-office.html"
+  },
+  {
+   "route": "/about",
+   "area": "public",
+   "file": "about.html"
+  },
+  {
+   "route": "/ar/about",
+   "area": "public",
+   "file": "ar-about.html"
+  },
+  {
+   "route": "/account",
+   "area": "account",
+   "file": "account.html"
+  },
+  {
+   "route": "/account/bookings",
+   "area": "account",
+   "file": "account-bookings.html"
+  },
+  {
+   "route": "/account/hours",
+   "area": "account",
+   "file": "account-hours.html"
+  },
+  {
+   "route": "/account/invoices",
+   "area": "account",
+   "file": "account-invoices.html"
+  },
+  {
+   "route": "/account/loyalty",
+   "area": "account",
+   "file": "account-loyalty.html"
+  },
+  {
+   "route": "/account/profile",
+   "area": "account",
+   "file": "account-profile.html"
+  },
+  {
+   "route": "/account/reviews",
+   "area": "account",
+   "file": "account-reviews.html"
+  },
+  {
+   "route": "/account/wishlist",
+   "area": "account",
+   "file": "account-wishlist.html"
+  },
+  {
+   "route": "/book/112",
+   "area": "account",
+   "file": "book-112.html"
+  },
+  {
+   "route": "/book/113",
+   "area": "account",
+   "file": "book-113.html"
+  },
+  {
+   "route": "/book/114",
+   "area": "account",
+   "file": "book-114.html"
+  },
+  {
+   "route": "/book/115",
+   "area": "account",
+   "file": "book-115.html"
+  },
+  {
+   "route": "/book/116",
+   "area": "account",
+   "file": "book-116.html"
+  },
+  {
+   "route": "/book/117",
+   "area": "account",
+   "file": "book-117.html"
+  },
+  {
+   "route": "/book/118",
+   "area": "account",
+   "file": "book-118.html"
+  },
+  {
+   "route": "/book/119",
+   "area": "account",
+   "file": "book-119.html"
+  },
+  {
+   "route": "/book/120",
+   "area": "account",
+   "file": "book-120.html"
+  },
+  {
+   "route": "/book/121",
+   "area": "account",
+   "file": "book-121.html"
+  },
+  {
+   "route": "/book/122",
+   "area": "account",
+   "file": "book-122.html"
+  },
+  {
+   "route": "/admin",
+   "area": "admin",
+   "file": "admin.html"
+  },
+  {
+   "route": "/admin/bookings",
+   "area": "admin",
+   "file": "admin-bookings.html"
+  },
+  {
+   "route": "/admin/calendar",
+   "area": "admin",
+   "file": "admin-calendar.html"
+  },
+  {
+   "route": "/admin/enquiries",
+   "area": "admin",
+   "file": "admin-enquiries.html"
+  },
+  {
+   "route": "/admin/leads",
+   "area": "admin",
+   "file": "admin-leads.html"
+  },
+  {
+   "route": "/admin/customers",
+   "area": "admin",
+   "file": "admin-customers.html"
+  },
+  {
+   "route": "/admin/companies",
+   "area": "admin",
+   "file": "admin-companies.html"
+  },
+  {
+   "route": "/admin/venues",
+   "area": "admin",
+   "file": "admin-venues.html"
+  },
+  {
+   "route": "/admin/venues/new",
+   "area": "admin",
+   "file": "admin-venues-new.html"
+  },
+  {
+   "route": "/admin/spaces",
+   "area": "admin",
+   "file": "admin-spaces.html"
+  },
+  {
+   "route": "/admin/spaces/new",
+   "area": "admin",
+   "file": "admin-spaces-new.html"
+  },
+  {
+   "route": "/admin/categories",
+   "area": "admin",
+   "file": "admin-categories.html"
+  },
+  {
+   "route": "/admin/amenities",
+   "area": "admin",
+   "file": "admin-amenities.html"
+  },
+  {
+   "route": "/admin/subscriptions",
+   "area": "admin",
+   "file": "admin-subscriptions.html"
+  },
+  {
+   "route": "/admin/plans",
+   "area": "admin",
+   "file": "admin-plans.html"
+  },
+  {
+   "route": "/admin/payments",
+   "area": "admin",
+   "file": "admin-payments.html"
+  },
+  {
+   "route": "/admin/pricing",
+   "area": "admin",
+   "file": "admin-pricing.html"
+  },
+  {
+   "route": "/admin/loyalty",
+   "area": "admin",
+   "file": "admin-loyalty.html"
+  },
+  {
+   "route": "/admin/reviews",
+   "area": "admin",
+   "file": "admin-reviews.html"
+  },
+  {
+   "route": "/admin/coupons",
+   "area": "admin",
+   "file": "admin-coupons.html"
+  },
+  {
+   "route": "/admin/coupons/test",
+   "area": "admin",
+   "file": "admin-coupons-test.html"
+  },
+  {
+   "route": "/admin/cms/pages",
+   "area": "admin",
+   "file": "admin-cms-pages.html"
+  },
+  {
+   "route": "/admin/cms/faq",
+   "area": "admin",
+   "file": "admin-cms-faq.html"
+  },
+  {
+   "route": "/admin/cms/testimonials",
+   "area": "admin",
+   "file": "admin-cms-testimonials.html"
+  },
+  {
+   "route": "/admin/reports",
+   "area": "admin",
+   "file": "admin-reports.html"
+  },
+  {
+   "route": "/admin/notifications",
+   "area": "admin",
+   "file": "admin-notifications.html"
+  },
+  {
+   "route": "/admin/notifications/templates",
+   "area": "admin",
+   "file": "admin-notifications-templates.html"
+  },
+  {
+   "route": "/admin/notifications/channels",
+   "area": "admin",
+   "file": "admin-notifications-channels.html"
+  },
+  {
+   "route": "/admin/users",
+   "area": "admin",
+   "file": "admin-users.html"
+  },
+  {
+   "route": "/admin/security",
+   "area": "admin",
+   "file": "admin-security.html"
+  },
+  {
+   "route": "/admin/launch",
+   "area": "admin",
+   "file": "admin-launch.html"
+  },
+  {
+   "route": "/admin/venues/33",
+   "area": "admin",
+   "file": "admin-venues-33.html"
+  },
+  {
+   "route": "/admin/venues/32",
+   "area": "admin",
+   "file": "admin-venues-32.html"
+  },
+  {
+   "route": "/admin/venues/34",
+   "area": "admin",
+   "file": "admin-venues-34.html"
+  },
+  {
+   "route": "/admin/spaces/112",
+   "area": "admin",
+   "file": "admin-spaces-112.html"
+  },
+  {
+   "route": "/admin/spaces/113",
+   "area": "admin",
+   "file": "admin-spaces-113.html"
+  },
+  {
+   "route": "/admin/spaces/114",
+   "area": "admin",
+   "file": "admin-spaces-114.html"
+  },
+  {
+   "route": "/admin/spaces/115",
+   "area": "admin",
+   "file": "admin-spaces-115.html"
+  },
+  {
+   "route": "/admin/customers/13",
+   "area": "admin",
+   "file": "admin-customers-13.html"
+  }
+ ],
+ "failed": [],
+ "neutralised": [
+  "/admin/cms/blog",
+  "/admin/cms/newsletter",
+  "/admin/payments/gateways",
+  "/admin/spaces/116",
+  "/admin/spaces/117",
+  "/admin/spaces/118",
+  "/admin/spaces/119",
+  "/admin/spaces/120",
+  "/admin/spaces/121",
+  "/admin/spaces/122",
+  "/api/v1/reports/bookings",
+  "/ar/contact",
+  "/ar/partner"
+ ]
+}
