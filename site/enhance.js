@@ -70,13 +70,11 @@
       "</button>"
     );
   }
-  function panelHTML(c) {
+  function headHTML(c) {
     return (
-      '<div class="collhd"><h2>' + c.name + "</h2>" +
+      "<h2>" + c.name + "</h2>" +
       '<span class="collfloor">' + c.floorNumber + (c.floorNumber === 2 ? "nd" : "th") + " floor</span>" +
-      '<span class="lbl">' + (c.units != null ? c.units + " offices" : "count pending") + "</span></div>" +
-      '<p class="collblurb">' + (c.blurb || "") + "</p>" +
-      '<div class="tiergrid">' + c.tiers.map(function (t, i) { return tierCard(t, i === 0); }).join("") + "</div>"
+      '<span class="lbl">' + (c.units != null ? c.units + " offices" : "count pending") + "</span>"
     );
   }
 
@@ -104,7 +102,16 @@
     function showCollection(floor) {
       var c = DATA.collections.filter(function (x) { return String(x.floorNumber) === String(floor); })[0];
       if (!c || !panel) return;
-      panel.innerHTML = panelHTML(c);
+      // Replace only the three regions this shim owns. The add-on configurator
+      // lives INSIDE #tower-panel, after the tier grid, so assigning to
+      // panel.innerHTML deletes it — which is exactly what the first version of
+      // this file did: the tower switched floors and the price box vanished.
+      var hd = panel.querySelector(".collhd");
+      var blurb = panel.querySelector(".collblurb");
+      var grid = panel.querySelector(".tiergrid");
+      if (hd) hd.innerHTML = headHTML(c);
+      if (blurb) blurb.textContent = c.blurb || "";
+      if (grid) grid.innerHTML = c.tiers.map(function (t, i) { return tierCard(t, i === 0); }).join("");
       panel.setAttribute("aria-labelledby", "tower-tab-" + floor);
       tabs.forEach(function (t) {
         var on = t.id === "tower-tab-" + floor;
