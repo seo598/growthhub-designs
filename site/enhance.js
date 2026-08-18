@@ -102,16 +102,30 @@
     function showCollection(floor) {
       var c = DATA.collections.filter(function (x) { return String(x.floorNumber) === String(floor); })[0];
       if (!c || !panel) return;
-      // Replace only the three regions this shim owns. The add-on configurator
-      // lives INSIDE #tower-panel, after the tier grid, so assigning to
-      // panel.innerHTML deletes it — which is exactly what the first version of
-      // this file did: the tower switched floors and the price box vanished.
+      // Swap ONLY the tier buttons, never a whole container.
+      //
+      //   #tower-panel > .collhd, .collblurb, .tiergrid
+      //                                       |- .tiercard2 (ours to replace)
+      //                                       '- .cfg2 > .cfgopts > .opt2, .cfgtotal
+      //
+      // The configurator is a CHILD OF THE GRID. Assigning to panel.innerHTML
+      // deleted it, and so did assigning to grid.innerHTML — two versions of
+      // this file in a row switched floors and made the price box disappear.
+      // Remove the cards individually and insert the new ones before .cfg2.
       var hd = panel.querySelector(".collhd");
       var blurb = panel.querySelector(".collblurb");
       var grid = panel.querySelector(".tiergrid");
       if (hd) hd.innerHTML = headHTML(c);
       if (blurb) blurb.textContent = c.blurb || "";
-      if (grid) grid.innerHTML = c.tiers.map(function (t, i) { return tierCard(t, i === 0); }).join("");
+      if (grid) {
+        [].slice.call(grid.querySelectorAll(".tiercard2")).forEach(function (b) {
+          b.parentNode.removeChild(b);
+        });
+        var html = c.tiers.map(function (t, i) { return tierCard(t, i === 0); }).join("");
+        var cfg2 = grid.querySelector(".cfg2");
+        if (cfg2) cfg2.insertAdjacentHTML("beforebegin", html);
+        else grid.insertAdjacentHTML("afterbegin", html);
+      }
       panel.setAttribute("aria-labelledby", "tower-tab-" + floor);
       tabs.forEach(function (t) {
         var on = t.id === "tower-tab-" + floor;
