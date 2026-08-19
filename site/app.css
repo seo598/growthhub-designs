@@ -1079,3 +1079,86 @@ h2.sec { font-weight: 650; letter-spacing: -.018em; font-size: 1.15rem; margin: 
   .hsearch-go { padding-block: 14px; }
 }
 
+/* ---- homepage sections restored from the approved design (P3-S6) ---- */
+.deck { font-size: 1.05rem; line-height: 1.65; color: var(--ink-2); max-width: 58ch; margin: 18px 0 0; }
+
+/* An honest gap, stated in place rather than filled with something plausible. */
+.silent {
+  border: 1px dashed var(--line-2); border-radius: 6px; padding: 14px 16px;
+  margin-top: 22px; font-size: .9rem; line-height: 1.6; color: var(--ink-2); max-width: 60ch;
+}
+.silent b { display: block; color: var(--ink); margin-bottom: 4px; }
+.silent a { color: var(--rose); font-weight: 600; }
+
+/* The fourth wall: three drawn walls and a gap that never closes. */
+.wall { padding: clamp(48px, 7vw, 84px) 0; border-top: 1px solid var(--line); }
+.walldiag { margin-top: 30px; display: grid; grid-gap: 22px; gap: 22px; }
+.walls { display: flex; gap: 8px; align-items: stretch; height: 10px; }
+.walls i { flex: 1 1; background: var(--ink); border-radius: 2px; display: block; }
+.wallgap { flex: 1 1; border: 1px dashed var(--line-2); border-radius: 2px; }
+.pbubs { display: flex; flex-wrap: wrap; gap: 10px; }
+
+.locs { padding: clamp(48px, 7vw, 84px) 0; background: var(--shell); border-top: 1px solid var(--line); }
+.loccards { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); grid-gap: 16px; gap: 16px; margin-top: 28px; }
+.loc { background: var(--paper); border: 1px solid var(--line); border-radius: 8px; padding: 20px 22px; }
+.loc.flag { border-color: var(--rose); }
+.loc h3 { margin: 0; font-size: 1.25rem; letter-spacing: -.02em; }
+.loc .co { color: var(--muted); font-size: .9rem; margin: 4px 0 0; }
+.loc .mt { margin-top: 14px; }
+.locaddr { margin: 0; color: var(--ink-2); font-size: .93rem; line-height: 1.6; }
+.loclink { display: inline-block; margin-top: 14px; color: var(--rose); font-weight: 600; font-size: .92rem; }
+
+.ledger { padding: clamp(48px, 7vw, 84px) 0; border-top: 1px solid var(--line); }
+.tblwrap { overflow-x: auto; margin-top: 26px; }
+.lgt { width: 100%; border-collapse: collapse; font-size: .93rem; min-width: 620px; }
+.lgt th, .lgt td { text-align: start; padding: 12px 14px; border-bottom: 1px solid var(--line); vertical-align: top; }
+.lgt th { font-size: 10.5px; letter-spacing: .1em; text-transform: uppercase; color: var(--muted); font-weight: 600; }
+.lgt .wh { color: var(--ink-2); }
+.pill { display: inline-block; padding: 3px 10px; border-radius: 99px; font-size: 12px; font-weight: 600; white-space: nowrap; }
+.pill.pub { background: #EAF3EF; color: #2C5A48; border: 1px solid #BFD9CE; }
+.pill.pend { background: #FBF2E8; color: #7A4E1F; border: 1px solid #E4CDAE; }
+.ledgerall { margin-top: 20px; }
+.ledgerall a { color: var(--rose); font-weight: 600; }
+
+.faqsec { padding: clamp(48px, 7vw, 84px) 0; background: var(--shell); border-top: 1px solid var(--line); }
+.faqbound { max-width: 860px; }
+.faqsec details { border-bottom: 1px solid var(--line); }
+.faqsec summary {
+  cursor: pointer; padding: 18px 0; font-weight: 600; font-size: 1.02rem;
+  list-style: none; display: flex; justify-content: space-between; gap: 16px; align-items: baseline;
+}
+.faqsec summary::-webkit-details-marker { display: none; }
+.faqsec summary::after { content: "+"; color: var(--rose); font-weight: 700; font-size: 1.3rem; line-height: 1; }
+.faqsec details[open] summary::after { content: "\2212"; }
+.faqsec summary:focus-visible { outline: 2.5px solid var(--rose); outline-offset: 2px; border-radius: 2px; }
+.faqsec .ans { padding: 0 0 20px; color: var(--ink-2); line-height: 1.7; max-width: 68ch; }
+
+.closesec { padding: clamp(48px, 7vw, 84px) 0; }
+/* The speech bubble again — the brand's own shape, and the tail is the point. */
+.closebub {
+  background: var(--rose); color: #fff; border-radius: 16px 16px 16px 4px;
+  padding: clamp(30px, 5vw, 52px); text-align: center; position: relative;
+}
+.closebub h2 { margin: 0; font-size: clamp(1.8rem, 4vw, 2.7rem); letter-spacing: -.03em; }
+.closebub p { margin: 14px auto 0; max-width: 52ch; line-height: 1.65; color: #FCE7EC; }
+.closebtns { display: flex; gap: 12px; flex-wrap: wrap; justify-content: center; margin-top: 26px; }
+.btn-w { background: #fff; color: var(--rose-deep); border: 1px solid #fff; }
+.btn-w:hover { background: #FCE7EC; }
+.btn-o { background: transparent; color: #fff; border: 1px solid rgba(255,255,255,.6); }
+.btn-o:hover { border-color: #fff; background: rgba(255,255,255,.1); }
+
+/* ---- the hours meter band, on ink (P3-S6) ---- */
+.hoursband { background: var(--night); color: var(--night-ink); padding: clamp(48px, 7vw, 84px) 0; }
+.hoursband .kicker { color: var(--rose-brand); }
+.hoursband .h2 { color: var(--night-ink); }
+.hoursband .deck { color: var(--night-muted); }
+.hoursmeter { margin-top: 28px; display: grid; grid-gap: 1px; gap: 1px; background: #3A2F33; border: 1px solid #3A2F33; border-radius: 8px; overflow: hidden; }
+.hoursmeter .hourrow { background: var(--night); color: var(--night-ink); }
+.hoursmeter .hourrow .hn { color: var(--night-ink); }
+.hoursmeter .hourrow .hv { color: var(--night-ink); }
+.hoursmeter .pips i { background: var(--rose-brand); }
+.hoursmeter .pips i.off { background: #4A3D41; }
+.silent-dark { border-color: #6E5F63; color: var(--night-muted); }
+.silent-dark b { color: var(--night-ink); }
+.silent-dark a { color: var(--rose-brand); }
+
