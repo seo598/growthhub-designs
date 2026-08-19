@@ -1032,3 +1032,50 @@ h2.sec { font-weight: 650; letter-spacing: -.018em; font-size: 1.15rem; margin: 
   .reccodes code { border-color: #000; }
 }
 
+/* ---- hero dual-mode search (P3-S6) ----
+   Mode switching is done by the checked radio, not by script: the form must
+   work before hydration, with JS off, and inside the static capture we share
+   with the client. `appearance:none` hides the radio itself; the labels are the
+   tabs. */
+.hsearch { margin-top: 26px; max-width: 860px; }
+.hsearch-radio { position: absolute; opacity: 0; pointer-events: none; }
+
+.hsearch-tabs { display: flex; flex-wrap: wrap; }
+.hsearch-tabs > label {
+  order: -1; cursor: pointer; -webkit-user-select: none; -moz-user-select: none; user-select: none;
+  padding: 11px 20px; font-weight: 600; font-size: .93rem;
+  color: var(--muted-2); background: transparent;
+  border: 1px solid transparent; border-bottom: 0;
+  border-radius: 6px 6px 0 0;
+}
+/* --rose, not --rose-brand: this carries 15px semibold white text. */
+.hsearch-radio:checked + label { background: var(--rose); color: #fff; }
+.hsearch-radio:focus-visible + label { outline: 2.5px solid var(--rose); outline-offset: 2px; }
+
+.hsearch-fields {
+  order: 1; flex-basis: 100%;
+  display: grid; grid-template-columns: repeat(3, 1fr) auto; grid-gap: 1px; gap: 1px;
+  background: var(--line-2); border: 1px solid var(--line-2); border-radius: 0 6px 6px 6px;
+  overflow: hidden;
+}
+.hsearch-fld { display: flex; flex-direction: column; gap: 2px; padding: 12px 16px; background: var(--paper); }
+.hsearch-lbl {
+  font-size: 10.5px; letter-spacing: .1em; text-transform: uppercase;
+  color: var(--muted); font-weight: 600;
+}
+.hsearch-fld select {
+  border: 0; background: none; padding: 2px 0; font: inherit; font-weight: 600;
+  color: var(--ink); width: 100%; cursor: pointer;
+}
+.hsearch-fld select:focus-visible { outline: 2.5px solid var(--rose); outline-offset: 2px; border-radius: 2px; }
+.hsearch-go { border-radius: 0; align-self: stretch; padding-inline: 34px; }
+
+/* The swap. Only one of the two middle fields is ever shown. */
+#hs-hour:checked ~ .hsearch-fields .hsearch-month,
+#hs-month:checked ~ .hsearch-fields .hsearch-hour { display: none; }
+
+@media (max-width: 720px) {
+  .hsearch-fields { grid-template-columns: 1fr; border-radius: 0 6px 6px 6px; }
+  .hsearch-go { padding-block: 14px; }
+}
+
