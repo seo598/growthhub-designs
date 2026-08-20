@@ -386,7 +386,15 @@
    `.snav` further down globals.css — which declares display:block, the one
    thing a badge on the trailing edge cannot live with. Winning on specificity
    rather than on load order means this keeps working whichever way the imports
-   are later reordered, and reordering them is not this area's call to make. */
+   are later reordered, and reordering them is not this area's call to make.
+
+   display:flex is also doing accessibility work here, not only layout. The
+   markup puts a literal space between the label and the count so the anchor's
+   text content reads "Bookings 2 upcoming" rather than "Bookings2 upcoming" for
+   an engine that builds the accessible name by concatenating text. A
+   whitespace-only text run between flex items is not rendered (CSS Flexbox §4),
+   so that space is invisible — but only while this stays a flex container.
+   Change it to block or inline and a real gap appears before the count. */
 .side nav a.snav {
   display: flex;
   align-items: center;
@@ -685,6 +693,14 @@
   text-transform: uppercase; color: var(--muted);
 }
 
+/* Says out loud that the list above is capped. Sits under the list, quieter
+   than the messages themselves — it is a fact about the page, not a message.
+   var(--muted) on var(--paper) is an existing checked pair (npm run contrast). */
+.nt-cap {
+  margin: 10px 0 0; font-size: .84rem; line-height: 1.55;
+  color: var(--muted); max-width: 62ch;
+}
+
 /* ---- channel preferences ---- */
 .nt-prefs {
   display: grid; grid-gap: 1px; gap: 1px; background: var(--line);
@@ -973,7 +989,11 @@ h1, h2, h3 { margin: 0; text-wrap: balance; }
 
 /* nav */
 .nav { border-bottom: 1px solid var(--line); background: var(--paper); }
-.nav-in { display: flex; align-items: center; gap: 22px; height: 68px; }
+/* min-height, not height. .nav-links wraps, and a fixed 68px box with two rows of
+   content inside it clipped the first row straight off the top of the page —
+   between roughly 700 and 1000px the primary navigation was invisible while
+   still occupying the layout. The bar grows to fit what is in it. */
+.nav-in { display: flex; align-items: center; gap: 22px; min-height: 68px; }
 /* The mark carries its own geometry now; the anchor only has to size it and
    set the colour that `currentColor` resolves against. */
 .logo { display: inline-flex; align-items: center; text-decoration: none; color: var(--ink); }

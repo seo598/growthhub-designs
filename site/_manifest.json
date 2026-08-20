@@ -570,6 +570,7 @@
   "/ar/partner"
  ],
  "uncaptured": [],
+ "vanishedMidRun": [],
  "uncapturedNoData": [
   "/account/company/[companyId]",
   "/account/company/[companyId]/approvals",
