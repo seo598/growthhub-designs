@@ -221,6 +221,11 @@
    "file": "ar/about/index.html"
   },
   {
+   "route": "/account/verify",
+   "area": "account",
+   "file": "account/verify/index.html"
+  },
+  {
    "route": "/account",
    "area": "account",
    "file": "account/index.html"
@@ -324,6 +329,16 @@
    "route": "/admin/login/verify",
    "area": "admin",
    "file": "admin/login/verify/index.html"
+  },
+  {
+   "route": "/admin/login/enroll",
+   "area": "admin",
+   "file": "admin/login/enroll/index.html"
+  },
+  {
+   "route": "/admin/security/recovery-codes",
+   "area": "admin",
+   "file": "admin/security/recovery-codes/index.html"
   },
   {
    "route": "/admin",
@@ -461,6 +476,21 @@
    "file": "admin/notifications/templates/index.html"
   },
   {
+   "route": "/admin/cms/blog",
+   "area": "admin",
+   "file": "admin/cms/blog/index.html"
+  },
+  {
+   "route": "/admin/cms/newsletter",
+   "area": "admin",
+   "file": "admin/cms/newsletter/index.html"
+  },
+  {
+   "route": "/admin/payments/gateways",
+   "area": "admin",
+   "file": "admin/payments/gateways/index.html"
+  },
+  {
    "route": "/admin/notifications/channels",
    "area": "admin",
    "file": "admin/notifications/channels/index.html"
@@ -523,9 +553,7 @@
  ],
  "failed": [],
  "neutralised": [
-  "/admin/cms/blog",
-  "/admin/cms/newsletter",
-  "/admin/payments/gateways",
+  "/account/notifications",
   "/admin/spaces/116",
   "/admin/spaces/117",
   "/admin/spaces/118",
@@ -536,5 +564,23 @@
   "/api/v1/reports/bookings",
   "/ar/contact",
   "/ar/partner"
- ]
+ ],
+ "uncaptured": [
+  "/account/notifications"
+ ],
+ "uncapturedNoData": [
+  "/account/company/[companyId]",
+  "/account/company/[companyId]/approvals",
+  "/account/company/[companyId]/bookings",
+  "/account/invoices/[id]",
+  "/admin/companies/[id]",
+  "/admin/enquiries/[id]",
+  "/admin/leads/[id]"
+ ],
+ "excluded": {
+  "/book": "a router — always redirects to /book/{id} or /workspaces, never renders",
+  "/admin/login/verify": "captured separately, needs a login challenge cookie",
+  "/admin/login/enroll": "captured separately, needs an ENROLL challenge cookie",
+  "/admin/security/recovery-codes": "captured separately, needs the one-shot handoff cookie"
+ }
 }
