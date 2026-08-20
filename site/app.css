@@ -1174,6 +1174,13 @@
   font-family: var(--sans-ar);
 }
 
+/* dir="rtl" used to sit on <main>, so the rule above landed INSIDE the body
+   and won. It now sits on <html>, where `body { font-family: var(--sans) }` in
+   globals.css is the more specific match and takes it straight back — the
+   whole Arabic site would have silently lost the stack chosen above while the
+   declaration that chose it still sat here looking correct. */
+[dir="rtl"] body { font-family: var(--sans-ar); }
+
 /* Tracking is not a nicety in Arabic, it is damage: the script is cursive, and
    letter-spacing pulls joined letters apart into something that reads as
    broken text rather than as tight typography. Every tracked class that the
@@ -1191,9 +1198,34 @@
 [dir="rtl"] .citycard b,
 [dir="rtl"] .citycard .cc,
 [dir="rtl"] .pill,
-[dir="rtl"] .sec {
+[dir="rtl"] .sec,
+/* Reachable from an Arabic page only since the chrome and the shared views
+   started rendering inside dir="rtl": the newsletter heading, the blog index
+   and post, the FAQ list, the CMS prose and the untranslated-body banner. */
+[dir="rtl"] .newsband h2,
+[dir="rtl"] .crumbs,
+[dir="rtl"] .postcard h2,
+[dir="rtl"] .faqitem summary,
+[dir="rtl"] .prose h2,
+[dir="rtl"] .ft {
   letter-spacing: normal;
 }
+
+/* Tracked AND uppercased. text-transform: uppercase is a no-op on Arabic
+   letterforms rather than an error, but it is turned off with the tracking so
+   that a future Latin word inside one of these — a partner name, a slug — is
+   not the one thing on the page shouting. */
+[dir="rtl"] .ft-cols h3,
+[dir="rtl"] .note b {
+  letter-spacing: normal;
+  text-transform: none;
+}
+
+/* The footer keeps two Latin runs on purpose (the entity name, the strapline),
+   and prints an English legal title where no Arabic one exists. Those are the
+   reason the .ft rule above is a reset and not a deletion: they get their
+   tracking back, and only they. */
+[dir="rtl"] .ft [lang="en"] { letter-spacing: .05em; }
 
 /* Arabic sets deeper than Latin: the script hangs below the baseline and
    reaches well above the x-height, so the display line-height the English
@@ -1224,24 +1256,92 @@
    up rendered with the code on the wrong side of the figure. */
 .armoney { unicode-bidi: -webkit-isolate; unicode-bidi: isolate; font-feature-settings: "tnum"; font-variant-numeric: tabular-nums; }
 
-/* ---- Arabic navigation strip ---------------------------------------- */
+/* ---- The Arabic header ---------------------------------------------- */
 
-/* The site header and footer are English and shared across both languages, so
-   without this an Arabic visitor has no Arabic navigation anywhere on the
-   page. */
-.arnav {
-  display: flex; flex-wrap: wrap; align-items: center; gap: 8px 18px;
-  margin-top: 26px; padding-top: 18px; border-top: 1px solid var(--line-2);
-  font-size: .93rem;
+/* The wordmark is drawn geometry, so the obvious worry — that dir="rtl" would
+   mirror it — is unfounded: SVG shapes ignore direction. What direction DOES
+   reach is <text>, and `direction` is inherited straight through <svg> into
+   it. The "growth" run is anchored text-anchor: start at x="6"; under RTL the
+   start edge becomes the RIGHT one and the whole word is laid out leftwards
+   out of the viewBox. Measured on /ar: the 84px mark sat at x=522 while its
+   own "growth" glyphs rendered at x=463–523, entirely outside it, leaving the
+   header showing a bubble and no wordmark.
+   The "hub" run survives only because it is text-anchor: middle. */
+[dir="rtl"] .logo-mark { direction: ltr; }
+
+/* .nav-links carries a physical margin-left, which under RTL opens the gap on
+   the wrong side of the wordmark and closes it against the first link. */
+[dir="rtl"] .nav-links { margin-left: 0; -webkit-margin-start: 10px; margin-inline-start: 10px; }
+
+/* The group of header links that open an ENGLISH page, kept together with the
+   label that says so. inline-flex rather than contents: when the bar wraps,
+   the label has to wrap WITH the links it describes or it stops describing
+   them. */
+.navlang { display: inline-flex; flex-wrap: wrap; align-items: center; gap: 8px 22px; }
+
+/* --muted on --paper: 4.5:1, and one of the pairs npm run contrast asserts.
+   No new colour is introduced by this sheet. */
+.navlang-lbl {
+  font-family: var(--label); font-size: 11px; letter-spacing: .04em;
+  color: var(--muted); white-space: nowrap;
 }
-.arnav a { color: var(--rose); font-weight: 600; text-decoration: none; }
-.arnav a:hover { text-decoration: underline; }
-.arnav a:focus-visible { outline: 2.5px solid var(--rose); outline-offset: 3px; border-radius: 2px; }
-.arnav-lbl { font-family: var(--label); font-size: 11px; color: var(--muted); }
 
-/* Marks a link that leaves the Arabic site. Saying so is cheaper than the
-   visitor finding out by landing on an English page. */
+/* ---- The Arabic footer ---------------------------------------------- */
+
+/* .ft-cols styles EVERY descendant span as a block, which is right for the
+   contact lines and wrong for a span sitting inside a link — an English legal
+   title and its "(بالإنجليزية)" note would each drop onto a line of their own,
+   under the link they belong to. */
+[dir="rtl"] .ft-cols a span { display: inline; margin-bottom: 0; }
+
+/* Same job as .arlangmark, on the charcoal ground. --night-muted is the colour
+   the footer already sets on itself, not a new one. */
+.ft .langnote { font-family: var(--label); font-size: 10px; color: var(--night-muted); }
+
+/* ---- The honeypot, which only hides in one direction ----------------- */
+
+/* lib/spamGuard.js parks its honeypot input at left: -9999px. In a
+   left-to-right document that offset runs past the inline-START edge, and a
+   browser makes no scrollbar for start-edge overflow — which is the entire
+   reason the trick works. Turn the document right-to-left and the start edge
+   becomes the right one: those 9999px are now overflow past the inline END,
+   which IS scrollable. Measured on /ar at a 632px viewport, the document
+   scrolled 10,631px sideways — 632 + 9999 — and the wordmark sat off the edge
+   of the first screen.
+
+   Keyed on the field name because SpamFields() gives it no class, and marked
+   !important because the offset is an inline style: an author !important is
+   the only declaration that outranks one, and editing SpamFields would change
+   the markup of every English form as well. */
+[dir="rtl"] input[name="website_url"] {
+  left: auto !important;
+  right: -9999px !important;
+}
+
+/* ---- Shared views, now that they render inside dir="rtl" ------------- */
+
+/* The amber rule down the untranslated-body banner in _views/StaticPage and
+   _views/BlogPost is drawn with border-left, so under RTL it ends up on the
+   far side of the text it is meant to introduce. */
+[dir="rtl"] .note {
+  border-left: 0;
+  -webkit-border-start: 2.5px solid var(--amber);
+          border-inline-start: 2.5px solid var(--amber);
+}
+
+/* Marks a link — or a group of them — that leaves the Arabic site. Saying so is
+   cheaper than the visitor finding out by landing on an English page.
+   --muted on --paper is 4.5:1 and one of the pairs npm run contrast asserts. */
 .arlangmark { font-family: var(--label); font-size: 11px; color: var(--muted); }
+
+/* Inside a section heading the note must not inherit the display face, the
+   tracking or the 3rem size the heading carries. */
+.h2 .arlangmark { font-weight: 400; vertical-align: middle; white-space: nowrap; }
+
+/* The closing panel is white on --rose, so --muted would be unreadable on it.
+   `inherit` takes the panel's own #fff rather than naming a new colour — the
+   pair is the one .closebub already sets on itself and already passes. */
+.closebub .arlangmark { display: block; margin-top: 14px; color: inherit; }
 
 .arledgercounts {
   display: block; margin-top: 8px;
