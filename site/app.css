@@ -361,6 +361,18 @@
 .vloc-facts dd { margin: 0; text-align: end; color: var(--ink-2); font-size: .93rem; }
 .vloc-facts dd a { color: var(--rose); font-weight: 600; }
 
+/* The located state. A link rather than an embedded map: an iframe does not
+   survive the static capture the client reviews, and a keyed static-image API
+   is a dependency this does not need in order to point at a door. */
+.vloc-open {
+  display: flex; flex-direction: column; gap: 4px;
+  padding: 16px 18px; text-decoration: none;
+  background: var(--paper); border: 1px solid var(--line); border-left: 3px solid var(--rose);
+}
+.vloc-open:hover, .vloc-open:focus-visible { border-left-color: var(--rose-deep); }
+.vloc-open-label { color: var(--rose); font-weight: 600; }
+.vloc-coords { font-family: var(--label, monospace); font-size: .8rem; color: var(--muted); font-feature-settings: "tnum"; font-variant-numeric: tabular-nums; }
+
 /*!************************************************************************************************************************************************************************************************************************************************************************!*\
   !*** css ./node_modules/next/dist/build/webpack/loaders/css-loader/src/index.js??ruleSet[1].rules[14].oneOf[10].use[2]!./node_modules/next/dist/build/webpack/loaders/postcss-loader/src/index.js??ruleSet[1].rules[14].oneOf[10].use[3]!./app/styles/account-nav.css ***!
   \************************************************************************************************************************************************************************************************************************************************************************/
@@ -468,9 +480,18 @@
 }
 .fchip:hover { border-color: var(--rose); color: var(--rose); }
 .fchip .cnt { font-feature-settings: "tnum"; font-variant-numeric: tabular-nums; font-weight: 500; color: var(--muted); }
-.fchip[aria-current="page"] { background: var(--night); border-color: var(--night); color: var(--night-ink); }
-.fchip[aria-current="page"]:hover { color: var(--night-ink); border-color: var(--night); }
-.fchip[aria-current="page"] .cnt { color: var(--night-muted); }
+/* Both selectors, because .fchip is not this page's class. The approved
+   mockups define it, and /admin/enquiries, /admin/notifications and
+   /admin/reviews already ship it with aria-pressed on a chip that is a real
+   toggle. Styling the base chip here and not its selected state would leave
+   those three filter bars looking like a designed chip group with nothing in
+   it selected — a worse answer than the no styling they had. */
+.fchip[aria-current="page"],
+.fchip[aria-pressed="true"] { background: var(--night); border-color: var(--night); color: var(--night-ink); }
+.fchip[aria-current="page"]:hover,
+.fchip[aria-pressed="true"]:hover { color: var(--night-ink); border-color: var(--night); }
+.fchip[aria-current="page"] .cnt,
+.fchip[aria-pressed="true"] .cnt { color: var(--night-muted); }
 
 /* Recent activity feed (/account). Borrows .twrap's table shell; only the
    column behaviour differs — a headerless table whose first cell is a date
@@ -525,7 +546,7 @@
   line-height: 1.65;
   max-width: 66ch;
 }
-.sec-danger .sec-hint { color: var(--ink-2); }
+.sec-danger .sec-hint { color: var(--ink-2); margin-top: 12px; }
 
 /* The refusals. Each one names the thing that is in the way and, where the
    customer can act on it themselves, links straight at it — a blocker the
@@ -602,7 +623,7 @@
   background: var(--paper);
   color: var(--ink);
 }
-.sec-close .f input::placeholder { color: var(--muted-2); letter-spacing: .06em; }
+.sec-close .f input::placeholder { color: var(--muted); letter-spacing: .06em; }
 
 .sec-danger-btn {
   border: 1.5px solid var(--rose);
@@ -855,7 +876,11 @@
    The section is rendered INSIDE <main class="bound">, so it must not carry a
    .bound of its own the way the homepage closer does — nesting the two doubles
    the gutter and the bubble drifts out of line with the plan grid above it. */
-.memcta { padding: clamp(34px, 6vw, 70px) 0 0; }
+.closesec.memcta { padding: clamp(34px, 6vw, 70px) 0 0; }
+/* Two classes, not one: this sheet is @imported at the TOP of globals.css,
+   so a bare .memcta loses the tie to .closesec further down the same file and
+   the override was doing nothing at all — the bottom padding it exists to
+   remove was still being drawn. */
 
 /* The heading reads as a sentence, not a slogan, so it needs a measure. Left to
    itself at clamp() sizes it stretched the full grid width and the eye lost the
@@ -1039,6 +1064,11 @@ h2.sec { font-weight: 650; letter-spacing: -.018em; font-size: 1.15rem; margin: 
 .login-card h1 { font-size: 1.35rem; font-weight: 700; letter-spacing: -.025em; margin-bottom: 4px; }
 .login-sub { font-family: var(--label); font-size: 11px; color: var(--muted); letter-spacing: .06em; margin: 0 0 18px; }
 .login-error { background: var(--rose-wash); border: 1px solid #F2D3DB; color: var(--rose-deep); font-size: .88rem; padding: 10px 12px; margin: 0 0 14px; }
+/* Closing your account worked. It is not an error and must not be dressed as
+   one — the rose alert box beside a sign-in form reads as a failed attempt,
+   which is the opposite of what happened. role="status", not role="alert". */
+.login-notice { background: var(--paper); border: 1px solid var(--line); border-left: 3px solid var(--ink); color: var(--ink); font-size: .88rem; line-height: 1.6; padding: 10px 12px; margin: 0 0 14px; }
+.login-notice b { display: block; margin-bottom: 2px; }
 .login-card .f { display: grid; grid-gap: 5px; gap: 5px; margin-bottom: 14px; }
 .login-card .f span { font-family: var(--label); font-size: 10px; letter-spacing: .12em; text-transform: uppercase; color: var(--muted); }
 .login-card .f input { border: 1px solid var(--line-2); border-radius: 2px; padding: 11px 12px; font-family: var(--sans); font-size: .95rem; width: 100%; box-sizing: border-box; }

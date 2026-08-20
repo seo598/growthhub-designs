@@ -405,5 +405,16 @@
     "width": 2072,
     "height": 1179,
     "url": "/media/gh/corridor-art-1-1600.jpg"
+  },
+  {
+    "slug": "adliya-exterior",
+    "grade": "EXTERIOR",
+    "describes": "The building on Adliya Plaza, from the street",
+    "driveId": null,
+    "source": "google-maps-place",
+    "sourceFolder": "Google Maps place record — Fahdan Business Solutions, Adliya",
+    "width": 1200,
+    "height": 630,
+    "url": "/media/gh/adliya-exterior-1600.jpg"
   }
 ]

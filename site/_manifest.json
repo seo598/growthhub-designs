@@ -266,6 +266,11 @@
    "file": "account/wishlist/index.html"
   },
   {
+   "route": "/account/notifications",
+   "area": "account",
+   "file": "account/notifications/index.html"
+  },
+  {
    "route": "/book/112",
    "area": "account",
    "file": "book/112/index.html"
@@ -553,7 +558,6 @@
  ],
  "failed": [],
  "neutralised": [
-  "/account/notifications",
   "/admin/spaces/116",
   "/admin/spaces/117",
   "/admin/spaces/118",
@@ -565,9 +569,7 @@
   "/ar/contact",
   "/ar/partner"
  ],
- "uncaptured": [
-  "/account/notifications"
- ],
+ "uncaptured": [],
  "uncapturedNoData": [
   "/account/company/[companyId]",
   "/account/company/[companyId]/approvals",
