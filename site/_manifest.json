@@ -535,7 +535,6 @@
   "/admin/spaces/122",
   "/api/v1/reports/bookings",
   "/ar/contact",
-  "/ar/partner",
-  "/growthhub-designs/site/app.css"
+  "/ar/partner"
  ]
 }
