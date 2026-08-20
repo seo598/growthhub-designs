@@ -481,14 +481,14 @@
    "file": "admin/launch/index.html"
   },
   {
-   "route": "/admin/venues/33",
-   "area": "admin",
-   "file": "admin/venues/33/index.html"
-  },
-  {
    "route": "/admin/venues/32",
    "area": "admin",
    "file": "admin/venues/32/index.html"
+  },
+  {
+   "route": "/admin/venues/33",
+   "area": "admin",
+   "file": "admin/venues/33/index.html"
   },
   {
    "route": "/admin/venues/34",

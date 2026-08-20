@@ -826,6 +826,14 @@ h2.sec { font-weight: 650; letter-spacing: -.018em; font-size: 1.15rem; margin: 
 .amedia { background: var(--paper); border: 1px solid var(--line); padding: 8px; }
 .amedia img { width: 100%; height: 110px; object-fit: cover; display: block; }
 .amedia-bar { display: flex; gap: 6px; align-items: center; justify-content: space-between; padding-top: 8px; flex-wrap: wrap; }
+.liblist { display: grid; grid-gap: 10px; gap: 10px; grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); }
+.libcard { border: 1px solid var(--line); background: var(--paper); padding: 0; text-align: left; cursor: pointer; font: inherit; color: inherit; display: block; width: 100%; }
+.libcard:hover, .libcard:focus-visible { border-color: var(--rose); outline: none; }
+.libcard img { width: 100%; height: 100px; object-fit: cover; display: block; }
+.libcard span { display: block; padding: 6px 8px; font-size: .78rem; line-height: 1.3; }
+.libcard b { display: block; font-size: .68rem; letter-spacing: .06em; text-transform: uppercase; color: var(--muted); font-weight: 700; }
+.libused { opacity: .45; }
+.libgrade { font-size: .68rem; color: var(--muted); }
 
 /* ---- Membership plans (P3-S2) ---- */
 .plangrid { display: grid; grid-gap: 16px; gap: 16px; grid-template-columns: repeat(auto-fill, minmax(248px, 1fr)); margin: 26px 0 8px; align-items: stretch; }
@@ -1183,6 +1191,9 @@ h2.sec { font-weight: 650; letter-spacing: -.018em; font-size: 1.15rem; margin: 
    built to avoid. Replaced by an <img> the day real photography lands. */
 .stile { position: relative; aspect-ratio: 3 / 2; border-radius: 6px 6px 0 0; overflow: hidden; margin: -1px -1px 14px; }
 .stile svg { display: block; width: 100%; height: 100%; }
+/* A real photograph fills the tile the same way the generated mark does, so a
+   grid of mixed photographed and un-photographed spaces stays on one baseline. */
+.stile-photo img { display: block; width: 100%; height: 100%; object-fit: cover; background: var(--rose-deep); }
 .stile-tag {
   position: absolute; inset-block-end: 8px; inset-inline-start: 8px;
   background: rgba(255,255,255,.94); color: var(--ink); border-radius: 4px;
@@ -1218,4 +1229,56 @@ h2.sec { font-weight: 650; letter-spacing: -.018em; font-size: 1.15rem; margin: 
 .venuekicker { margin: 44px 0 18px; }
 .venuekicker .kicker { display: block; margin-bottom: 8px; }
 .venuekicker .h2 { margin: 0; font-size: clamp(1.45rem, 3vw, 2rem); }
+
+/* ---- venue booking rail (P3-S6) ---- */
+.venuegrid { display: grid; grid-template-columns: minmax(0, 1fr) 340px; grid-gap: 40px; gap: 40px; align-items: start; }
+.venuemain { min-width: 0; }
+.brail { position: -webkit-sticky; position: sticky; top: 24px; }
+.brail-card { border: 1px solid var(--line); border-radius: 10px; padding: 22px; background: var(--paper); }
+.brail-h { margin: 8px 0 18px; font-size: 1.3rem; letter-spacing: -.02em; }
+.brail-form { display: grid; grid-gap: 12px; gap: 12px; }
+.brail-fld { display: grid; grid-gap: 4px; gap: 4px; }
+.brail-lbl { font-size: 10.5px; letter-spacing: .1em; text-transform: uppercase; color: var(--muted); font-weight: 600; }
+.brail-fld select, .brail-fld input {
+  width: 100%; padding: 9px 11px; font: inherit; font-size: .95rem;
+  border: 1px solid var(--line-2); border-radius: 6px; background: var(--paper); color: var(--ink);
+}
+.brail-fld select:focus-visible, .brail-fld input:focus-visible { outline: 2.5px solid var(--rose); outline-offset: 1px; }
+.brail-times { display: grid; grid-template-columns: 1fr 1fr; grid-gap: 10px; gap: 10px; }
+.brail-note { font-size: .82rem; color: var(--muted); line-height: 1.5; margin: 2px 0 0; }
+.brail-go { width: 100%; justify-content: center; margin-top: 4px; }
+.brail-rates { display: grid; grid-template-columns: 1fr auto; grid-gap: 6px 14px; gap: 6px 14px; margin: 18px 0 0; padding-top: 16px; border-top: 1px solid var(--line); }
+.brail-rates dt { font-size: .9rem; color: var(--ink-2); }
+.brail-rates dd { margin: 0; font-weight: 600; font-size: .92rem; text-align: end; }
+.brail-fine { font-size: .82rem; color: var(--muted); line-height: 1.55; margin: 16px 0 0; }
+.brail .silent { margin-top: 16px; }
+
+@media (max-width: 1000px) {
+  .venuegrid { grid-template-columns: 1fr; gap: 28px; }
+  .brail { position: static; }
+}
+
+/* ---- centre photography strip ---- */
+.gallery { padding: 64px 0 72px; }
+.gallery .deck { max-width: 54ch; }
+/* A scroll-snap row rather than a carousel: no JavaScript, works on a phone by
+   swiping and on a desktop by dragging or shift-scrolling, and every frame stays
+   reachable by keyboard because they are real list items in flow. */
+.galstrip {
+  list-style: none; margin: 28px 0 0; padding: 0 max(20px, calc((100vw - 1160px) / 2)) 8px;
+  display: flex; gap: 14px; overflow-x: auto; scroll-snap-type: x mandatory;
+  -webkit-overflow-scrolling: touch; scrollbar-width: thin;
+}
+.galstrip li { flex: 0 0 auto; width: min(78vw, 420px); scroll-snap-align: start; margin: 0; }
+.galstrip img {
+  /* height:auto is load-bearing — the width/height attributes on the <img> map to
+     presentational CSS, and that 600px would win over aspect-ratio and stretch
+     every frame to double height. The attributes stay because they are what
+     reserves the right box before the image arrives. */
+  display: block; width: 100%; height: auto; aspect-ratio: 4 / 3; object-fit: cover;
+  border-radius: 4px; background: var(--rose-deep);
+}
+.galstrip figcaption { padding-top: 8px; font-size: .85rem; color: var(--muted); }
+@media (prefers-reduced-motion: no-preference) { .galstrip { scroll-behavior: smooth; } }
+.gallery .silent { margin-top: 26px; }
 
