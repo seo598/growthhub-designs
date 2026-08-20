@@ -1,0 +1,19 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" role="img" aria-label="GrowthHub">
+  <!-- A favicon is 16 CSS pixels. The mark's whole idea is a speech bubble with
+       "hub" reversed inside it, but the full word turns to mush at that size —
+       rendered and checked, not assumed. So the tab carries the bubble
+       silhouette and a single letterform, and the 180px apple icon carries the
+       whole word where there is room for it.
+
+       The tile is filled rather than a floating bubble because a transparent
+       icon disappears against a dark tab strip; both were rendered on light and
+       dark and the charcoal-tiled version was the one that vanished.
+
+       font-family is the generic sans-serif keyword on purpose: a favicon is
+       rasterised outside the page, so a webfont or a named family that happens
+       not to exist falls back silently and moves the glyph off centre. -->
+  <rect width="64" height="64" rx="14" fill="#A9425A"/>
+  <circle cx="31" cy="28" r="20" fill="#FFFFFF"/>
+  <path d="M45 40 L52 58 Q38 52 31 48 Z" fill="#FFFFFF"/>
+  <text x="31" y="37" text-anchor="middle" font-family="sans-serif" font-size="26" font-weight="700" fill="#A9425A">h</text>
+</svg>

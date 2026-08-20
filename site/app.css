@@ -908,6 +908,395 @@
    loud panel reads as fine print rather than as the point. */
 .memcta-silent { margin-left: auto; margin-right: auto; }
 
+/*!**********************************************************************************************************************************************************************************************************************************************************************!*\
+  !*** css ./node_modules/next/dist/build/webpack/loaders/css-loader/src/index.js??ruleSet[1].rules[14].oneOf[10].use[2]!./node_modules/next/dist/build/webpack/loaders/postcss-loader/src/index.js??ruleSet[1].rules[14].oneOf[10].use[3]!./app/styles/marketing.css ***!
+  \**********************************************************************************************************************************************************************************************************************************************************************/
+/* marketing — the public marketing surfaces: /offices, /meeting-hours,
+   /locations, /contact. Owned by one work area and imported from globals.css,
+   so parallel work on another area cannot clobber it.
+
+   Everything here is prefixed mk-. Not decoration: .gallery in globals.css is
+   the homepage strip (64px of section padding plus a scroll-snap rail) and
+   .vgal- is the venue page's Media-row grid. Borrowing either name would drag
+   a whole page layout onto a page that asked for one photograph. */
+
+/* ---- figures ------------------------------------------------------------
+
+   Every <img> in these pages carries width/height ATTRIBUTES so the box is
+   reserved before a byte arrives. Those attributes map to presentational CSS,
+   which loses to any author rule but beats aspect-ratio's own contribution —
+   so height="1800" with no height declaration wins outright and the frame
+   stretches to 1800px tall. `height: auto` below is therefore load bearing,
+   not tidiness. That exact bug shipped here once already.
+
+   max-height is the second half of the same thought: at the 1152px content
+   width a 16/9 lead would stand 648px tall and eat the screen. Capping the
+   height with object-fit: cover crops instead of scrolls, and because
+   aspect-ratio still gives a definite height before load, the reserved box
+   stays deterministic and nothing shifts. */
+.mk-figure {
+  margin: 0;
+  border: 1px solid var(--line);
+  border-radius: 6px;
+  overflow: hidden;
+  background: var(--shell);
+}
+.mk-figure img {
+  display: block;
+  width: 100%;
+  height: auto;
+  aspect-ratio: 16 / 9;
+  object-fit: cover;
+}
+.mk-figure figcaption {
+  padding: 9px 13px 11px;
+  background: var(--paper);
+  border-top: 1px solid var(--line);
+  font-size: .82rem;
+  line-height: 1.45;
+  color: var(--muted);
+}
+
+/* The lead frame of a set: full content width, deliberately shorter than its
+   own ratio would make it. */
+.mk-figure-wide { margin: 16px 0 10px; }
+.mk-figure-wide img { max-height: 440px; }
+
+/* The supporting frames under a lead. Two columns and never three: a third
+   column at this width drops each frame below the size where a room reads,
+   and a row of small photographs is the decoration this page does not need. */
+.mk-row {
+  display: grid;
+  grid-template-columns: 1fr;
+  grid-gap: 10px;
+  gap: 10px;
+  margin: 0;
+}
+@media (min-width: 560px) {
+  .mk-row { grid-template-columns: repeat(2, 1fr); }
+}
+.mk-row .mk-figure img { max-height: 300px; }
+
+/* Where a set of frames came from, and what it does not claim. Quieter than
+   .silent on purpose — .silent is a bordered block and would out-shout the
+   photographs it is annotating, and this is provenance rather than a gap. */
+.mk-prov {
+  margin: 12px 0 26px;
+  max-width: 72ch;
+  font-size: .84rem;
+  line-height: 1.6;
+  color: var(--muted);
+}
+.mk-prov a { color: var(--rose); font-weight: 600; }
+
+/* ---- the exterior on a location card ------------------------------------
+
+   Bleeds to the card edge, so the caption has to pay back .loccard's 22px of
+   padding by hand or it sits proud of the heading beneath it. */
+.mk-loc-shot {
+  margin: -22px -22px 18px;
+  background: var(--shell);
+  border-bottom: 1px solid var(--line);
+}
+.mk-loc-shot img {
+  display: block;
+  width: 100%;
+  height: auto;
+  aspect-ratio: 40 / 21;
+  max-height: 320px;
+  object-fit: cover;
+}
+.mk-loc-shot figcaption {
+  padding: 9px 22px 12px;
+  background: var(--paper);
+  border-top: 1px solid var(--line);
+  font-size: .82rem;
+  line-height: 1.55;
+  color: var(--muted);
+}
+.mk-loc-shot figcaption a { color: var(--rose); font-weight: 600; }
+
+/*!*******************************************************************************************************************************************************************************************************************************************************************!*\
+  !*** css ./node_modules/next/dist/build/webpack/loaders/css-loader/src/index.js??ruleSet[1].rules[14].oneOf[10].use[2]!./node_modules/next/dist/build/webpack/loaders/postcss-loader/src/index.js??ruleSet[1].rules[14].oneOf[10].use[3]!./app/styles/spaces.css ***!
+  \*******************************************************************************************************************************************************************************************************************************************************************/
+/* Workspace-type family pages: /spaces and /spaces/[family].
+
+   Thirteen of the seventeen families have no inventory behind them, and those
+   pages used to end after a row of subtype chips all reading 0. The classes
+   here are for what replaced that: an explanation of what the type of space
+   IS, a plain statement that we do not list it, and a route onward. Nothing
+   here overrides a globals.css rule — the family cards, chips, note and
+   silent blocks are still the shared ones. */
+
+/* The definition. Sits directly under the h1 in place of the old developer
+   note, so it wants lede weight without being a second .lede on the page. */
+.famdef {
+  font-size: 1.06rem;
+  line-height: 1.62;
+  color: var(--ink-2);
+  max-width: 62ch;
+  margin: 0 0 22px;
+}
+
+/* "We do not list this" — a KNOWN zero, stated once and prominently.
+   Deliberately not a .silent: that device is for a figure we are missing, and
+   the count here is not missing, it is nought. Mixing the two would teach a
+   visitor that our dashed box sometimes means "unknown" and sometimes means
+   "none", which is precisely the ambiguity /what-we-publish exists to avoid. */
+.famstate {
+  border-left: 3px solid var(--rose-brand);
+  background: var(--rose-wash);
+  padding: 15px 18px;
+  margin: 4px 0 6px;
+  max-width: 66ch;
+  color: var(--ink);
+  font-size: .95rem;
+  line-height: 1.6;
+}
+.famstate b {
+  display: block;
+  font-weight: 650;
+  letter-spacing: -.012em;
+  font-size: 1.02rem;
+  margin-bottom: 5px;
+}
+
+/* Subtype names with nothing behind them. Names, not links: /workspaces?type=
+   would return an empty result set for every one of these, and a control that
+   cannot do anything is a control that lies about being useful — the same
+   judgement the sort links on /workspaces already make. */
+.typenames {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px 7px;
+  margin: 2px 0 6px;
+  padding: 0;
+  list-style: none;
+}
+.typenames li {
+  border: 1px dashed var(--line-2);
+  background: var(--shell);
+  color: var(--ink-2);
+  padding: 6px 11px;
+  border-radius: 2px;
+  font-size: .87rem;
+}
+/* Same list, but as a trailing aside on a family that DOES have inventory. */
+.typenames-quiet li {
+  border-style: dotted;
+  background: transparent;
+  color: var(--muted);
+  font-size: .84rem;
+}
+.typenote {
+  font-family: var(--label);
+  font-size: 10.5px;
+  letter-spacing: .04em;
+  color: var(--muted);
+  margin: 12px 0 4px;
+}
+
+/* The route onward: ask us, or go to a family that has something in it. */
+.famask {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 12px;
+  margin: 18px 0 4px;
+}
+.famask p {
+  margin: 0;
+  font-size: .92rem;
+  color: var(--ink-2);
+  max-width: 46ch;
+}
+
+/* One-line description on a family card in the /spaces grid. */
+.fam-brief {
+  font-size: .88rem;
+  line-height: 1.5;
+  color: var(--ink-2);
+}
+/* Replaces the "N live" pill on a family with nothing to list. */
+.fam-none {
+  margin-top: auto;
+  font-family: var(--label);
+  font-size: 10px;
+  letter-spacing: .08em;
+  text-transform: uppercase;
+  color: var(--muted);
+  align-self: flex-start;
+}
+
+/* Phones: the Gulf reads this site on a handset far more than on a desktop,
+   and the two grids above are the only things here wide enough to break. */
+@media (max-width: 560px) {
+  .famdef { font-size: 1rem; }
+  .famstate { padding: 13px 15px; }
+  .famask { gap: 10px; }
+  .famask p { max-width: none; }
+}
+
+/*!*******************************************************************************************************************************************************************************************************************************************************************!*\
+  !*** css ./node_modules/next/dist/build/webpack/loaders/css-loader/src/index.js??ruleSet[1].rules[14].oneOf[10].use[2]!./node_modules/next/dist/build/webpack/loaders/postcss-loader/src/index.js??ruleSet[1].rules[14].oneOf[10].use[3]!./app/styles/arabic.css ***!
+  \*******************************************************************************************************************************************************************************************************************************************************************/
+/* The Arabic site (/ar).
+
+   Two jobs only: correct the places where the shared stylesheet assumes a
+   left-to-right, Latin-script page, and carry the handful of classes the
+   Arabic home needs that have no English twin. No colour is defined here —
+   every rule below reuses a token from globals.css, so `npm run contrast`
+   still covers this sheet.
+
+   What is deliberately ABSENT is as important as what is here. Most of the
+   homepage already uses logical properties — inset-inline-start on the speech
+   bubble tails, border-inline-start on the wall gap, text-align: start in the
+   register table, margin-inline-start on the search count — and those flip on
+   their own under dir="rtl". Adding [dir="rtl"] overrides for them would be
+   the second place to change when one of them moves. */
+
+/* ---- Typography ------------------------------------------------------ */
+
+/* Rubik is loaded in app/layout.jsx with the "latin" and "latin-ext" subsets
+   only. Rubik does ship Arabic, but not in those subsets, so every Arabic
+   glyph on this site already falls out of the brand face and into whatever the
+   system offers next — which in the shared --sans stack is -apple-system, then
+   Segoe UI, then Arial. That works, but it leaves the Arabic pages with no
+   named Naskh face and no say in the order.
+
+   Rubik stays FIRST in this stack on purpose: it still renders the Latin runs
+   (the collection names, the tier names, the partner names, SAR amounts) so
+   those keep the brand face, and the Arabic simply misses and falls through.
+   Nothing is fetched at runtime — this is a fallback list, not a webfont. */
+[dir="rtl"] {
+  --sans-ar: "Rubik", var(--font-rubik), "Segoe UI", "Noto Naskh Arabic",
+    "Noto Sans Arabic", "Geeza Pro", "Dubai", Tahoma, Arial, sans-serif;
+  font-family: var(--sans-ar);
+}
+
+/* Tracking is not a nicety in Arabic, it is damage: the script is cursive, and
+   letter-spacing pulls joined letters apart into something that reads as
+   broken text rather than as tight typography. Every tracked class that the
+   Arabic home puts Arabic words into is neutralised here.
+
+   .closebub h2 is excluded on purpose — it carries the Latin strapline and
+   should keep the tracking the English page gives it. */
+[dir="rtl"] .display,
+[dir="rtl"] .h2,
+[dir="rtl"] .kicker,
+[dir="rtl"] .trust div,
+[dir="rtl"] .trust b,
+[dir="rtl"] .lgt th,
+[dir="rtl"] .loc h3,
+[dir="rtl"] .citycard b,
+[dir="rtl"] .citycard .cc,
+[dir="rtl"] .pill,
+[dir="rtl"] .sec {
+  letter-spacing: normal;
+}
+
+/* Arabic sets deeper than Latin: the script hangs below the baseline and
+   reaches well above the x-height, so the display line-height the English
+   headline uses (0.98) collides. */
+[dir="rtl"] .display { line-height: 1.25; max-width: 20ch; }
+[dir="rtl"] .h2 { line-height: 1.35; }
+[dir="rtl"] .lede,
+[dir="rtl"] .deck { line-height: 1.8; }
+[dir="rtl"] .faqsec .ans { line-height: 1.9; }
+[dir="rtl"] .silent { line-height: 1.8; }
+
+/* ---- The two brand speech bubbles ----------------------------------- */
+
+/* border-radius takes four PHYSICAL corners and has no logical form that
+   browsers agree on, so it does not flip with direction. Both bubbles carry
+   their tail as a squared corner at the bottom-LEFT, and .pbub draws its
+   pointer with inset-inline-start — which DOES flip. Left alone under
+   dir="rtl" the drawn pointer moves to the right edge while the squared corner
+   stays on the left, and the bubble reads as a rendering fault. */
+[dir="rtl"] .pbub { border-radius: 20px 20px 3px 20px; }
+[dir="rtl"] .closebub { border-radius: 16px 16px 4px 16px; }
+
+/* ---- Numbers and money ---------------------------------------------- */
+
+/* A Latin currency code and Western digits inside an Arabic paragraph is one
+   left-to-right run embedded in a right-to-left one. Without isolation the
+   bidi algorithm resolves the run against its neighbours and an amount can end
+   up rendered with the code on the wrong side of the figure. */
+.armoney { unicode-bidi: -webkit-isolate; unicode-bidi: isolate; font-feature-settings: "tnum"; font-variant-numeric: tabular-nums; }
+
+/* ---- Arabic navigation strip ---------------------------------------- */
+
+/* The site header and footer are English and shared across both languages, so
+   without this an Arabic visitor has no Arabic navigation anywhere on the
+   page. */
+.arnav {
+  display: flex; flex-wrap: wrap; align-items: center; gap: 8px 18px;
+  margin-top: 26px; padding-top: 18px; border-top: 1px solid var(--line-2);
+  font-size: .93rem;
+}
+.arnav a { color: var(--rose); font-weight: 600; text-decoration: none; }
+.arnav a:hover { text-decoration: underline; }
+.arnav a:focus-visible { outline: 2.5px solid var(--rose); outline-offset: 3px; border-radius: 2px; }
+.arnav-lbl { font-family: var(--label); font-size: 11px; color: var(--muted); }
+
+/* Marks a link that leaves the Arabic site. Saying so is cheaper than the
+   visitor finding out by landing on an English page. */
+.arlangmark { font-family: var(--label); font-size: 11px; color: var(--muted); }
+
+.arledgercounts {
+  display: block; margin-top: 8px;
+  font-family: var(--label); font-size: 12.5px; color: var(--muted);
+}
+.arledgercounts b { color: var(--ink); font-weight: 700; }
+
+/* ---- Collections, server-rendered ----------------------------------- */
+
+/* The Arabic stand-in for <Tower>: the same collections, the same tiers, the
+   same prices and hours, laid out flat because the tower's own labels are
+   English and live in a file this work does not own. */
+.arcolls {
+  display: grid; grid-gap: 18px; gap: 18px; margin-top: 30px;
+  /* min() rather than a bare 300px: auto-fit still lays down one track at the
+     MINIMUM when the container is narrower than it, so a bare minmax(300px, 1fr)
+     pushes the cards past .bound and gives the whole page a horizontal scrollbar
+     at 320px, where --pad clamps to 18px and only 284px is left. Every other
+     auto-fit grid in this codebase stops at 280px for exactly that reason. */
+  grid-template-columns: repeat(auto-fit, minmax(min(300px, 100%), 1fr));
+}
+.arcoll {
+  background: var(--paper); border: 1px solid var(--line); border-radius: 8px;
+  padding: 22px; display: flex; flex-direction: column;
+}
+.arcoll-hd { display: flex; flex-wrap: wrap; align-items: baseline; gap: 6px 12px; }
+.arcoll-hd h3 { margin: 0; font-size: 1.2rem; font-weight: 700; }
+.arcoll-floor {
+  font-family: var(--label); font-size: 11px; letter-spacing: .05em; color: var(--muted);
+}
+.arcoll-tag { margin: 8px 0 0; color: var(--rose); font-weight: 600; font-size: .92rem; }
+.arcoll-blurb { margin: 10px 0 0; color: var(--ink-2); font-size: .93rem; line-height: 1.85; }
+
+.artiers {
+  list-style: none; margin: 18px 0 0; padding: 0; display: grid; grid-gap: 1px; gap: 1px;
+  background: var(--line); border: 1px solid var(--line); border-radius: 6px;
+  overflow: hidden;
+}
+.artier {
+  background: var(--paper); padding: 11px 13px;
+  display: flex; flex-wrap: wrap; align-items: baseline; gap: 5px 14px; font-size: .88rem;
+}
+.artier-name { font-weight: 640; }
+.artier-meta { color: var(--muted); }
+/* Logical, so the price sits against the outer edge in either direction. */
+.artier-price { -webkit-margin-start: auto; margin-inline-start: auto; font-weight: 640; white-space: nowrap; }
+
+/* On a phone the tier row would otherwise wrap the price onto a line of its
+   own with the whole row's width behind it; pushing it to the end of the flow
+   keeps each tier readable as one block. */
+@media (max-width: 560px) {
+  .artier { gap: 4px 10px; }
+  .artier-price { -webkit-margin-start: 0; margin-inline-start: 0; width: 100%; }
+}
+
 /*!*************************************************************************************************************************************************************************************************************************************************************!*\
   !*** css ./node_modules/next/dist/build/webpack/loaders/css-loader/src/index.js??ruleSet[1].rules[14].oneOf[10].use[2]!./node_modules/next/dist/build/webpack/loaders/postcss-loader/src/index.js??ruleSet[1].rules[14].oneOf[10].use[3]!./app/globals.css ***!
   \*************************************************************************************************************************************************************************************************************************************************************/
