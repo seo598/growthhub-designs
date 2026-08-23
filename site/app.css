@@ -1419,6 +1419,163 @@
   .artier-price { -webkit-margin-start: 0; margin-inline-start: 0; width: 100%; }
 }
 
+/*!**********************************************************************************************************************************************************************************************************************************************************************!*\
+  !*** css ./node_modules/next/dist/build/webpack/loaders/css-loader/src/index.js??ruleSet[1].rules[14].oneOf[10].use[2]!./node_modules/next/dist/build/webpack/loaders/postcss-loader/src/index.js??ruleSet[1].rules[14].oneOf[10].use[3]!./app/styles/ecosystem.css ***!
+  \**********************************************************************************************************************************************************************************************************************************************************************/
+/* The partner wordmark treatment — /ecosystem, /partners and /ar/partners.
+
+   NEW CLASS NAMES ONLY, per the note at the top of globals.css. Nothing here
+   touches .partnercard, .partnergrid, .pbub or .walldiag: those are still worn
+   by app/(site)/HomeSections.jsx and app/(site)/ar/HomeArSections.jsx, and the
+   home pages are not in this change. The partner pages moved off them onto the
+   .eco* / .pmark set below instead of restyling shared classes underneath two
+   other pages.
+
+   Everything here is light-on-light by construction. See PartnerMark.jsx rule
+   1: seven of the ten wordmarks are dark ink on transparent and disappear on a
+   dark ground, so there is no dark variant of a card in this file and there
+   must not be one. */
+
+/* The fourth wall: three drawn walls and a gap that never closes. Its own class
+   because the two .walldiag blocks in globals.css disagree about direction and
+   height, and this page should not depend on which of them wins. */
+.ecoWalls {
+  display: flex;
+  gap: 8px;
+  height: 10px;
+  width: 100%;
+  max-width: 520px;
+  margin: 4px 0 34px;
+}
+.ecoWalls i { flex: 1 1; background: var(--ink); border-radius: 2px; }
+.ecoWalls i:nth-child(2) { background: var(--ink-2); }
+.ecoWalls i:nth-child(3) { background: var(--muted); }
+.ecoWalls span { flex: 1 1; border: 1px dashed var(--line-2); border-radius: 2px; }
+
+/* What the tier means, directly under its heading and above its logos. */
+.ecoTierNote {
+  font-size: .92rem;
+  line-height: 1.55;
+  color: var(--ink-2);
+  max-width: 64ch;
+  margin: 0 0 14px;
+}
+
+/* One light plane, ruled into cells.
+
+   The rules are a 1px outset shadow on each CARD rather than a --line
+   background showing through a 1px grid gap, which is what .partnergrid and
+   .incl do. Those grids are auto-fill, so a tier with two partners in a
+   four-column row leaves two empty tracks — and with the mortar painted on the
+   grid, an empty track is a 570px slab of grey that reads as a broken tile.
+   Neighbouring cards overlap their shadows inside the 1px gap, so the ruling
+   still comes out as one continuous hairline, and empty tracks come out as
+   nothing at all. auto-fill and not auto-fit for the same reason: a card is the
+   same size in the tier with two partners as in the tier with ten.
+
+   min() on the track floor so a viewport narrower than one 260px column
+   shrinks the column instead of overflowing the page. */
+.ecoGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(min(260px, 100%), 1fr));
+  grid-gap: 1px;
+  gap: 1px;
+}
+
+.ecoCard {
+  background: var(--paper);
+  box-shadow: 0 0 0 1px var(--line);
+  padding: 20px 18px 18px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  min-width: 0;
+}
+
+/* The mark band. Fixed height so a logo card and a typeset-name card are the
+   same object — the reason a partner with no artwork does not read as a partner
+   with a missing image. Paints its own ground and its own ink; see rule 1. */
+.pmark {
+  min-height: 68px; /* = MARK_BAND in ./(site)/ecosystem/PartnerMark.jsx */
+  display: flex;
+  align-items: center;
+  margin: 0;
+  background: var(--paper);
+  color: var(--ink);
+}
+
+/* Trimmed and normalised at ingest, sized by PartnerMark's optical rule, and
+   drawn at exactly that size. height:auto keeps the ratio when max-width has to
+   clamp a wide mark in a narrow column; object-fit is the second guarantee that
+   nothing here is ever stretched or cropped. No filter, no greyscale hover —
+   these are other companies' trademarks. */
+.pmark img {
+  display: block;
+  max-width: 100%;
+  height: auto;
+  object-fit: contain;
+}
+
+/* The other legitimate wordmark: the name, set. Sized and tracked to carry the
+   band on its own rather than to look like a heading waiting for a picture. */
+.pmark-set {
+  font-family: var(--sans);
+  font-size: clamp(1.12rem, 1rem + .5vw, 1.3rem);
+  font-weight: 650;
+  letter-spacing: -.03em;
+  line-height: 1.16;
+  text-wrap: balance;
+  overflow-wrap: break-word;
+}
+
+.ecoBlurb {
+  margin: 0;
+  font-size: .89rem;
+  line-height: 1.55;
+  color: var(--ink-2);
+}
+
+/* "Profile pending" is true and stays on the page. It is --muted (5.56:1 on
+   paper, clear of the 4.5:1 the 13px it renders at needs) and a step down in
+   size from .ecoBlurb, so it reads as the quieter thing it is. It is NOT
+   --amber: that is this stylesheet's warning colour, and a partner who has not
+   sent a paragraph is not a fault condition. */
+.ecoPending {
+  margin: 0;
+  font-size: .82rem;
+  line-height: 1.5;
+  color: var(--muted);
+}
+
+.ecoVisit {
+  margin-top: auto;
+  padding-top: 4px;
+  align-self: start;
+  font-family: var(--label);
+  font-size: 10.5px;
+  letter-spacing: .09em;
+  text-transform: uppercase;
+  font-weight: 600;
+  color: var(--rose);
+  text-decoration: none;
+  overflow-wrap: anywhere;
+}
+.ecoVisit:hover { text-decoration: underline; }
+
+/* The count of unwritten profiles, stated once at the foot of the directory
+   rather than shouted on each card. */
+.ecoGap {
+  border: 1px dashed var(--line-2);
+  padding: 14px 16px;
+  margin: 26px 0;
+  max-width: 70ch;
+  font-size: .88rem;
+  line-height: 1.6;
+  color: var(--ink-2);
+}
+.ecoGap b { display: block; color: var(--ink); margin-bottom: 4px; font-size: .92rem; }
+.ecoGap a { color: var(--rose); font-weight: 600; }
+
 /*!*************************************************************************************************************************************************************************************************************************************************************!*\
   !*** css ./node_modules/next/dist/build/webpack/loaders/css-loader/src/index.js??ruleSet[1].rules[14].oneOf[10].use[2]!./node_modules/next/dist/build/webpack/loaders/postcss-loader/src/index.js??ruleSet[1].rules[14].oneOf[10].use[3]!./app/globals.css ***!
   \*************************************************************************************************************************************************************************************************************************************************************/
@@ -1607,7 +1764,12 @@ h2.sec { font-weight: 650; letter-spacing: -.018em; font-size: 1.15rem; margin: 
 
 /* ---------- S1: admin shell ---------- */
 .admin-wrap { display: grid; grid-template-columns: 224px minmax(0, 1fr); min-height: 100vh; }
-@media (max-width: 860px) { .admin-wrap { grid-template-columns: 1fr; } }
+/* minmax(0, 1fr), matching the desktop rule directly above. A bare `1fr` takes
+   its automatic minimum from the MIN-CONTENT of the track, which here is a
+   700px-wide table — so on a phone the whole admin document scrolled sideways to
+   ~738px and .atable's own correct scroll container never came into play. The
+   desktop rule had this right; only the override dropped it. */
+@media (max-width: 860px) { .admin-wrap { grid-template-columns: minmax(0, 1fr); } }
 .admin-side { background: var(--night); color: var(--night-ink); padding: 22px 18px; display: flex; flex-direction: column; gap: 22px; }
 .admin-nav { display: flex; flex-direction: column; gap: 2px; }
 .admin-nav a { text-decoration: none; font-size: .93rem; font-weight: 560; color: var(--night-muted); padding: 9px 10px; border-radius: 2px; }
@@ -1695,7 +1857,10 @@ h2.sec { font-weight: 650; letter-spacing: -.018em; font-size: 1.15rem; margin: 
 .typechip { display: inline-flex; align-items: center; gap: 8px; border: 1px solid var(--line-2); background: var(--paper); padding: 8px 13px; border-radius: 2px; text-decoration: none; font-size: .9rem; font-weight: 560; color: var(--ink-2); }
 .typechip:hover { border-color: var(--rose); color: var(--rose-deep); }
 .typechip .num { font-size: 10px; color: var(--muted); background: var(--shell); padding: 2px 6px; border-radius: 2px; }
-.typechip-quiet { opacity: .62; }
+/* Quiet by weight, not by fade: opacity .62 composited --ink-2 to 3.23:1 on a
+   .9rem/560 link. The chip is meant to read as secondary, which colour and
+   weight already do without pushing it under AA. */
+.typechip-quiet { color: var(--ink-2); font-weight: 500; }
 .citygrid { display: grid; grid-gap: 12px; gap: 12px; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); }
 .citycard { background: var(--paper); border: 1px solid var(--line); padding: 18px 17px; text-decoration: none; display: flex; flex-direction: column; gap: 4px; min-height: 104px; }
 .citycard:hover { border-color: var(--rose); background: var(--rose-wash); }
@@ -2220,7 +2385,11 @@ h2.sec { font-weight: 650; letter-spacing: -.018em; font-size: 1.15rem; margin: 
 .hsearch-tabs > label {
   order: -1; cursor: pointer; -webkit-user-select: none; -moz-user-select: none; user-select: none;
   padding: 11px 20px; font-weight: 600; font-size: .93rem;
-  color: var(--muted-2); background: transparent;
+  /* --muted, not --muted-2. This is .93rem/600 TEXT, and --muted-2 on --shell
+     measures 2.87:1. scripts/contrast.mjs asserts --muted-2 only as a NON-TEXT
+     pair at 3:1, so the token was being used outside the one condition the test
+     vouches for and nothing failed. --muted gives 5.14:1. */
+  color: var(--muted); background: transparent;
   border: 1px solid transparent; border-bottom: 0;
   border-radius: 6px 6px 0 0;
 }
@@ -2376,7 +2545,11 @@ h2.sec { font-weight: 650; letter-spacing: -.018em; font-size: 1.15rem; margin: 
 
 /* ---- search toolbar (P3-S6) ---- */
 .h1count { font-size: .95rem; font-weight: 600; color: var(--muted); -webkit-margin-start: 12px; margin-inline-start: 12px; letter-spacing: 0; }
-.modes .mode small { display: block; font-size: 11px; font-weight: 500; opacity: .7; margin-top: 2px; }
+/* No opacity. --muted is chosen to pass at 5.56:1; fading it to .7 composites to
+   #9c9395 and 2.99:1. Dimming a token that was picked for its contrast throws
+   away the reason it was picked, and at 11px this is the smallest text on the
+   toolbar. */
+.modes .mode small { display: block; font-size: 11px; font-weight: 500; margin-top: 2px; }
 .chips { display: flex; flex-wrap: wrap; gap: 8px; margin: 16px 0 4px; }
 .chip {
   display: inline-flex; align-items: center; gap: 8px; text-decoration: none;
