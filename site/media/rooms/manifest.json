@@ -1,0 +1,146 @@
+[
+  {
+    "slug": "synergy-1",
+    "sourceWidth": 1200,
+    "sourceHeight": 1600,
+    "croppedBottomPct": 8,
+    "width": 1200,
+    "height": 1472,
+    "url": "/media/rooms/synergy-1-1200.jpg"
+  },
+  {
+    "slug": "fusion-2",
+    "sourceWidth": 1200,
+    "sourceHeight": 1600,
+    "croppedBottomPct": 8,
+    "width": 1200,
+    "height": 1472,
+    "url": "/media/rooms/fusion-2-1200.jpg"
+  },
+  {
+    "slug": "spark-1",
+    "sourceWidth": 1500,
+    "sourceHeight": 1463,
+    "croppedBottomPct": 0,
+    "width": 1200,
+    "height": 1170,
+    "url": "/media/rooms/spark-1-1200.jpg"
+  },
+  {
+    "slug": "spark-2",
+    "sourceWidth": 1500,
+    "sourceHeight": 1582,
+    "croppedBottomPct": 0,
+    "width": 1200,
+    "height": 1266,
+    "url": "/media/rooms/spark-2-1200.jpg"
+  },
+  {
+    "slug": "spark-3",
+    "sourceWidth": 1457,
+    "sourceHeight": 1600,
+    "croppedBottomPct": 0,
+    "width": 1200,
+    "height": 1318,
+    "url": "/media/rooms/spark-3-1200.jpg"
+  },
+  {
+    "slug": "spark-4",
+    "sourceWidth": 1200,
+    "sourceHeight": 1600,
+    "croppedBottomPct": 8,
+    "width": 1200,
+    "height": 1472,
+    "url": "/media/rooms/spark-4-1200.jpg"
+  },
+  {
+    "slug": "catalyst-4",
+    "sourceWidth": 1200,
+    "sourceHeight": 1600,
+    "croppedBottomPct": 8,
+    "width": 1200,
+    "height": 1472,
+    "url": "/media/rooms/catalyst-4-1200.jpg"
+  },
+  {
+    "slug": "catalyst-3",
+    "sourceWidth": 1200,
+    "sourceHeight": 1600,
+    "croppedBottomPct": 8,
+    "width": 1200,
+    "height": 1472,
+    "url": "/media/rooms/catalyst-3-1200.jpg"
+  },
+  {
+    "slug": "catalyst-1",
+    "sourceWidth": 1200,
+    "sourceHeight": 1600,
+    "croppedBottomPct": 8,
+    "width": 1200,
+    "height": 1472,
+    "url": "/media/rooms/catalyst-1-1200.jpg"
+  },
+  {
+    "slug": "catalyst-2",
+    "sourceWidth": 1200,
+    "sourceHeight": 1600,
+    "croppedBottomPct": 8,
+    "width": 1200,
+    "height": 1472,
+    "url": "/media/rooms/catalyst-2-1200.jpg"
+  },
+  {
+    "slug": "skybridge-3",
+    "sourceWidth": 1200,
+    "sourceHeight": 1600,
+    "croppedBottomPct": 8,
+    "width": 1200,
+    "height": 1472,
+    "url": "/media/rooms/skybridge-3-1200.jpg"
+  },
+  {
+    "slug": "skybridge-1",
+    "sourceWidth": 1200,
+    "sourceHeight": 1600,
+    "croppedBottomPct": 8,
+    "width": 1200,
+    "height": 1472,
+    "url": "/media/rooms/skybridge-1-1200.jpg"
+  },
+  {
+    "slug": "skybridge-2",
+    "sourceWidth": 1200,
+    "sourceHeight": 1600,
+    "croppedBottomPct": 8,
+    "width": 1200,
+    "height": 1472,
+    "url": "/media/rooms/skybridge-2-1200.jpg"
+  },
+  {
+    "slug": "skybridge-4",
+    "sourceWidth": 1200,
+    "sourceHeight": 1600,
+    "croppedBottomPct": 8,
+    "width": 1200,
+    "height": 1472,
+    "url": "/media/rooms/skybridge-4-1200.jpg"
+  },
+  {
+    "slug": "momentum-1",
+    "sourceWidth": 1200,
+    "sourceHeight": 1600,
+    "croppedBottomPct": 8,
+    "width": 1200,
+    "height": 1472,
+    "url": "/media/rooms/momentum-1-1200.jpg"
+  },
+  {
+    "slug": "momentum-2",
+    "sourceWidth": 1200,
+    "sourceHeight": 1600,
+    "croppedBottomPct": 8,
+    "width": 1200,
+    "height": 1472,
+    "url": "/media/rooms/momentum-2-1200.jpg"
+  }
+]

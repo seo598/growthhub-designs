@@ -221,9 +221,9 @@
    "file": "workspaces/saudi-arabia/al-khobar/growth-hub-al-khobar/index.html"
   },
   {
-   "route": "/workspaces/bahrain/adliya/growth-hub-adliya",
+   "route": "/workspaces/bahrain/adliya/fahdan",
    "area": "public",
-   "file": "workspaces/bahrain/adliya/growth-hub-adliya/index.html"
+   "file": "workspaces/bahrain/adliya/fahdan/index.html"
   },
   {
    "route": "/workspaces/bahrain/manama/growth-hub-diplomatic-area",
@@ -331,29 +331,59 @@
    "file": "book/117/index.html"
   },
   {
-   "route": "/book/118",
+   "route": "/book/124",
    "area": "account",
-   "file": "book/118/index.html"
+   "file": "book/124/index.html"
   },
   {
-   "route": "/book/119",
+   "route": "/book/125",
    "area": "account",
-   "file": "book/119/index.html"
+   "file": "book/125/index.html"
   },
   {
-   "route": "/book/120",
+   "route": "/book/126",
    "area": "account",
-   "file": "book/120/index.html"
+   "file": "book/126/index.html"
   },
   {
-   "route": "/book/121",
+   "route": "/book/127",
    "area": "account",
-   "file": "book/121/index.html"
+   "file": "book/127/index.html"
   },
   {
-   "route": "/book/122",
+   "route": "/book/128",
    "area": "account",
-   "file": "book/122/index.html"
+   "file": "book/128/index.html"
+  },
+  {
+   "route": "/book/129",
+   "area": "account",
+   "file": "book/129/index.html"
+  },
+  {
+   "route": "/book/130",
+   "area": "account",
+   "file": "book/130/index.html"
+  },
+  {
+   "route": "/book/131",
+   "area": "account",
+   "file": "book/131/index.html"
+  },
+  {
+   "route": "/book/132",
+   "area": "account",
+   "file": "book/132/index.html"
+  },
+  {
+   "route": "/book/133",
+   "area": "account",
+   "file": "book/133/index.html"
+  },
+  {
+   "route": "/book/134",
+   "area": "account",
+   "file": "book/134/index.html"
   },
   {
    "route": "/admin/login",
@@ -709,6 +739,17 @@
   "/admin/spaces/120",
   "/admin/spaces/121",
   "/admin/spaces/122",
+  "/admin/spaces/124",
+  "/admin/spaces/125",
+  "/admin/spaces/126",
+  "/admin/spaces/127",
+  "/admin/spaces/128",
+  "/admin/spaces/129",
+  "/admin/spaces/130",
+  "/admin/spaces/131",
+  "/admin/spaces/132",
+  "/admin/spaces/133",
+  "/admin/spaces/134",
   "/api/v1/reports/bookings",
   "/workspaces?city=adliya&sort=asc",
   "/workspaces?city=adliya&sort=desc",
