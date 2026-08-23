@@ -325,6 +325,21 @@
 .vcal-part { background: var(--rose-wash); border-color: var(--rose-300); color: var(--rose-deep); }
 .vcal-closed { background: var(--shell); border-color: var(--line-2); color: var(--muted); }
 
+/* Seven 38px tracks plus six 4px gaps is 290px, and the card's own 16px padding
+   and 1px border take the block to 324px. `width: fit-content` then refuses to
+   go below that, so on a 320px phone — where .bound leaves 284px — the calendar
+   pushed the whole document sideways: documentElement.scrollWidth measured 342
+   against a 320px viewport on the Al-Khobar venue page, in the running app and
+   in the published mirror alike. Below 380px the card fills its column and the
+   seven day columns share whatever that is; the cells stay square because the
+   grid is only legible as one. Nothing here is interactive, so shrinking a cell
+   costs no tap target. */
+@media (max-width: 380px) {
+  .vcal { width: auto; }
+  .vcal-grid { grid-template-columns: repeat(7, minmax(0, 1fr)); }
+  .vcal-day { height: auto; aspect-ratio: 1 / 1; }
+}
+
 .vcal-key { display: flex; flex-wrap: wrap; gap: 6px 14px; margin: 12px 0 0; font-size: 11.5px; color: var(--muted); }
 .vcal-key span { display: inline-flex; align-items: center; gap: 6px; }
 /* Swatches carry no text, so the decorative rose is legitimate here — and each
