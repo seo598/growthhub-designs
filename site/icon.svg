@@ -1,19 +1,22 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" role="img" aria-label="GrowthHub">
-  <!-- A favicon is 16 CSS pixels. The mark's whole idea is a speech bubble with
-       "hub" reversed inside it, but the full word turns to mush at that size —
-       rendered and checked, not assumed. So the tab carries the bubble
-       silhouette and a single letterform, and the 180px apple icon carries the
-       whole word where there is room for it.
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 124 130" role="img" aria-label="GrowthHub">
+  <!-- The mark exactly as <Logo mark /> draws it in app/Logo.jsx: same circle,
+       same tail path, same white "hub" reversed inside it.
 
-       The tile is filled rather than a floating bubble because a transparent
-       icon disappears against a dark tab strip; both were rendered on light and
-       dark and the charcoal-tiled version was the one that vanished.
+       The previous favicon was an inversion — a WHITE bubble with a rose letter
+       on a rose tile — and at tab size that reads as a capital Q, because a
+       white disc inside a rose ring is a Q's counter and the tail is its
+       descender. The client said so. A filled rose bubble with white type
+       inside cannot be misread that way, and it is what the brand actually is.
 
-       font-family is the generic sans-serif keyword on purpose: a favicon is
-       rasterised outside the page, so a webfont or a named family that happens
-       not to exist falls back silently and moves the glyph off centre. -->
-  <rect width="64" height="64" rx="14" fill="#A9425A"/>
-  <circle cx="31" cy="28" r="20" fill="#FFFFFF"/>
-  <path d="M45 40 L52 58 Q38 52 31 48 Z" fill="#FFFFFF"/>
-  <text x="31" y="37" text-anchor="middle" font-family="sans-serif" font-size="26" font-weight="700" fill="#A9425A">h</text>
+       Rendered at 16, 32 and 180 on a light and a dark tab strip before
+       shipping. "hub" is a smudge at a true 16px and legible at 32, which is
+       what a hi-DPI tab renders; the bubble silhouette carries recognition at
+       both. No tile: the rose holds against a dark strip on its own.
+
+       font-family is the generic sans-serif keyword because a favicon is
+       rasterised outside the page, where a named family may not exist. -->
+  <circle cx="62" cy="58" r="50" fill="#D2758B"/>
+  <path d="M100 90 L112 122 Q86 112 72 106 Z" fill="#D2758B" stroke="#D2758B" stroke-width="3" stroke-linejoin="round"/>
+  <text x="62" y="73" text-anchor="middle" textLength="77" lengthAdjust="spacingAndGlyphs"
+        font-family="sans-serif" font-size="41" font-weight="600" fill="#FFFFFF">hub</text>
 </svg>
