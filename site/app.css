@@ -1576,6 +1576,199 @@
 .ecoGap b { display: block; color: var(--ink); margin-bottom: 4px; font-size: .92rem; }
 .ecoGap a { color: var(--rose); font-weight: 600; }
 
+/*!***********************************************************************************************************************************************************************************************************************************************************************!*\
+  !*** css ./node_modules/next/dist/build/webpack/loaders/css-loader/src/index.js??ruleSet[1].rules[14].oneOf[10].use[2]!./node_modules/next/dist/build/webpack/loaders/postcss-loader/src/index.js??ruleSet[1].rules[14].oneOf[10].use[3]!./app/styles/nav-mobile.css ***!
+  \***********************************************************************************************************************************************************************************************************************************************************************/
+/* ---- The header at phone widths ------------------------------------- *
+
+   THE DEFECT THIS REPLACES
+   .nav-links was a plain wrapping flex row, so the nine header links stacked
+   one per row on a phone. Measured on the running app:
+
+       320px   456px of header   63% of a 720px viewport
+       375px   278px             34%
+       480px   159px  (3 rows)
+       680px    99px  (2 rows)
+      1150px    69px  (1 row)
+
+   The third row appears at or below 670px in the English shell and 600px in
+   the Arabic one. 720px is the first stop above BOTH — it leaves ~50px of
+   headroom before the three-row cliff returns if a label ever grows — and it
+   is the breakpoint globals.css ALREADY uses for the hero search fields. One
+   phone boundary for the whole site, not two that can drift apart.
+
+   WHY THERE IS NO SCRIPT
+   The published mirror strips every <script> before writing its pages, so a
+   JS toggle would collapse the navigation there and never open it again. The
+   open/closed state is therefore <details>'s own `open` attribute, which the
+   browser sets natively on activation and CSS can select.
+
+   WHY THE PANEL IS A SIBLING OF THE TOGGLE, NOT ITS CHILD
+   The obvious shape — links INSIDE the <details> — puts desktop at the mercy
+   of the UA stylesheet, which hides a non-open details' content through a
+   mechanism that has changed twice (light-DOM `display`, then
+   ::details-content). Above the breakpoint the nav must be permanently
+   visible, and "the whole navigation disappears in an engine I could not
+   test" is not a risk worth a nicer DOM. So <details> holds ONLY the button,
+   the panel is the next sibling, and the reveal is
+
+       .navtoggle[open] ~ .nav-links
+
+   which depends on nothing but the attribute selector. Desktop never consults
+   the details at all: outside the media query below, this sheet does not
+   touch .nav-links, .nav-in or .logo, and the toggle is display:none.
+
+   WHY THE SELECTORS ARE COMPOUND
+   globals.css @imports this file at the TOP and then declares
+   `.nav-links { display: flex }`, `.nav-in { … }`, `.logo { … }` and
+   `.btn { display: inline-flex }` further down. A bare `.nav-links` here
+   loses that tie on source order and the panel would stand permanently open
+   on a phone; a bare `.navbar-cta { display: none }` loses to `.btn` and the
+   phone-only CTA would appear on the desktop bar as a tenth link. Every rule
+   that touches an element globals.css also styles is qualified so it wins on
+   specificity rather than on position. lib/navGuard.js asserts this rather
+   than trusting the next editor to remember it. */
+
+/* Desktop is the default state and is stated here, not inside a media query,
+   so that above 720px this sheet contributes exactly two declarations and
+   changes no measurement. */
+.nav-in > .navtoggle,
+.nav-in > .navbar-cta { display: none; }
+
+/* Replaces the two inline `margin*: auto` styles the shells used to carry —
+   English wrote marginLeft, Arabic marginInlineStart, and only the logical
+   one is right in both directions. An inline style also cannot be undone by
+   the media query below, and in a column panel an auto side margin drags the
+   item off the edge. */
+.nav-push { -webkit-margin-start: auto; margin-inline-start: auto; }
+
+@media (max-width: 720px) {
+  /* .nav-in is a flex ROW that now wraps, so the panel can take a line of its
+     own beneath the bar. row-gap 0: the panel draws its own rules and a 22px
+     trench above it read as a broken header. */
+  .nav .nav-in { flex-wrap: wrap; column-gap: 12px; row-gap: 0; }
+
+  /* Pushes the CTA and the toggle to the far end. Logical, so under RTL they
+     land on the left, where an Arabic reader's thumb expects them. */
+  .nav-in > .logo { -webkit-margin-end: auto; margin-inline-end: auto; }
+  /* 320px is the tightest case: logo + CTA + toggle have to share 284px of
+     content box. 26px of wordmark instead of 30 buys the 11px that keeps the
+     row off the edge. Measured, not guessed. */
+  .nav-in > .logo .logo-mark { height: 26px; }
+
+  /* The auto margin is what makes "My account" (English) and the
+     بالإنجليزية group (Arabic) sit at the far end of the DESKTOP bar. In a
+     stacked panel it would shrink the item to its text and shove it to one
+     side, so it is cancelled rather than inherited. */
+  .nav-in .nav-push { -webkit-margin-start: 0; margin-inline-start: 0; }
+
+  /* ---- what stays visible when the panel is shut ---------------------- */
+
+  /* "Book a viewing" is the site's primary call to action and the only thing
+     a cold phone visitor is being asked to do, so it stays on the bar. "My
+     account" goes inside: it is a returning customer's action, and a
+     returning customer will open a menu for it. The panel's own copy of the
+     CTA is hidden below so exactly ONE "Book a viewing" exists at any width —
+     two identical links in the tree is a screen-reader defect, not a detail. */
+  .nav-in > .navbar-cta { display: inline-flex; }
+  .nav-in .nav-links .nav-cta { display: none; }
+
+  /* ---- the toggle ------------------------------------------------------ */
+
+  .nav-in > .navtoggle { display: block; }
+
+  /* summary, not a label+checkbox: this is the one control HTML exposes as a
+     disclosure BUTTON with an announced expanded/collapsed state, keyboard
+     operable with Enter and Space, and it needs no ARIA and no script to do
+     it. A checkbox can carry a checked state but not an expanded one, and a
+     <label> is not a button to a screen reader. */
+  .navtoggle > summary {
+    display: inline-flex; align-items: center; gap: 8px;
+    /* 40px so the tap target clears the 24x24 minimum with room to spare. */
+    min-height: 40px; padding: 8px 11px;
+    font-family: var(--label); font-size: .82rem; font-weight: 650;
+    letter-spacing: .04em;
+    /* --ink-2 on --paper is 8.78:1; the 1px boundary is --muted-2 at 3.11:1.
+       Both are rows in scripts/contrast.mjs, entered as the conditions this
+       control actually ships rather than as bare tokens. */
+    color: var(--ink-2); background: var(--paper);
+    border: 1px solid var(--muted-2); border-radius: 2px;
+    cursor: pointer; -webkit-user-select: none; -moz-user-select: none; user-select: none;
+    /* Two removals, because the engines hide the disclosure triangle
+       differently and neither line is enough on its own. */
+    list-style: none;
+  }
+  .navtoggle > summary::-webkit-details-marker { display: none; }
+  .navtoggle > summary::marker { content: ""; }
+
+  /* The state is announced either way; this is the sighted half of it.
+     --rose on --paper is 5.81:1, already asserted. */
+  .navtoggle[open] > summary { color: var(--rose); border-color: var(--rose); }
+
+  .navtoggle-bars {
+    box-sizing: border-box; flex: none;
+    width: 17px; height: 12px; position: relative;
+    border-top: 2px solid currentColor; border-bottom: 2px solid currentColor;
+  }
+  .navtoggle-bars::before {
+    content: ""; position: absolute; inset-inline: 0; top: 50%;
+    height: 2px; margin-top: -1px; background: currentColor;
+  }
+
+  /* ---- the panel ------------------------------------------------------- */
+
+  /* Pushes the page down rather than overlaying it. With no script there is
+     nothing to dismiss an overlay by tapping outside it, and a fixed sheet
+     over a statically captured mirror page would trap the reader with no way
+     back. Pushing keeps the toggle in view directly above the panel, so the
+     tap that closes it is the tap that opened it. */
+  .nav-in > .nav-links {
+    order: 1; flex-basis: 100%; width: 100%;
+    /* display:none only while the disclosure is CLOSED, which is precisely
+       when the links are meant to be unavailable — the same thing a native
+       details does to its own content. Nothing here hides something that is
+       still meant to be reachable. */
+    display: none;
+    flex-direction: column; align-items: stretch;
+    gap: 0; margin: 0;
+  }
+  .nav-in > .navtoggle[open] ~ .nav-links { display: flex; }
+
+  /* 44px rows. The old 6px padding was sized for a bar, and a 26px row is
+     below every touch-target guideline there is.
+
+     border-TOP, not bottom: the panel's last visible link is not its last
+     CHILD — the hidden CTA is — so a :last-child exception would have fired
+     on an invisible element and left a stray rule above the header's own
+     border. Top rules need no exception, and the first one doubles as the
+     line under the bar. */
+  .nav-in > .nav-links a {
+    display: block; padding: 13px 2px; font-size: .95rem;
+    border-top: 1px solid var(--line); border-bottom-color: transparent;
+  }
+  /* The desktop hover draws a 2px rose underline; on a full-width row that
+     reads as a divider that moved, so the row tints instead. --ink on
+     --rose-wash is 13:1. */
+  .nav-in > .nav-links a:hover {
+    border-bottom-color: transparent; background: var(--rose-wash); color: var(--ink);
+  }
+
+  /* The Arabic English-only group. Its label carries the id that every link
+     in the group points aria-describedby at, so the group must keep its
+     wrapper and the label must keep rendering — losing it would mean an
+     Arabic reader is dropped into English with no warning. Stacked, with the
+     label reading as a heading over the rows it describes. */
+  .nav-in .nav-links .navlang {
+    display: flex; flex-direction: column; align-items: stretch;
+    gap: 0; width: 100%;
+  }
+  .nav-in .nav-links .navlang-lbl {
+    padding: 14px 2px 5px; border-top: 1px solid var(--line);
+  }
+  /* The label above it already drew the rule. */
+  .nav-in .nav-links .navlang > a:first-of-type { border-top: 0; }
+}
+
 /*!*************************************************************************************************************************************************************************************************************************************************************!*\
   !*** css ./node_modules/next/dist/build/webpack/loaders/css-loader/src/index.js??ruleSet[1].rules[14].oneOf[10].use[2]!./node_modules/next/dist/build/webpack/loaders/postcss-loader/src/index.js??ruleSet[1].rules[14].oneOf[10].use[3]!./app/globals.css ***!
   \*************************************************************************************************************************************************************************************************************************************************************/
@@ -1593,6 +1786,10 @@
    rule below, and var() resolves at use time, so cascade order is not load
    bearing. Split by area so separate pieces of work cannot clobber each other
    in one 1000-line file. */
+/* Last, so that where it and an earlier sheet name the same element (the
+   Arabic .navlang group) the phone rules win the tie on source order. It
+   never relies on that against globals.css itself — see the header of the
+   file for why every one of its selectors is compound. */
 :root {
   --ink: #2B2B2B;
   --ink-2: #50494A;
