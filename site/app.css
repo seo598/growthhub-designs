@@ -292,6 +292,15 @@
 
 .vgal-lead { position: relative; margin: 0; overflow: hidden; border: 1px solid var(--line); border-radius: 6px; background: var(--shell); }
 .vgal-lead img { display: block; width: 100%; height: auto; aspect-ratio: 16 / 9; object-fit: cover; }
+/* Past the breakpoint the lead sits beside the rail, and a grid row is as tall
+   as its tallest item. A 16/9 lead against a stacked rail therefore left the
+   lead's panel showing --shell for the whole remaining height — a pale empty
+   box under every venue photograph on the site. The lead fills the row instead,
+   which is also why the rail is capped: see .vgal-more. */
+@media (min-width: 760px) {
+  .vgal-lead { height: 100%; }
+  .vgal-lead img { height: 100%; aspect-ratio: auto; min-height: 280px; }
+}
 /* The room this frame was attached to, over the image. Solid paper rather than
    a translucent wash — text on a photograph has no contrast guarantee at all. */
 .vgal-tag {
@@ -300,11 +309,24 @@
   padding: 4px 9px; font-size: 11px; font-weight: 600; letter-spacing: .04em;
 }
 
-.vgal-rail { list-style: none; margin: 0; padding: 0; display: grid; grid-gap: 8px; gap: 8px; grid-template-columns: repeat(4, 1fr); }
+/* Three across below the breakpoint, not four: VenueGallery caps the rail at
+   RAIL_MAX = 3, so a fourth column was always an empty cell on a phone. The two
+   numbers have to move together. */
+.vgal-rail { list-style: none; margin: 0; padding: 0; display: grid; grid-gap: 8px; gap: 8px; grid-template-columns: repeat(3, 1fr); }
 @media (min-width: 760px) { .vgal-rail { grid-template-columns: 1fr; } }
 .vgal-rail li { position: relative; margin: 0; border: 1px solid var(--line); border-radius: 6px; overflow: hidden; background: var(--shell); }
 .vgal-rail img { display: block; width: 100%; height: auto; aspect-ratio: 16 / 9; object-fit: cover; }
 .vgal-cap { display: block; padding: 6px 9px; font-size: .78rem; color: var(--muted); line-height: 1.35; }
+
+/* Frames past the rail cap. The rail is one column beside a 2.2fr lead, so each
+   thumbnail is tall relative to its width and three of them already make the
+   lead roughly square; a fourth starts stretching it into a portrait crop. The
+   surplus runs full width underneath rather than being dropped, because a
+   gallery that silently shows five of eight reads as "this is all of them". */
+.vgal-more { list-style: none; margin: 8px 0 0; padding: 0; display: grid; grid-gap: 8px; gap: 8px; grid-template-columns: repeat(2, 1fr); }
+@media (min-width: 760px) { .vgal-more { grid-template-columns: repeat(4, 1fr); } }
+.vgal-more li { position: relative; margin: 0; border: 1px solid var(--line); border-radius: 6px; overflow: hidden; background: var(--shell); }
+.vgal-more img { display: block; width: 100%; height: auto; aspect-ratio: 16 / 9; object-fit: cover; }
 
 /* ---- availability -------------------------------------------------------
    A read-only calendar. Nothing here is a button: every cell is a fact about
@@ -1673,9 +1695,47 @@
   .nav-in > .navbar-cta { display: inline-flex; }
   .nav-in .nav-links .nav-cta { display: none; }
 
+  /* Arabic only: the bar CTA opens an English page and says so on a second
+     line, because the label it would otherwise have pointed at with
+     aria-describedby is inside the shut panel. Stacking keeps the button as
+     narrow as its longest word, which is what makes logo + CTA + toggle fit
+     across 284px at 320. --rose-100 (#F8E7EB) on --rose measures 4.88:1, and
+     scripts/contrast.mjs asserts it as its OWN row, "nav CTA 9.5px note on
+     --rose". Do not fold it into ".cfgtotal .lbl on --rose": that row is a
+     different colour (#FCE7EC, 4.92:1), and 9.5px text has no margin to
+     inherit someone else's reading. */
+  .nav-in > .navbar-cta { flex-direction: column; align-items: center; gap: 1px; }
+  .navbar-cta-note {
+    font-family: var(--label); font-size: 9.5px; font-weight: 600;
+    letter-spacing: .04em; color: var(--rose-100);
+  }
+
   /* ---- the toggle ------------------------------------------------------ */
 
-  .nav-in > .navtoggle { display: block; }
+  /* min-height: inherit is the whole point of this rule, and it is not a
+     tidy-up. The bar's 68px comes from `.nav-in { min-height: 68px }` in
+     globals.css, which sizes the CONTAINER. The moment `flex-wrap: wrap`
+     above lets the panel take a second line, the container is 450px of
+     content and its min-height stops constraining anything, so the first
+     line collapses to its tallest item — the 40px toggle. Measured before
+     this rule existed: opening the menu at 320px moved the logo and the
+     hamburger 14px UP (7px in Arabic, whose CTA is two lines), and left the
+     toggle's top border sitting on y=0, flush against the top edge of the
+     page. The bar visibly reflowed as a side effect of opening the menu.
+
+     Giving the toggle the bar's own minimum height holds the first line at
+     68px whether or not there is a second one, so the logo, the CTA and the
+     toggle do not move at all between the two states.
+
+     `inherit` rather than a second `68px`: it takes .nav-in's computed
+     min-height, so the two cannot drift apart if that number is ever
+     changed. display:flex + align-items:center rather than block, because a
+     68px block would park the 40px summary at the TOP of the box instead of
+     centring it, and the default `stretch` would pull the button to 68px
+     tall. */
+  .nav-in > .navtoggle {
+    display: flex; align-items: center; min-height: inherit;
+  }
 
   /* summary, not a label+checkbox: this is the one control HTML exposes as a
      disclosure BUTTON with an announced expanded/collapsed state, keyboard
@@ -1743,7 +1803,7 @@
      border. Top rules need no exception, and the first one doubles as the
      line under the bar. */
   .nav-in > .nav-links a {
-    display: block; padding: 13px 2px; font-size: .95rem;
+    display: block; padding: 12px 2px; font-size: .95rem; line-height: 1.4;
     border-top: 1px solid var(--line); border-bottom-color: transparent;
   }
   /* The desktop hover draws a 2px rose underline; on a full-width row that
@@ -1767,6 +1827,30 @@
   }
   /* The label above it already drew the rule. */
   .nav-in .nav-links .navlang > a:first-of-type { border-top: 0; }
+}
+
+/* The word beside the hamburger is worth its width wherever there is width
+   for it — a labelled toggle is found faster than a bare glyph — but at 320px
+   the bar has 284px of content box and wanted 73 (wordmark) + 125 (CTA) + 87
+   (labelled toggle) + two 12px gaps = 309. It wrapped, and the toggle landed
+   on a second row under the logo: a 78.5px header instead of 68. 400px is
+   where the sum stops exceeding the box; measured, not rounded to.
+
+   This is a CONTENT threshold inside the phone range, not a second layout
+   boundary — 720px is still the only place the header changes shape.
+
+   Clipped, not display:none: these are the declarations globals.css:684
+   already uses for .sr-only, and they leave the word in the accessible name,
+   so a screen reader still announces "Menu" / "القائمة" on the narrowest
+   phone. An aria-label swapped in at a breakpoint could not do that — the
+   attribute would have to be in the markup at every width or none. */
+@media (max-width: 400px) {
+  .navtoggle-btn > .navtoggle-txt {
+    position: absolute; width: 1px; height: 1px; overflow: hidden;
+    clip: rect(0 0 0 0); white-space: nowrap;
+  }
+  /* No text to sit beside, so no gap — and the glyph centres in its box. */
+  .navtoggle > summary { gap: 0; padding-inline: 12px; }
 }
 
 /*!*************************************************************************************************************************************************************************************************************************************************************!*\
