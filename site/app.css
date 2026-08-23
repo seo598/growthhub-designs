@@ -1008,9 +1008,16 @@
 
    Bleeds to the card edge, so the caption has to pay back .loccard's 22px of
    padding by hand or it sits proud of the heading beneath it. */
+/* Bleeds sideways to the card edges, but NOT upwards. The -22px top margin here
+   was correct while this figure was the card's first child and had to sit flush
+   under the card's top edge. It now renders below the centre's name, where that
+   same -22px pulled it over the heading and hid it — the client saw a card whose
+   title had vanished behind a photograph. Moving an element means re-reading the
+   margins that were written for where it used to be. */
 .mk-loc-shot {
-  margin: -22px -22px 18px;
+  margin: 6px -22px 18px;
   background: var(--shell);
+  border-top: 1px solid var(--line);
   border-bottom: 1px solid var(--line);
 }
 .mk-loc-shot img {
