@@ -291,6 +291,16 @@
 @media (min-width: 760px) { .vgal-grid { grid-template-columns: 2.2fr 1fr; } }
 
 .vgal-lead { position: relative; margin: 0; overflow: hidden; border: 1px solid var(--line); border-radius: 6px; background: var(--shell); }
+/* THE 360px CEILING, AT EVERY WIDTH — not just past the desktop breakpoint.
+   Every file under /media/fahdan is 360px wide: the -400, -800 and -1600 names
+   are three labels for ONE 360px file, and the delivered lead measures 227x119.
+   The rule held above 1100 and failed across the whole tablet band, which is
+   the opposite of where a small library needs protecting. Written on the
+   element rather than inside a query, which is the one measure decision in the
+   rollout that already survives below the breakpoint (.sr-famhero .sr-shot).
+   The frame becomes small. That is correct: it is 1:1 with the pixels that
+   exist, and the alternative is a 4.38x upscale. */
+.vgal-thin .vgal-lead { max-width: 360px; }
 .vgal-lead img { display: block; width: 100%; height: auto; aspect-ratio: 16 / 9; object-fit: cover; }
 /* Past the breakpoint the lead sits beside the rail, and a grid row is as tall
    as its tallest item. A 16/9 lead against a stacked rail therefore left the
@@ -1676,7 +1686,7 @@
      about y=400/1200 and the armchair, the shelving and the planting all
      survive it. Verified by opening the file, not by trusting the manifest. */
   display: block; width: 100%; height: auto;
-  aspect-ratio: 16 / 10; object-fit: cover; object-position: center;
+  aspect-ratio: var(--frame); object-fit: cover; object-position: center;
   border-radius: 4px; background: var(--rose-deep);
 }
 /* NO TEXT ON THE PHOTOGRAPH, here or anywhere in this pass. Contrast over an
@@ -1690,7 +1700,7 @@
 /* No photograph, no hero shot — and a hole where one was expected is worse than
    a stated absence. Compound so it beats globals' own .silent margins. */
 .hm-hero .silent {
-  display: grid; align-content: center; aspect-ratio: 16 / 10;
+  display: grid; align-content: center; aspect-ratio: var(--frame);
   margin-top: 0; max-width: none;
 }
 
@@ -1720,14 +1730,14 @@
 .hm-room:hover { border-color: var(--rose); }
 .hm-room img {
   display: block; width: 100%; height: auto;
-  aspect-ratio: 5 / 6; object-fit: cover; background: var(--rose-deep);
+  aspect-ratio: var(--frame-tall); object-fit: cover; background: var(--rose-deep);
 }
 /* Huddle has no photograph. It gets the SAME card, the same ground and the same
    height with its name set in type — PartnerMark's rule verbatim. Five of the
    seventeen active spaces have no frame at all, so a design that assumed one
    photograph per room would render five holes; this one renders none. */
 .hm-roommark {
-  aspect-ratio: 5 / 6; display: grid; place-items: center; padding: 20px;
+  aspect-ratio: var(--frame-tall); display: grid; place-items: center; padding: 20px;
   background: var(--rose-wash); border-bottom: 1px solid var(--line);
 }
 .hm-roommark span {
@@ -1782,8 +1792,8 @@
      crosses at 538px). The fix is not a better guess at the number. It is not
      writing a number. */
   .hm-herogrid {
-    grid-template-columns: minmax(0, 1fr) clamp(420px, 40vw, 560px);
-    column-gap: clamp(40px, 4vw, 56px);
+    grid-template-columns: minmax(0, 1fr) var(--col-image);
+    column-gap: var(--gap-band);
     row-gap: clamp(30px, 3.4vw, 44px);
     align-items: end;
   }
@@ -1823,7 +1833,7 @@
      28px margin-top are reset because both would paint as a 22px slab of
      --line-2 above the row. */
   .hm-herogrid .trust {
-    display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    display: grid; grid-template-columns: repeat(auto-fit, minmax(var(--rail-min), 1fr));
     grid-gap: 1px;
     gap: 1px; background: var(--line-2);
     border-top: 0; padding: 1px 0 0; margin-top: 0;
@@ -1945,14 +1955,26 @@
      the 2400x1800 SOURCE, not the derivative that ships). A 4/3 frame in a
      4/3 slot crops nothing at all. */
   display: block; width: 100%; height: auto;
-  aspect-ratio: 4 / 3; object-fit: cover; object-position: center;
+  aspect-ratio: var(--frame); object-fit: cover; object-position: center;
   border-radius: 4px; background: var(--rose-deep);
 }
 .of-cap { padding-top: 9px; font-size: .85rem; color: var(--muted); }
 
+/* THE 360px CEILING ON A FAHDAN FRAME, AT EVERY WIDTH. .of-locthin is derived
+   in locations/page.jsx from the frame's DELIVERED width, so this is keyed to
+   the photograph and not to the centre. Every file under /media/fahdan is 360px
+   wide — the -400, -800 and -1600 names are three labels for one file — and at
+   viewport 1099 the Adliya card frame measured 994.09 CSS px against a 227x119
+   delivered file: a 4.38x upscale, on the page whose whole subject is which
+   building a photograph is of. The desktop layer already capped it at 360;
+   this is the same rule, in the BASE layer, so it also holds across the tablet
+   band where a small library most needs protecting. A max-width PROPERTY, not
+   a max-width query — the one-breakpoint rule is untouched. */
+.of-locs .of-locthin .mk-loc-shot { max-width: 360px; }
+
 /* No frame in the library, no hero shot — and a hole where one was expected is
    worse than a stated absence. Compound so it beats globals' .silent margins. */
-.of-shot.silent { display: grid; align-content: center; aspect-ratio: 4 / 3; margin-top: 0; max-width: none; }
+.of-shot.silent { display: grid; align-content: center; aspect-ratio: var(--frame); margin-top: 0; max-width: none; }
 
 /* ===========================================================================
    DESKTOP. One boundary, already in the codebase (.resultsplit and .mappanel
@@ -1980,8 +2002,8 @@
      exactly the machines this upgrade targets. */
   .of-herogrid,
   .of-hourshero {
-    grid-template-columns: minmax(0, 1fr) clamp(420px, 40vw, 560px);
-    column-gap: clamp(40px, 4vw, 56px);
+    grid-template-columns: minmax(0, 1fr) var(--col-image);
+    column-gap: var(--gap-band);
     row-gap: clamp(30px, 3.4vw, 44px);
     align-items: end;
   }
@@ -2010,19 +2032,21 @@
   .of-herogrid .trust,
   .of-hourshero .trust,
   .of-venue .of-vstats {
-    display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    display: grid; grid-template-columns: repeat(auto-fit, minmax(var(--rail-min), 1fr));
     grid-gap: 1px;
     gap: 1px; background: var(--line-2);
     border-top: 0; padding: 1px 0 0; margin-top: 0;
   }
-  /* 150, not 200, on the venue rail alone. It does not sit in the full content
-     box: .venuegrid hands roughly 320–380px plus a gap to the booking rail, so
-     .venuemain is 648px at 1100 and 765px at 1240. At minmax(200px, 1fr) that
-     fits only three tracks and Al-Khobar's FOUR figures wrapped, leaving two
-     cells of the second row painting the --line-2 ground as solid blocks —
-     the hole this pattern exists to avoid. Measured at 1100, 1240, 1360 and
-     1440: four tracks at every one. */
-  .of-venue .of-vstats { grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); }
+  /* The venue rail's own 150px floor USED TO LIVE HERE, because .venuemain is
+     narrower than the full content box (648px at 1100, 765px at 1240) and a
+     200px floor fitted only three tracks, wrapping Al-Khobar's four figures and
+     leaving two cells of row two painting the --line-2 ground as solid blocks.
+     That argument was right and is now the SITE's floor: --rail-min is 150px
+     for every rail, so this override says nothing the rule above does not and
+     has been deleted rather than left to rot. With 1fr as the max the floor is
+     a WRAPPING THRESHOLD, not a size — four cells in a 1272px container render
+     identical widths at a 150px floor and at a 240px one — so the lowest floor
+     any consumer needed is strictly the safest and costs zero pixels. */
   .of-herogrid .trust > div,
   .of-hourshero .trust > div,
   .of-venue .of-vstats > div { background: var(--shell); padding: 20px 22px 4px; }
@@ -2093,7 +2117,7 @@
      Venue 34; it needs no special case. */
   .of-venue .venuegrid {
     grid-template-columns: minmax(0, 1fr) clamp(320px, 26vw, 380px);
-    column-gap: clamp(40px, 4vw, 56px);
+    column-gap: var(--gap-band);
   }
 
   /* --- the gallery -------------------------------------------------------
@@ -2118,7 +2142,9 @@
      is a photograph too, and a leftover track cannot be written into `sizes`
      without restating it in different units. */
   .of-venue .vgal-grid {
-    grid-template-columns: clamp(420px, 41vw, 600px) auto;
+    /* 41vw/600 was a 1vw slope difference from the hero column for no stated
+       reason. It joins --col-image; VenueGallery.jsx copies this literally. */
+    grid-template-columns: var(--col-image) auto;
     justify-content: start;
     align-items: start;
   }
@@ -2141,7 +2167,7 @@
      top-aligned. (0,3,0) and (0,4,0) beat venue.css's (0,2,0) outright, so this
      does not depend on import order. */
   .of-venue .vgal-lead { height: auto; }
-  .of-venue .vgal-lead img { height: auto; min-height: 0; aspect-ratio: 4 / 3; }
+  .of-venue .vgal-lead img { height: auto; min-height: 0; aspect-ratio: var(--frame); }
   .of-venue .vgal-thin .vgal-lead img { aspect-ratio: 16 / 9; }
 
   /* An explicit-width track instead of four fr, precisely so the string can be
@@ -2205,14 +2231,38 @@
      own text squeezed into what was left. */
   .of-locs .of-locpic {
     display: grid;
-    grid-template-columns: minmax(0, 1fr) clamp(300px, 30vw, 420px);
-    grid-column-gap: clamp(28px, 3vw, 44px);
-    column-gap: clamp(28px, 3vw, 44px);
+    /* The SECONDARY image column and the shared band gutter. 420 rose to meet
+       the 460 ceiling /spaces/[family] needs, and the gutter was the only
+       photograph band on the site running a non-standard one: it rendered
+       37.2px where every sibling band rendered 49.6px. locations/page.jsx
+       copies this clamp character for character. */
+    grid-template-columns: minmax(0, 1fr) var(--col-image-narrow);
+    grid-column-gap: var(--gap-band);
+    column-gap: var(--gap-band);
     align-items: start;
   }
   .of-locs .of-locthin { grid-template-columns: minmax(0, 1fr) 360px; }
   .of-locs .of-locpic > * { grid-column: 1; }
   .of-locs .of-locpic > .mk-loc-shot { grid-column: 2; grid-row: 1; }
+  /* THE RAIL SPANS BOTH CARD COLUMNS. Under the `> *` blanket above it sat in
+     column 1 only, and column 1 is narrow because the card gave 460px of its
+     width to the photograph: at 1100 the flagship card's rail was 588px and
+     rendered `195.3px 195.3px 195.3px` on `gridTemplateRows: 92.98px 66.89px` —
+     four cells on three tracks, one cell alone on row two with two cells' worth
+     of bare --line-2 ground painted beside it, at the exact width the desktop
+     layer switches on. Lowering the auto-fit floor does not save it
+     (4x150 + 3 = 603 > 588); the container is simply too narrow.
+
+     The honest fix is the right SPAN, not a smaller number: address, building,
+     floors and capacity describe the CENTRE, not the paragraph in column one,
+     so the rail belongs across the whole card.
+
+     grid-row: 2 is where this element already lands. It is the card's SECOND
+     child in every branch (lochd, locfacts, [silentbox,] locactions, figure),
+     so naming the row moves no box and reorders no content — the reading order
+     stays lochd, locfacts, silentbox, locactions. Placement only, never
+     `order`: DOM order is the phone's reading order. */
+  .of-locs .of-locpic > .locfacts { grid-column: 1 / -1; grid-row: 2; }
 
   /* marketing.css bleeds this figure sideways to the card edges with a -22px
      side margin, which was right while it was a full-width block inside the
@@ -2233,7 +2283,7 @@
      where one is not. dd already carries .num. Same 1px-top-padding hairline
      as the rails above, and the same reset of globals' own margins. */
   .of-locs .locfacts {
-    display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+    display: grid; grid-template-columns: repeat(auto-fit, minmax(var(--rail-min), 1fr));
     grid-gap: 1px;
     gap: 1px; background: var(--line-2); padding: 1px 0 0; margin: 18px 0 0;
   }
@@ -2333,8 +2383,8 @@
                   this tree (a 2.2% crop off 1200/1472) and is reused verbatim so
                   a room frame is the same shape here as on the homepage rail.
    The class is DERIVED from the url's tree in the page, never hand-set. */
-.sr-shot-wide img { aspect-ratio: 4 / 3; }
-.sr-shot-tall img { aspect-ratio: 5 / 6; }
+.sr-shot-wide img { aspect-ratio: var(--frame); }
+.sr-shot-tall img { aspect-ratio: var(--frame-tall); }
 /* NO TEXT ON THE PHOTOGRAPH, here or anywhere in this pass. Contrast over an
    arbitrary image cannot be computed, so it cannot be asserted, so it can never
    meet this project's own standard. The caption sits BELOW the frame as --muted
@@ -2373,7 +2423,18 @@
      different units, and `sizes` on these tiles is written from this line
      character for character. See SpaceTile's own header. */
   .sr-search .searchlayout {
-    grid-template-columns: clamp(210px, 17vw, 250px) minmax(0, 1fr);
+    /* A FLOOR OF 250, NOT 210, SO THE BREAKPOINT IS MONOTONIC. Measured on both
+       sides: the filter rail was 250px at 1099 and 210px at 1100 — 40px
+       NARROWER on a wider screen — and did not recover until 17vw reached 250
+       at 1471. Every width from 1100 to 1470, which includes 1240, the review
+       width, showed a rail smaller than the same page showed one pixel below
+       the breakpoint. globals.css itself records 250px as the width at which
+       the amenity labels stop wrapping to two lines, so the desktop layer was
+       un-fixing something the base layer had already fixed. The 280 ceiling
+       lets it still grow. The results grid stays repeat(3, 1fr), and
+       GRID_TILE_SIZES in workspaces/page.jsx copies this clamp character for
+       character and is re-derived in the same commit. */
+    grid-template-columns: clamp(250px, 17vw, 280px) minmax(0, 1fr);
     column-gap: clamp(24px, 2.4vw, 34px);
   }
   .sr-results .spaces { grid-template-columns: repeat(3, 1fr); gap: 18px; }
@@ -2468,7 +2529,11 @@
      22px and margin-top: 28px MUST be reset or they paint a 22px slab of
      --line-2 across the band. */
   .sr-spaceshero .trust {
-    display: grid; grid-template-columns: repeat(4, 1fr);
+    /* auto-fit at the shared floor rather than repeat(4, 1fr): this rail always
+       has exactly four cells, so auto-fit resolves to the same four equal
+       tracks, and writing it as the same primitive as the other six rails means
+       a seventh consumer cannot invent an eighth value. */
+    display: grid; grid-template-columns: repeat(auto-fit, minmax(var(--rail-min), 1fr));
     grid-gap: 1px;
     gap: 1px; background: var(--line-2);
     border-top: 0; padding: 1px 0 0; margin-top: 26px;
@@ -2511,9 +2576,9 @@
      from the layout inward. */
   .sr-famhero {
     display: grid;
-    grid-template-columns: minmax(0, 1fr) clamp(300px, 30vw, 460px);
-    grid-column-gap: clamp(40px, 4vw, 56px);
-    column-gap: clamp(40px, 4vw, 56px);
+    grid-template-columns: minmax(0, 1fr) var(--col-image-narrow);
+    grid-column-gap: var(--gap-band);
+    column-gap: var(--gap-band);
     grid-row-gap: clamp(30px, 3.4vw, 44px);
     row-gap: clamp(30px, 3.4vw, 44px);
     align-items: end;
@@ -2521,7 +2586,17 @@
   .sr-famcopy { grid-column: 1; grid-row: 1; }
   /* The figure AND the stated absence share this class, so the slot is what is
      placed and not the element type. */
-  .sr-famhero .sr-shot { grid-column: 2; grid-row: 1; margin: 0; }
+  /* `figure.sr-shot`, not `.sr-shot`, and the extra element is load bearing:
+     desktop-search.css:60 is `.sr-famhero figure.sr-shot` at (0,2,1) and this
+     rule was (0,2,0), so the BASE-LAYER `margin: 22px 0 0` won and this
+     `margin: 0` was dead — the computed margin on /spaces/[family] was
+     `22px 0px 0px`, inside an align-items:end band, on all seventeen variants.
+     It is the specificity trap all four sheet headers warn about, sprung by a
+     sheet on itself from the opposite direction. Worth fixing not for the 22px
+     but because a dead declaration in a sheet that lectures about dead
+     declarations will be trusted by the next reader. */
+  .sr-famhero figure.sr-shot { grid-column: 2; grid-row: 1; margin: 0; }
+  .sr-famhero .sr-shot { grid-column: 2; grid-row: 1; }
   /* When the lookup returns nothing, the site's own empty state stands in the
      same cell rather than a stand-in frame or a hole. No forced aspect-ratio:
      there is no frame here, so there is no geometry to claim. */
@@ -2616,10 +2691,10 @@
 /* /media/gh/lounge-1 is 1600x1200 on disk. A 16:10 centre crop drops 10% of
    ceiling and 10% of bare floor; the wall screens, both sofas, the four chairs
    and both windows all survive it. Verified by opening the file. */
-.pg-shot img { aspect-ratio: 16 / 10; }
+.pg-shot img { aspect-ratio: var(--frame); }
 /* /media/floors/14th-img_2136 is 1600x1200, cropped 16:10 exactly as the
    English homepage crops the same frame — same file, same decision. */
-.arshot img { aspect-ratio: 16 / 10; }
+.arshot img { aspect-ratio: var(--frame); }
 
 /* TEXT IS NEVER PLACED ON A PHOTOGRAPH, here or anywhere in this rollout.
    Contrast over an arbitrary image cannot be computed, so it cannot be
@@ -2683,7 +2758,7 @@
      auto-fit and not repeat(N,1fr): the consumers carry two and three cells
      and a fourth is one content edit away. */
   .dk-page .points {
-    display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+    display: grid; grid-template-columns: repeat(auto-fit, minmax(var(--rail-min), 1fr));
     grid-gap: 1px;
     gap: 1px; background: var(--line-2); padding: 1px 0 0; margin: 0 0 30px;
   }
@@ -2709,9 +2784,17 @@
   .dk-page .pg-readbody {
     display: grid;
     grid-template-columns: minmax(0, 66ch) minmax(0, clamp(200px, 20vw, 280px));
-    grid-column-gap: clamp(40px, 4vw, 64px);
-    column-gap: clamp(40px, 4vw, 64px);
-    justify-content: space-between;
+    grid-column-gap: var(--gap-band);
+    column-gap: var(--gap-band);
+    /* NO justify-content HERE. `space-between` spent the band's whole surplus in
+       the gutter and DEFEATED the column-gap above it: measured at 1240 the
+       tracks resolved to 670.547px and 248px inside a 1137px band, so the
+       effective gutter was 218.45px against a declared 49.6px. The declared gap
+       could never bind at any width. This is not a divergence anyone chose — it
+       is a declaration defeated by a sibling declaration on the same rule, and
+       it ships on /about, every StaticPage slug, /blog/[slug] and both Arabic
+       twins. The prose measure does not move: it is capped at 66ch and was
+       already at its cap. */
     align-items: start;
   }
   /* The rail is LAST in the DOM and is moved by grid-column alone. `order` is
@@ -2745,8 +2828,8 @@
   ------------------------------------------------------------------------- */
   .pg-faq .faqgroups {
     display: grid; grid-template-columns: repeat(2, 1fr);
-    grid-column-gap: clamp(32px, 3vw, 48px);
-    column-gap: clamp(32px, 3vw, 48px);
+    grid-column-gap: var(--gap-band);
+    column-gap: var(--gap-band);
     align-items: start;
   }
   .pg-faq .faqitem p { max-width: 62ch; }
@@ -2771,9 +2854,12 @@
      exact defect this section was moved to fix. */
   .pg-contact .pg-contactgrid {
     display: grid;
-    grid-template-columns: minmax(0, 1fr) clamp(380px, 34vw, 500px);
-    grid-column-gap: clamp(40px, 4vw, 56px);
-    column-gap: clamp(40px, 4vw, 56px);
+    /* THE HERO COLUMN, not a fifth value. 34vw/500 had no intrinsic-geometry
+       argument behind it — only an align-items argument, and that is preserved
+       independently below. */
+    grid-template-columns: minmax(0, 1fr) var(--col-image);
+    grid-column-gap: var(--gap-band);
+    column-gap: var(--gap-band);
     grid-row-gap: clamp(30px, 3.4vw, 44px);
     row-gap: clamp(30px, 3.4vw, 44px);
     align-items: start;
@@ -2916,9 +3002,9 @@
      order a phone should read it in, and the figure is LAST. */
   .arherogrid {
     display: grid;
-    grid-template-columns: minmax(0, 1fr) clamp(420px, 40vw, 560px);
-    grid-column-gap: clamp(40px, 4vw, 56px);
-    column-gap: clamp(40px, 4vw, 56px);
+    grid-template-columns: minmax(0, 1fr) var(--col-image);
+    grid-column-gap: var(--gap-band);
+    column-gap: var(--gap-band);
     grid-row-gap: clamp(30px, 3.4vw, 44px);
     row-gap: clamp(30px, 3.4vw, 44px);
     align-items: end;
@@ -2930,7 +3016,7 @@
      the empty state carries the SAME class as the figure so the placement is
      on the slot. Compound so it beats globals' own .silent margins. */
   .arhero .silent.arshot {
-    display: grid; align-content: center; aspect-ratio: 16 / 10;
+    display: grid; align-content: center; aspect-ratio: var(--frame);
     margin-top: 0; max-width: none;
   }
 
@@ -2954,7 +3040,7 @@
      --line-2 above the row. padding-inline-start on :first-child is already
      logical and flips correctly. */
   .arherogrid .trust {
-    display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    display: grid; grid-template-columns: repeat(auto-fit, minmax(var(--rail-min), 1fr));
     grid-gap: 1px;
     gap: 1px; background: var(--line-2);
     border-top: 0; padding: 1px 0 0; margin-top: 0;
@@ -3319,6 +3405,58 @@
   --amber-wash: #FBF2E8;
   --green: #38715B;
   --green-wash: #EAF3EF;
+
+  /* =====================================================================
+     FRAME & BAND TOKENS — the four primitives the desktop rollout invented
+     three times each, collapsed to one value apiece. Declared here because
+     globals.css is the only file all four area sheets already resolve var()
+     against, and because var() resolves at USE time: the @import order that
+     traps a bare selector cannot trap a value.
+
+     *** `sizes` CANNOT CONTAIN `var()`. ***
+     `sizes` is an HTML attribute, not CSS. A custom property inside a
+     source-size makes the WHOLE descriptor invalid and the browser falls
+     back to 100vw, silently, on every image on the page. The token holds the
+     value in CSS; the JSX must still spell the clamp out literally. These
+     files copy one of the clamps below character-for-character and must be
+     edited in the SAME commit as the token they copy:
+         app/(site)/contact/page.jsx          --col-image
+         app/(site)/offices/page.jsx          --col-image
+         app/(site)/meeting-hours/page.jsx    --col-image
+         app/(site)/page.jsx                  --col-image
+         app/(site)/ar/page.jsx               --col-image
+         .../[slug]/VenueGallery.jsx          --col-image
+         app/(site)/locations/page.jsx        --col-image-narrow
+         app/(site)/spaces/[family]/page.jsx  --col-image-narrow
+     That comment is the enforcement. The token is only the record.
+  ===================================================================== */
+
+  /* FRAME GEOMETRY — from the files, never from the layout.
+     Every landscape source under /media/gh and /media/floors is 4:3
+     (verified live: offices-glass-corridor-2-1600 renders 1011x758 = 1.334).
+     A 4/3 frame in a 4/3 slot crops nothing. 16/10 discarded 16.7% of every
+     frame, 3/2 11.1%, 16/9 25% — and none of them made the frame wider,
+     only shorter. */
+  --frame: 4 / 3;
+  /* /media/rooms is 1200x1472 portrait (0.815); 5/6 costs 2.2%. */
+  --frame-tall: 5 / 6;
+
+  /* THE IMAGE COLUMN. Two values, not one: the hero band and the secondary
+     band genuinely differ in what the copy beside them weighs. The narrow
+     ceiling is 460 because .sr-famhero .sr-shot carries max-width:460px at
+     every width — a 560 track would render 100px of itself empty. */
+  --col-image: clamp(420px, 40vw, 560px);
+  --col-image-narrow: clamp(300px, 30vw, 460px);
+
+  /* THE TWO-COLUMN BAND GUTTER. Six declarations already agreed on it. */
+  --gap-band: clamp(40px, 4vw, 56px);
+
+  /* THE HAIRLINE STAT RAIL's auto-fit floor. It is a MINIMUM, not a size:
+     with 1fr as the max, any container that fits four 200px tracks renders
+     them identically at a 150px floor. The floors only differ where the
+     larger one WRAPS, so the lowest floor any consumer needed is strictly
+     the safest and costs zero pixels. */
+  --rail-min: 150px;
   --sans: "Rubik", var(--font-rubik), -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
   --serif: "Iowan Old Style", "Palatino Linotype", Palatino, "Book Antiqua", Georgia, serif;
   --mono: ui-monospace, "Cascadia Mono", SFMono-Regular, Consolas, "Liberation Mono", monospace;
