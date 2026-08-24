@@ -1598,6 +1598,280 @@
 .ecoGap b { display: block; color: var(--ink); margin-bottom: 4px; font-size: .92rem; }
 .ecoGap a { color: var(--rose); font-weight: 600; }
 
+/*!*****************************************************************************************************************************************************************************************************************************************************************!*\
+  !*** css ./node_modules/next/dist/build/webpack/loaders/css-loader/src/index.js??ruleSet[1].rules[14].oneOf[10].use[2]!./node_modules/next/dist/build/webpack/loaders/postcss-loader/src/index.js??ruleSet[1].rules[14].oneOf[10].use[3]!./app/styles/home.css ***!
+  \*****************************************************************************************************************************************************************************************************************************************************************/
+/* ===========================================================================
+   The public homepage, at desktop widths.  Prefix: hm-
+   ---------------------------------------------------------------------------
+   WHAT THIS FILE IS FOR. The build shipped the approved design faithfully and
+   the approved design is a single column of text. At 1240px the headline was
+   685px inside a 1225px container — 56% — and the right half of the canvas was
+   empty on a workspace marketplace whose first photograph sat 3,416px down the
+   page. This sheet builds the two-column hero that homepage-v2's own .hero-grid
+   describes but the build never implemented, and gives four more bands the
+   width they were drawn for.
+
+   TWO RULES GOVERN EVERY SELECTOR BELOW, and both are scars.
+
+   1. EVERY RULE THAT TOUCHES AN ELEMENT globals.css ALSO STYLES IS COMPOUND.
+      The @import block leads globals.css, so an imported sheet is EARLIER in
+      source order than globals' own rules. A bare `.trust {}` here would tie
+      `.trust {}` there on specificity (0,1,0) and lose the tie on source
+      order — silently, with no error and no visible effect. So it is
+      `.hm-herogrid .trust` (0,2,0), `.hm-hero .hsearch`, `.hm-hours .hourrow`.
+      New `.hm-*` names that globals.css has never heard of are safe either way,
+      and are still written scoped where they sit inside a component.
+
+   2. EVERY DESKTOP RULE IS ADDITIVE INSIDE @media (min-width: 1100px).
+      Not one max-width block is added or edited anywhere in this pass, which is
+      what makes "mobile must not regress" structural rather than a promise. The
+      base layer below is only the handful of declarations the new elements need
+      in order to exist at all on a phone; the desktop layout is reached purely
+      by explicit grid placement. 1100px is already the site's desktop boundary
+      (.resultsplit and .mappanel in globals.css), so no new number enters, and
+      nothing here goes near 720px — that is NAV_BREAKPOINT, shared on purpose
+      by the phone navigation and the hero-search stacking.
+
+   ZERO JAVASCRIPT. Nothing in this file, and nothing it styles, needs a script.
+   The client reviews this site as a static export whose capture strips every
+   <script> unconditionally, so a JS-dependent hero is not a degraded hero,
+   it is a blank one.
+=========================================================================== */
+
+/* ---------------------------------------------------------------------------
+   1. THE HERO
+   ---------------------------------------------------------------------------
+   DOM ORDER IS copy -> search -> trust -> figure, and `order` is never used
+   anywhere below. That order is chosen so the BASE layer reproduces today's
+   phone sequence exactly — h1, lede, buttons, search, figures — with the
+   photograph appended at the end of the band. Desktop moves the figure up
+   beside the copy with grid-column / grid-row, which relocates the box without
+   touching tab order. `order` would have desynced the two.
+--------------------------------------------------------------------------- */
+.hm-herogrid { display: grid; grid-gap: clamp(26px, 3.4vw, 42px); gap: clamp(26px, 3.4vw, 42px); }
+
+/* homepage-v2's own kick: a 7px rotated drop mark, the brand's mark reduced to
+   a bullet. The label is DERIVED from the active venues' countries in page.jsx,
+   not typed, so it cannot outlive the countries it names. */
+.hm-kick {
+  display: inline-flex; align-items: center; gap: 9px; margin: 0 0 20px;
+  font-family: var(--label); font-size: 11px; letter-spacing: .17em;
+  text-transform: uppercase; color: var(--rose); font-weight: 600;
+}
+.hm-kick i {
+  width: 7px; height: 7px; flex: none; background: var(--rose);
+  border-radius: 50% 50% 50% 0; transform: rotate(-45deg);
+}
+
+.hm-shot { margin: 0; }
+.hm-shot img {
+  /* height:auto is LOAD-BEARING. The width/height attributes on the <img> map
+     to presentational CSS, and that 1000px would beat aspect-ratio and stretch
+     the frame. The attributes stay because they are what reserves the box
+     before the file lands. Same note as .galstrip img, same reason.
+
+     16/10, not the frame's native 4/3: a centre crop of 1600x1200 to 16:10
+     drops 100px of timber ceiling and 100px of bare floor. The sign sits at
+     about y=400/1200 and the armchair, the shelving and the planting all
+     survive it. Verified by opening the file, not by trusting the manifest. */
+  display: block; width: 100%; height: auto;
+  aspect-ratio: 16 / 10; object-fit: cover; object-position: center;
+  border-radius: 4px; background: var(--rose-deep);
+}
+/* NO TEXT ON THE PHOTOGRAPH, here or anywhere in this pass. Contrast over an
+   arbitrary image cannot be computed, so it cannot be asserted, so it can never
+   meet this project's own standard. The caption sits below the frame as --muted
+   on --shell, a pair scripts/contrast.mjs already vouches for. There is a
+   design reason as well: the frame already contains the words Land. Launch.
+   Lead. as a lit object on a wall. */
+.hm-cap { padding-top: 9px; font-size: .85rem; color: var(--muted); }
+
+/* No photograph, no hero shot — and a hole where one was expected is worse than
+   a stated absence. Compound so it beats globals' own .silent margins. */
+.hm-hero .silent {
+  display: grid; align-content: center; aspect-ratio: 16 / 10;
+  margin-top: 0; max-width: none;
+}
+
+/* ---------------------------------------------------------------------------
+   2. THE ROOMS RAIL — "The rooms the hours buy you."
+   ---------------------------------------------------------------------------
+   Below 1100 this is a scroll-snap rail, so seven PORTRAIT cards cost about
+   420px of phone height instead of roughly 3,000px stacked. It is the same
+   CSS-only pattern as .galstrip: real list items in flow, so every card stays
+   keyboard reachable, and no script is involved in the scrolling.
+
+   5/6, because /media/rooms is 1200x1472 portrait — the section is shaped
+   around the photography's real geometry rather than cropping the photography
+   into a shape the section wanted.
+--------------------------------------------------------------------------- */
+.hm-roomrail {
+  list-style: none; margin: 30px 0 0; padding: 0 0 8px;
+  display: flex; gap: 12px; overflow-x: auto; scroll-snap-type: x mandatory;
+  -webkit-overflow-scrolling: touch; scrollbar-width: thin;
+}
+.hm-roomrail > li { flex: 0 0 min(62vw, 260px); scroll-snap-align: start; margin: 0; }
+.hm-room {
+  display: flex; flex-direction: column; height: 100%;
+  background: var(--paper); border: 1px solid var(--line);
+  text-decoration: none; color: inherit;
+}
+.hm-room:hover { border-color: var(--rose); }
+.hm-room img {
+  display: block; width: 100%; height: auto;
+  aspect-ratio: 5 / 6; object-fit: cover; background: var(--rose-deep);
+}
+/* Huddle has no photograph. It gets the SAME card, the same ground and the same
+   height with its name set in type — PartnerMark's rule verbatim. Five of the
+   seventeen active spaces have no frame at all, so a design that assumed one
+   photograph per room would render five holes; this one renders none. */
+.hm-roommark {
+  aspect-ratio: 5 / 6; display: grid; place-items: center; padding: 20px;
+  background: var(--rose-wash); border-bottom: 1px solid var(--line);
+}
+.hm-roommark span {
+  font-family: var(--serif); font-style: italic; text-align: center;
+  font-size: clamp(1.35rem, 2.6vw, 1.8rem); line-height: 1.15; color: var(--rose);
+}
+.hm-roomtext { padding: 13px 15px 16px; display: flex; flex-direction: column; gap: 5px; }
+.hm-roomname { font-weight: 650; font-size: 1rem; letter-spacing: -.015em; }
+.hm-roomseats { font-family: var(--label); font-size: 10.5px; letter-spacing: .05em; color: var(--muted); }
+/* The operator's caption, VERBATIM. Never regenerated from space.nameEn — that
+   is the mechanism that captions a washroom "Prestige Office". */
+.hm-roomcap { font-size: .85rem; color: var(--muted); line-height: 1.45; }
+.hm-roomgo { margin-top: auto; padding-top: 10px; font-size: .88rem; font-weight: 650; color: var(--rose); }
+/* The eighth cell. Four columns and seven rooms would leave one cell showing
+   the grid's own hairline ground as a block; this is a real link that goes to a
+   real page, so the row closes on something useful rather than on a hole. */
+.hm-roomall { background: var(--shell); justify-content: center; }
+.hm-roomall .hm-roomtext { padding: 22px 20px; }
+
+/* ---------------------------------------------------------------------------
+   3. THE CLOSING BUBBLE
+   ---------------------------------------------------------------------------
+   Scoped to the homepage this pass (.hm-close is passed in from page.jsx)
+   rather than edited in globals.css, because .closebub also ships on /ar and
+   /membership and the rollout to those pages is deliberately a separate change.
+--------------------------------------------------------------------------- */
+.hm-close .closebub {
+  /* The approved geometry, restored one declaration at a time. The hard 14px
+     offset shadow is gen-2's ONLY shadow and the build flattened it away: it
+     reads as a deliberate printed offset rather than as a SaaS drop-shadow, and
+     it is the one device on this page that survives being screenshotted.
+     It carries no text, so it adds no contrast assertion. */
+  border-radius: 60px 60px 60px 6px;
+  max-width: 760px;
+  text-align: start;
+  box-shadow: 14px 14px 0 var(--rose-deep);
+}
+.hm-close .closebub p { margin-inline: 0; }
+.hm-close .closebtns { justify-content: flex-start; }
+
+/* ===========================================================================
+   DESKTOP. One boundary, already in the codebase, used by everything below.
+=========================================================================== */
+@media (min-width: 1100px) {
+  /* --- the hero grid ----------------------------------------------------
+     minmax(0,1fr) + clamp() is homepage-v2's own .hero-grid shape, scaled from
+     a 320px drawing to a 560px photograph. The right track is a clamp() and
+     NOT an fr for one specific reason: it makes the `sizes` attribute exactly
+     expressible. A 1fr track can only be described to the browser by restating
+     it in different units, which is precisely the mismatch that has shipped
+     here three times (.galstrip declares a 700px crossover for CSS that
+     crosses at 538px). The fix is not a better guess at the number. It is not
+     writing a number. */
+  .hm-herogrid {
+    grid-template-columns: minmax(0, 1fr) clamp(420px, 40vw, 560px);
+    column-gap: clamp(40px, 4vw, 56px);
+    row-gap: clamp(30px, 3.4vw, 44px);
+    align-items: end;
+  }
+  .hm-copy       { grid-column: 1; grid-row: 1; }
+  .hm-shot       { grid-column: 2; grid-row: 1; }
+  .hm-searchrail { grid-column: 1 / -1; grid-row: 2; }
+  .hm-herogrid .trust { grid-column: 1 / -1; grid-row: 3; }
+
+  /* 13ch is homepage-v2's own cap; 4.6rem sits between the build's 4.2 and the
+     mockup's 5, because the headline now shares its row with a photograph.
+
+     The 6vw ramp is kept from globals.css deliberately. A gentler 4.6vw was
+     tried and MEASURED: it put the headline at 57px at 1240 against the 67px
+     that ships today, so the "upgrade" would have shrunk the headline at
+     exactly the width the client reviews at. The ceiling moves; the slope does
+     not. */
+  .hm-hero .display { font-size: clamp(3.2rem, 6vw, 4.6rem); max-width: 13ch; }
+  .hm-hero .lede { max-width: 48ch; }
+
+  /* The line that kills the dead canvas beside the search: 444px of it at
+     1440. The search is a full-width rail under both columns now, so the 860px
+     cap that was right for a single column is wrong here. .hm-hero .hsearch
+     (0,2,0) beats .hsearch (0,1,0), so the import position is irrelevant.
+     margin-top goes to 0 because row-gap now does that job. */
+  .hm-hero .hsearch { max-width: none; margin-top: 0; }
+
+  /* The four derived figures become the band's closing rail: a hairline cell
+     grid, the house pattern from .incl and .tiergrid.
+
+     auto-fit is CORRECT here and is not the collapsing-track bug: two of the
+     four cells render conditionally (no published price, no published hours),
+     and auto-fit is exactly what makes three figures spread across three tracks
+     instead of leaving a gap where the fourth would have been.
+
+     The 1px top padding IS the top hairline — the background shows through it,
+     the same way it shows through the 1px gaps. globals' 22px padding-top and
+     28px margin-top are reset because both would paint as a 22px slab of
+     --line-2 above the row. */
+  .hm-herogrid .trust {
+    display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    grid-gap: 1px;
+    gap: 1px; background: var(--line-2);
+    border-top: 0; padding: 1px 0 0; margin-top: 0;
+  }
+  .hm-herogrid .trust > div { background: var(--shell); padding: 20px 22px 4px; }
+  /* Flush left with the headline. The rail's alignment to the copy column
+     matters more than the symmetry of the first divider's gutter. */
+  .hm-herogrid .trust > div:first-child { -webkit-padding-start: 0; padding-inline-start: 0; }
+  /* The oversized tabular numeral, the design's own device for a derived figure. */
+  .hm-herogrid .trust b { font-size: clamp(1.5rem, 2.2vw, 2.2rem); }
+
+  /* --- the hours meter --------------------------------------------------
+     Track 1 was minmax(120px, 1.1fr), so it absorbed every spare pixel: at
+     1440 the office NAME owned 822px while .pips was capped at 108px. Capping
+     the name at 24ch and giving the meter the 1fr turns 822px of dead label
+     into an 800px row of the brand's own drop marks — the design's vocabulary,
+     used at the width.
+
+     justify-content MUST stay start. With space-between every row would end at
+     the same x and the meter would stop encoding anything at all.
+
+     Scoped .hm-hours, not .hoursband: the Arabic homepage renders the same
+     band, and /meeting-hours renders .hourrow with a FOURTH child (the price),
+     which is why the 4th `auto` track in globals.css is live and stays. */
+  .hm-hours .hourrow { grid-template-columns: minmax(0, 24ch) minmax(0, 1fr) auto; }
+  .hm-hours .pips { max-width: none; justify-content: start; gap: clamp(2px, .55vw, 10px); }
+  .hm-hours .pips i { width: 7px; height: 7px; }
+
+  /* --- the rooms rail becomes the signature hairline grid ---------------
+     Explicit repeat(4, 1fr), not auto-fit, so no track can collapse: the card
+     count here is fixed at eight and every cell is filled. */
+  .hm-rooms .hm-roomrail {
+    display: grid; grid-template-columns: repeat(4, 1fr);
+    grid-gap: 1px;
+    gap: 1px; background: var(--line); border: 1px solid var(--line);
+    overflow: visible; padding: 0;
+  }
+  .hm-rooms .hm-roomrail > li { flex: none; }
+  .hm-rooms .hm-room { border: 0; }
+
+  /* --- popular cities ---------------------------------------------------
+     repeat(4, 1fr) is gen-1 homepage.html's approved .cities track. There are
+     three venues today, so the fourth track sits empty — which is correct and
+     not a bug: the row does not stretch three cards across space that a fourth
+     centre will occupy. */
+  .hm-cities .citygrid { grid-template-columns: repeat(4, 1fr); }
+}
+
 /*!***********************************************************************************************************************************************************************************************************************************************************************!*\
   !*** css ./node_modules/next/dist/build/webpack/loaders/css-loader/src/index.js??ruleSet[1].rules[14].oneOf[10].use[2]!./node_modules/next/dist/build/webpack/loaders/postcss-loader/src/index.js??ruleSet[1].rules[14].oneOf[10].use[3]!./app/styles/nav-mobile.css ***!
   \***********************************************************************************************************************************************************************************************************************************************************************/
@@ -1870,6 +2144,10 @@
    rule below, and var() resolves at use time, so cascade order is not load
    bearing. Split by area so separate pieces of work cannot clobber each other
    in one 1000-line file. */
+/* The public homepage's desktop layer. Every one of its selectors that touches
+   an element this file also styles is COMPOUND, because an imported sheet is
+   EARLIER in source order than the rules below and would lose a specificity tie
+   silently — see the header of that file. */
 /* Last, so that where it and an earlier sheet name the same element (the
    Arabic .navlang group) the phone rules win the tie on source order. It
    never relies on that against globals.css itself — see the header of the
@@ -2775,7 +3053,10 @@ h2.sec { font-weight: 650; letter-spacing: -.018em; font-size: 1.15rem; margin: 
 
 /* ---- the hours meter band, on ink (P3-S6) ---- */
 .hoursband { background: var(--night); color: var(--night-ink); padding: clamp(48px, 7vw, 84px) 0; }
-.hoursband .kicker { color: var(--rose-brand); }
+/* --night-rose, not --rose-brand: this sits on --night, where #D2758B measures
+   4.489:1 — under AA by eleven thousandths, on 11px semibold text. The token
+   for exactly this pair already existed and this rule simply did not use it. */
+.hoursband .kicker { color: var(--night-rose); }
 .hoursband .h2 { color: var(--night-ink); }
 .hoursband .deck { color: var(--night-muted); }
 .hoursmeter { margin-top: 28px; display: grid; grid-gap: 1px; gap: 1px; background: #3A2F33; border: 1px solid #3A2F33; border-radius: 8px; overflow: hidden; }
@@ -2786,7 +3067,9 @@ h2.sec { font-weight: 650; letter-spacing: -.018em; font-size: 1.15rem; margin: 
 .hoursmeter .pips i.off { background: #4A3D41; }
 .silent-dark { border-color: #6E5F63; color: var(--night-muted); }
 .silent-dark b { color: var(--night-ink); }
-.silent-dark a { color: var(--rose-brand); }
+/* Same pair, same reason: a link on the dark band. --rose-brand is annotated
+   DECORATION ONLY at the token, and both these rules broke that rule. */
+.silent-dark a { color: var(--night-rose); }
 
 /* ---- Save / wishlist control on result cards (P3-S6) ---- */
 .saveform { display: inline-flex; }
@@ -2887,7 +3170,32 @@ h2.sec { font-weight: 650; letter-spacing: -.018em; font-size: 1.15rem; margin: 
    swiping and on a desktop by dragging or shift-scrolling, and every frame stays
    reachable by keyboard because they are real list items in flow. */
 .galstrip {
-  list-style: none; margin: 28px 0 0; padding: 0 max(20px, calc((100vw - 1160px) / 2)) 8px;
+  /* DERIVED, not guessed. This used to read `max(20px, calc((100vw - 1160px)/2))`,
+     and 1160 comes from neither --maxw (1240) nor --pad: it put the first frame
+     4px LEFT of every heading on the page at 1240, 1440 and 1920, and 11px right
+     of them at 768. The expression below is the full-bleed primitive stated in
+     the page's own tokens, so a bled row lines up with .bound at every width by
+     construction rather than by a number somebody once measured.
+
+     100%, not 100vw. Percentage padding resolves against this element's own
+     containing block, which is the full-bleed section — i.e. the DOCUMENT
+     width. 100vw includes the classic scrollbar, so a vw-based expression is
+     off by half the scrollbar (7.5px here) on every desktop that has one, and
+     that is a second magic number wearing a token's clothes. */
+  --bleed-pad: max(var(--pad), calc((100% - var(--maxw)) / 2 + var(--pad)));
+  list-style: none; margin: 28px 0 0; padding-block: 0 8px;
+  padding-inline: var(--bleed-pad);
+  /* AND the matching scroll-padding, or the padding above does nothing at rest.
+     `scroll-snap-align: start` aligns a frame to the SNAPPORT, and with no
+     scroll-padding the snapport starts at the scrollport edge — so the browser
+     silently scrolls the strip right by exactly the leading padding on load and
+     the first frame sits flush with the window edge, not with the heading.
+     Measured: at 1920 the strip rested at scrollLeft 384, which is the padding
+     to the pixel. (One custom property for both because they are one intent;
+     the 100% inside it resolves against this element's containing block for
+     padding and against its scrollport for scroll-padding, which for a
+     full-bleed row are the same number.) */
+  scroll-padding-inline: var(--bleed-pad);
   display: flex; gap: 14px; overflow-x: auto; scroll-snap-type: x mandatory;
   -webkit-overflow-scrolling: touch; scrollbar-width: thin;
 }

@@ -8,7 +8,10 @@
     "sourceFolder": "Growth Hub / Office Photos",
     "width": 2400,
     "height": 1800,
-    "url": "/media/gh/offices-glass-corridor-1-1600.jpg"
+    "url": "/media/gh/offices-glass-corridor-1-1600.jpg",
+    "floor": "2nd",
+    "collection": "The Collective",
+    "alsoIngestedAs": "IMG_2122"
   },
   {
     "slug": "corridor-feature-wall-1",
@@ -19,7 +22,10 @@
     "sourceFolder": "Growth Hub / Office Photos",
     "width": 2400,
     "height": 1800,
-    "url": "/media/gh/corridor-feature-wall-1-1600.jpg"
+    "url": "/media/gh/corridor-feature-wall-1-1600.jpg",
+    "floor": "2nd",
+    "collection": "The Collective",
+    "alsoIngestedAs": "IMG_2128"
   },
   {
     "slug": "lounge-1",
@@ -30,7 +36,10 @@
     "sourceFolder": "Growth Hub / Office Photos",
     "width": 2400,
     "height": 1800,
-    "url": "/media/gh/lounge-1-1600.jpg"
+    "url": "/media/gh/lounge-1-1600.jpg",
+    "floor": "2nd",
+    "collection": "The Collective",
+    "alsoIngestedAs": "IMG_2129"
   },
   {
     "slug": "lounge-2",
@@ -52,7 +61,10 @@
     "sourceFolder": "Growth Hub / Office Photos",
     "width": 2400,
     "height": 1800,
-    "url": "/media/gh/corridor-feature-wall-2-1600.jpg"
+    "url": "/media/gh/corridor-feature-wall-2-1600.jpg",
+    "floor": "2nd",
+    "collection": "The Collective",
+    "alsoIngestedAs": "IMG_2131"
   },
   {
     "slug": "offices-glass-corridor-2",
@@ -63,7 +75,10 @@
     "sourceFolder": "Growth Hub / Office Photos",
     "width": 2400,
     "height": 1800,
-    "url": "/media/gh/offices-glass-corridor-2-1600.jpg"
+    "url": "/media/gh/offices-glass-corridor-2-1600.jpg",
+    "floor": "2nd",
+    "collection": "The Collective",
+    "alsoIngestedAs": "IMG_2132"
   },
   {
     "slug": "office-with-shelving",
@@ -74,7 +89,10 @@
     "sourceFolder": "Growth Hub / Office Photos",
     "width": 2400,
     "height": 1800,
-    "url": "/media/gh/office-with-shelving-1600.jpg"
+    "url": "/media/gh/office-with-shelving-1600.jpg",
+    "floor": "2nd",
+    "collection": "The Collective",
+    "alsoIngestedAs": "IMG_2133"
   },
   {
     "slug": "boardroom-1",
@@ -85,7 +103,10 @@
     "sourceFolder": "Growth Hub / Office Photos",
     "width": 2400,
     "height": 1800,
-    "url": "/media/gh/boardroom-1-1600.jpg"
+    "url": "/media/gh/boardroom-1-1600.jpg",
+    "floor": "2nd",
+    "collection": "The Collective",
+    "alsoIngestedAs": "IMG_2134"
   },
   {
     "slug": "corridor-seating-1",
@@ -96,12 +117,15 @@
     "sourceFolder": "Growth Hub / Office Photos",
     "width": 2400,
     "height": 1800,
-    "url": "/media/gh/corridor-seating-1-1600.jpg"
+    "url": "/media/gh/corridor-seating-1-1600.jpg",
+    "floor": "14th",
+    "collection": "The Elevate",
+    "alsoIngestedAs": "IMG_2135"
   },
   {
     "slug": "corridor-planting-1",
     "grade": "PHOTO",
-    "describes": "Corridor with planting and framed art",
+    "describes": "Corridor with planting and the brand's illuminated Land. Launch. Lead. sign",
     "driveId": "1dmGSeiOdhUMCTPGMMynlvMBuYONAVgqR",
     "source": "IMG_2136",
     "sourceFolder": "Growth Hub / Office Photos",
@@ -118,7 +142,10 @@
     "sourceFolder": "Growth Hub / Office Photos",
     "width": 2400,
     "height": 1800,
-    "url": "/media/gh/corridor-planting-2-1600.jpg"
+    "url": "/media/gh/corridor-planting-2-1600.jpg",
+    "floor": "14th",
+    "collection": "The Elevate",
+    "alsoIngestedAs": "IMG_2137"
   },
   {
     "slug": "corridor-planting-3",
@@ -129,7 +156,10 @@
     "sourceFolder": "Growth Hub / Office Photos",
     "width": 2400,
     "height": 1800,
-    "url": "/media/gh/corridor-planting-3-1600.jpg"
+    "url": "/media/gh/corridor-planting-3-1600.jpg",
+    "floor": "14th",
+    "collection": "The Elevate",
+    "alsoIngestedAs": "IMG_2138"
   },
   {
     "slug": "corridor-offices-1",
@@ -140,7 +170,10 @@
     "sourceFolder": "Growth Hub / Office Photos",
     "width": 2400,
     "height": 1800,
-    "url": "/media/gh/corridor-offices-1-1600.jpg"
+    "url": "/media/gh/corridor-offices-1-1600.jpg",
+    "floor": "14th",
+    "collection": "The Elevate",
+    "alsoIngestedAs": "IMG_2139"
   },
   {
     "slug": "breakout-1",
@@ -151,7 +184,10 @@
     "sourceFolder": "Growth Hub / Office Photos",
     "width": 2400,
     "height": 1800,
-    "url": "/media/gh/breakout-1-1600.jpg"
+    "url": "/media/gh/breakout-1-1600.jpg",
+    "floor": "14th",
+    "collection": "The Elevate",
+    "alsoIngestedAs": "IMG_2141"
   },
   {
     "slug": "breakout-2",
@@ -162,7 +198,10 @@
     "sourceFolder": "Growth Hub / Office Photos",
     "width": 2400,
     "height": 1800,
-    "url": "/media/gh/breakout-2-1600.jpg"
+    "url": "/media/gh/breakout-2-1600.jpg",
+    "floor": "14th",
+    "collection": "The Elevate",
+    "alsoIngestedAs": "IMG_2142"
   },
   {
     "slug": "breakout-3",
@@ -173,7 +212,10 @@
     "sourceFolder": "Growth Hub / Office Photos",
     "width": 2400,
     "height": 1800,
-    "url": "/media/gh/breakout-3-1600.jpg"
+    "url": "/media/gh/breakout-3-1600.jpg",
+    "floor": "14th",
+    "collection": "The Elevate",
+    "alsoIngestedAs": "IMG_2143"
   },
   {
     "slug": "corridor-portrait-1",
@@ -184,7 +226,10 @@
     "sourceFolder": "Growth Hub / Office Photos",
     "width": 2268,
     "height": 4032,
-    "url": "/media/gh/corridor-portrait-1-1600.jpg"
+    "url": "/media/gh/corridor-portrait-1-1600.jpg",
+    "floor": "14th",
+    "collection": "The Elevate",
+    "alsoIngestedAs": "IMG_2149"
   },
   {
     "slug": "pantry-1",
@@ -195,7 +240,10 @@
     "sourceFolder": "Growth Hub / Office Photos",
     "width": 2400,
     "height": 1800,
-    "url": "/media/gh/pantry-1-1600.jpg"
+    "url": "/media/gh/pantry-1-1600.jpg",
+    "floor": "13th",
+    "collection": "The Apex",
+    "alsoIngestedAs": "IMG_2152"
   },
   {
     "slug": "corridor-glazed-1",
@@ -206,7 +254,10 @@
     "sourceFolder": "Growth Hub / Office Photos",
     "width": 2400,
     "height": 1800,
-    "url": "/media/gh/corridor-glazed-1-1600.jpg"
+    "url": "/media/gh/corridor-glazed-1-1600.jpg",
+    "floor": "2nd",
+    "collection": "The Collective",
+    "alsoIngestedAs": "IMG_2153"
   },
   {
     "slug": "corridor-glazed-2",
@@ -217,7 +268,10 @@
     "sourceFolder": "Growth Hub / Office Photos",
     "width": 2400,
     "height": 1800,
-    "url": "/media/gh/corridor-glazed-2-1600.jpg"
+    "url": "/media/gh/corridor-glazed-2-1600.jpg",
+    "floor": "2nd",
+    "collection": "The Collective",
+    "alsoIngestedAs": "IMG_2154"
   },
   {
     "slug": "pantry-2",
@@ -228,7 +282,10 @@
     "sourceFolder": "Growth Hub / Office Photos",
     "width": 2061,
     "height": 1179,
-    "url": "/media/gh/pantry-2-1600.jpg"
+    "url": "/media/gh/pantry-2-1600.jpg",
+    "floor": "2nd",
+    "collection": "The Collective",
+    "alsoIngestedAs": "IMG_2573"
   },
   {
     "slug": "boardroom-2",
@@ -239,7 +296,10 @@
     "sourceFolder": "Growth Hub / Office Photos",
     "width": 2081,
     "height": 1179,
-    "url": "/media/gh/boardroom-2-1600.jpg"
+    "url": "/media/gh/boardroom-2-1600.jpg",
+    "floor": "2nd",
+    "collection": "The Collective",
+    "alsoIngestedAs": "IMG_2574"
   },
   {
     "slug": "corridor-outlook-1",
@@ -250,7 +310,10 @@
     "sourceFolder": "Growth Hub / Office Photos",
     "width": 2090,
     "height": 1179,
-    "url": "/media/gh/corridor-outlook-1-1600.jpg"
+    "url": "/media/gh/corridor-outlook-1-1600.jpg",
+    "floor": "13th",
+    "collection": "The Apex",
+    "alsoIngestedAs": "IMG_2575"
   },
   {
     "slug": "washroom-1",
@@ -261,7 +324,10 @@
     "sourceFolder": "Growth Hub / Office Photos",
     "width": 2033,
     "height": 1179,
-    "url": "/media/gh/washroom-1-1600.jpg"
+    "url": "/media/gh/washroom-1-1600.jpg",
+    "floor": "13th",
+    "collection": "The Apex",
+    "alsoIngestedAs": "IMG_2576"
   },
   {
     "slug": "pantry-3",
@@ -272,7 +338,10 @@
     "sourceFolder": "Growth Hub / Office Photos",
     "width": 2043,
     "height": 1179,
-    "url": "/media/gh/pantry-3-1600.jpg"
+    "url": "/media/gh/pantry-3-1600.jpg",
+    "floor": "14th",
+    "collection": "The Elevate",
+    "alsoIngestedAs": "IMG_2578"
   },
   {
     "slug": "corridor-outlook-2",
@@ -283,7 +352,10 @@
     "sourceFolder": "Growth Hub / Office Photos",
     "width": 2063,
     "height": 1179,
-    "url": "/media/gh/corridor-outlook-2-1600.jpg"
+    "url": "/media/gh/corridor-outlook-2-1600.jpg",
+    "floor": "13th",
+    "collection": "The Apex",
+    "alsoIngestedAs": "IMG_2579"
   },
   {
     "slug": "office-single-desk-1",
@@ -294,7 +366,10 @@
     "sourceFolder": "Growth Hub / Office Photos",
     "width": 2072,
     "height": 1179,
-    "url": "/media/gh/office-single-desk-1-1600.jpg"
+    "url": "/media/gh/office-single-desk-1-1600.jpg",
+    "floor": "13th",
+    "collection": "The Apex",
+    "alsoIngestedAs": "IMG_2580"
   },
   {
     "slug": "event-room-theatre-1",
@@ -305,7 +380,10 @@
     "sourceFolder": "Growth Hub / Office Photos",
     "width": 2074,
     "height": 1179,
-    "url": "/media/gh/event-room-theatre-1-1600.jpg"
+    "url": "/media/gh/event-room-theatre-1-1600.jpg",
+    "floor": "13th",
+    "collection": "The Apex",
+    "alsoIngestedAs": "IMG_2581"
   },
   {
     "slug": "office-single-desk-2",
@@ -316,7 +394,10 @@
     "sourceFolder": "Growth Hub / Office Photos",
     "width": 2004,
     "height": 1179,
-    "url": "/media/gh/office-single-desk-2-1600.jpg"
+    "url": "/media/gh/office-single-desk-2-1600.jpg",
+    "floor": "13th",
+    "collection": "The Apex",
+    "alsoIngestedAs": "IMG_2582"
   },
   {
     "slug": "office-single-desk-3",
@@ -327,7 +408,10 @@
     "sourceFolder": "Growth Hub / Office Photos",
     "width": 2077,
     "height": 1179,
-    "url": "/media/gh/office-single-desk-3-1600.jpg"
+    "url": "/media/gh/office-single-desk-3-1600.jpg",
+    "floor": "13th",
+    "collection": "The Apex",
+    "alsoIngestedAs": "IMG_2583"
   },
   {
     "slug": "office-single-desk-4",
@@ -338,7 +422,10 @@
     "sourceFolder": "Growth Hub / Office Photos",
     "width": 2068,
     "height": 1179,
-    "url": "/media/gh/office-single-desk-4-1600.jpg"
+    "url": "/media/gh/office-single-desk-4-1600.jpg",
+    "floor": "13th",
+    "collection": "The Apex",
+    "alsoIngestedAs": "IMG_2584"
   },
   {
     "slug": "office-twin-desk-1",
@@ -349,7 +436,10 @@
     "sourceFolder": "Growth Hub / Office Photos",
     "width": 2065,
     "height": 1179,
-    "url": "/media/gh/office-twin-desk-1-1600.jpg"
+    "url": "/media/gh/office-twin-desk-1-1600.jpg",
+    "floor": "14th",
+    "collection": "The Elevate",
+    "alsoIngestedAs": "IMG_2585"
   },
   {
     "slug": "office-twin-desk-2",
@@ -360,7 +450,10 @@
     "sourceFolder": "Growth Hub / Office Photos",
     "width": 2072,
     "height": 1179,
-    "url": "/media/gh/office-twin-desk-2-1600.jpg"
+    "url": "/media/gh/office-twin-desk-2-1600.jpg",
+    "floor": "2nd",
+    "collection": "The Collective",
+    "alsoIngestedAs": "IMG_2587"
   },
   {
     "slug": "office-glazed-1",
@@ -371,7 +464,10 @@
     "sourceFolder": "Growth Hub / Office Photos",
     "width": 2074,
     "height": 1179,
-    "url": "/media/gh/office-glazed-1-1600.jpg"
+    "url": "/media/gh/office-glazed-1-1600.jpg",
+    "floor": "2nd",
+    "collection": "The Collective",
+    "alsoIngestedAs": "IMG_2589"
   },
   {
     "slug": "office-single-desk-5",
@@ -382,7 +478,10 @@
     "sourceFolder": "Growth Hub / Office Photos",
     "width": 2056,
     "height": 1179,
-    "url": "/media/gh/office-single-desk-5-1600.jpg"
+    "url": "/media/gh/office-single-desk-5-1600.jpg",
+    "floor": "13th",
+    "collection": "The Apex",
+    "alsoIngestedAs": "IMG_2593"
   },
   {
     "slug": "lounge-3",
@@ -393,28 +492,23 @@
     "sourceFolder": "Growth Hub / Office Photos",
     "width": 2052,
     "height": 1179,
-    "url": "/media/gh/lounge-3-1600.jpg"
+    "url": "/media/gh/lounge-3-1600.jpg",
+    "floor": "14th",
+    "collection": "The Elevate",
+    "alsoIngestedAs": "IMG_2594"
   },
   {
     "slug": "corridor-art-1",
     "grade": "CAPTURE",
-    "describes": "Corridor with framed art and an armchair",
+    "describes": "Corridor with an armchair under the brand's illuminated Land. Launch. Lead. sign",
     "driveId": "1fPX8041Q2OTDgYMXidhVxehOuGKwNOyJ",
     "source": "IMG_2595",
     "sourceFolder": "Growth Hub / Office Photos",
     "width": 2072,
     "height": 1179,
-    "url": "/media/gh/corridor-art-1-1600.jpg"
-  },
-  {
-    "slug": "adliya-exterior",
-    "grade": "EXTERIOR",
-    "describes": "The building on Adliya Plaza, from the street",
-    "driveId": null,
-    "source": "google-maps-place",
-    "sourceFolder": "Google Maps place record — Fahdan Business Solutions, Adliya",
-    "width": 1200,
-    "height": 630,
-    "url": "/media/gh/adliya-exterior-1600.jpg"
+    "url": "/media/gh/corridor-art-1-1600.jpg",
+    "floor": "14th",
+    "collection": "The Elevate",
+    "alsoIngestedAs": "IMG_2595"
   }
 ]
