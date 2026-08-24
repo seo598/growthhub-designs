@@ -1872,6 +1872,1141 @@
   .hm-cities .citygrid { grid-template-columns: repeat(4, 1fr); }
 }
 
+/*!****************************************************************************************************************************************************************************************************************************************************************************!*\
+  !*** css ./node_modules/next/dist/build/webpack/loaders/css-loader/src/index.js??ruleSet[1].rules[14].oneOf[10].use[2]!./node_modules/next/dist/build/webpack/loaders/postcss-loader/src/index.js??ruleSet[1].rules[14].oneOf[10].use[3]!./app/styles/desktop-offices.css ***!
+  \****************************************************************************************************************************************************************************************************************************************************************************/
+/* desktop-offices — desktop rollout of the system proved on the homepage.
+   Owned by one work area so parallel passes cannot clobber a shared file.
+   Rules here are ADDITIVE and min-width only: the base layer is the mobile
+   layout and must not be edited from here.
+
+   PAGES: /offices, /meeting-hours, /locations and the venue template
+   (/workspaces/[country]/[city]/[slug], which serves three fill levels —
+   Al-Khobar with 8 photographs and 17 spaces, Fahdan with 8 photographs and
+   no spaces, Diplomatic Area with neither).
+
+   SCOPE PREFIX of-. Every <main> in this area carries `dk-page of-<page>`, and
+   every selector below is compound under one of those scopes. That is not
+   tidiness: the @import block LEADS app/globals.css, so this sheet is EARLIER
+   in source order than globals' own rules and a bare `.trust {}` here would tie
+   `.trust {}` there at (0,1,0) and lose the tie silently — no error, no
+   warning, no effect. The inverse holds and is relied on below: this sheet
+   imports AFTER venue.css and marketing.css, so `.of-venue .vgal-lead img`
+   and `.of-locs .mk-loc-shot` win their ties against those files.
+
+   ONE BREAKPOINT. Exactly one @media (min-width: 1100px) block, and nothing
+   else. Not one max-width block is added or edited, which is what makes
+   "mobile must not regress" structural rather than a promise. The existing
+   collapses in globals.css (.towerwrap 820, .cfg2 700, .hourrow 640,
+   .venuegrid 1000) and in venue.css (.vgal-* 760) are the base layer and stay
+   exactly as they are. Nothing here goes near 720px — that is NAV_BREAKPOINT.
+
+   ZERO JAVASCRIPT. Nothing in this file, and nothing it styles, needs a
+   script. Tower.jsx's controls stay disabled until hydration and are NOT
+   restyled to read as enabled: that exact control ticked natively in the
+   client's static mirror while the total stood still, and showed a wrong price.
+
+   NO TEXT ON ANY PHOTOGRAPH. Contrast over an arbitrary image cannot be
+   computed, so it cannot be asserted. Captions sit BELOW the frame as --muted
+   on --shell, a pair scripts/contrast.mjs already vouches for, which is why
+   this pass adds zero new contrast assertions.
+=========================================================================== */
+
+/* ---------------------------------------------------------------------------
+   BASE LAYER — the handful of declarations the NEW elements need in order to
+   exist at all on a phone. No existing element is touched here.
+--------------------------------------------------------------------------- */
+
+/* The hero band on /offices and /meeting-hours. One column on a phone, with
+   the children in DOM order and the photograph last; the desktop layout is
+   reached purely by grid-column / grid-row inside the media query below.
+   `order` is never used: it relocates the box without relocating the tab
+   sequence, and this project's a11y gates are scripts that cannot see a
+   visual/focus desync. */
+.of-herogrid,
+.of-hourshero { display: grid; grid-gap: clamp(26px, 3.4vw, 42px); gap: clamp(26px, 3.4vw, 42px); }
+
+/* The hero photograph's slot. It is a DIV, not the figure, because the
+   provenance line has to travel with the picture — see the note in
+   offices/page.jsx. The empty state carries the SAME class, so the placement
+   below is on the SLOT and not on the element type. */
+.of-shot { margin: 0; }
+.of-shot figure { margin: 0; }
+.of-shot figure img {
+  /* height:auto is LOAD BEARING. The width/height attributes on the <img> map
+     to presentational CSS, and that 1200 would beat aspect-ratio outright and
+     stretch the frame to 1200px tall. The attributes stay because they are
+     what reserves the box before the file lands.
+
+     4/3, from the real geometry of the file and not from what the layout
+     wanted: public/media/gh/office-with-shelving-1600.jpg and
+     public/media/gh/boardroom-1-1600.jpg are both exactly 1600x1200 on disk,
+     read from the JPEG SOF marker rather than from the manifest (which records
+     the 2400x1800 SOURCE, not the derivative that ships). A 4/3 frame in a
+     4/3 slot crops nothing at all. */
+  display: block; width: 100%; height: auto;
+  aspect-ratio: 4 / 3; object-fit: cover; object-position: center;
+  border-radius: 4px; background: var(--rose-deep);
+}
+.of-cap { padding-top: 9px; font-size: .85rem; color: var(--muted); }
+
+/* No frame in the library, no hero shot — and a hole where one was expected is
+   worse than a stated absence. Compound so it beats globals' .silent margins. */
+.of-shot.silent { display: grid; align-content: center; aspect-ratio: 4 / 3; margin-top: 0; max-width: none; }
+
+/* ===========================================================================
+   DESKTOP. One boundary, already in the codebase (.resultsplit and .mappanel
+   in globals.css use it), used by everything below.
+=========================================================================== */
+@media (min-width: 1100px) {
+
+  /* -------------------------------------------------------------------------
+     1. THE HERO, on /offices and /meeting-hours
+     -------------------------------------------------------------------------
+     The homepage's own shape, reproduced under this area's scope rather than
+     borrowed by selector: .hm-herogrid cannot match here, so the DECLARATIONS
+     are copied and the selector is not.
+
+     THE RIGHT TRACK IS A clamp() AND NEVER AN fr. That is the point, not a
+     preference: an fr can only be described to the browser by restating it in
+     different units, which is the mismatch that has shipped on this project
+     three times. A clamp() copies character-for-character into `sizes`.
+     minmax(0, 1fr) on the left, never a bare 1fr, whose min-width:auto lets one
+     long string blow the copy track out.
+
+     420/40vw/560 is sized from the tree's ceiling outward, not from the layout
+     inward: /media/gh tops out at 1600w on disk, so a 560px slot is 2.86x at
+     2xDPR where the 1152px frame this replaces was 0.69x — visibly soft on
+     exactly the machines this upgrade targets. */
+  .of-herogrid,
+  .of-hourshero {
+    grid-template-columns: minmax(0, 1fr) clamp(420px, 40vw, 560px);
+    column-gap: clamp(40px, 4vw, 56px);
+    row-gap: clamp(30px, 3.4vw, 44px);
+    align-items: end;
+  }
+  .of-herogrid .of-copy,
+  .of-hourshero .of-copy { grid-column: 1; grid-row: 1; }
+  .of-herogrid .of-shot,
+  .of-hourshero .of-shot { grid-column: 2; grid-row: 1; }
+
+  /* -------------------------------------------------------------------------
+     2. THE STAT RAIL — the system's signature device
+     -------------------------------------------------------------------------
+     home.css:210-232, copied declaration for declaration under this area's own
+     ancestors. Every figure in it is DERIVED from live rows in the page
+     component; nothing is typed.
+
+     auto-fit is CORRECT here and is not the collapsing-track bug: cells render
+     conditionally (there is no from-price when no office has a published rate
+     plan, and no photograph count at a centre with no Media rows), and auto-fit
+     is exactly what makes three figures spread across three tracks instead of
+     leaving a gap where a fourth would have been.
+
+     The 1px TOP PADDING IS the top hairline — the --line-2 ground shows through
+     it exactly as it shows through the 1px gaps. globals' padding-top: 22px and
+     margin-top: 28px MUST be reset or they paint a 22px slab of --line-2 above
+     the row, and a border-top there would double it. */
+  .of-herogrid .trust,
+  .of-hourshero .trust,
+  .of-venue .of-vstats {
+    display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    grid-gap: 1px;
+    gap: 1px; background: var(--line-2);
+    border-top: 0; padding: 1px 0 0; margin-top: 0;
+  }
+  /* 150, not 200, on the venue rail alone. It does not sit in the full content
+     box: .venuegrid hands roughly 320–380px plus a gap to the booking rail, so
+     .venuemain is 648px at 1100 and 765px at 1240. At minmax(200px, 1fr) that
+     fits only three tracks and Al-Khobar's FOUR figures wrapped, leaving two
+     cells of the second row painting the --line-2 ground as solid blocks —
+     the hole this pattern exists to avoid. Measured at 1100, 1240, 1360 and
+     1440: four tracks at every one. */
+  .of-venue .of-vstats { grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); }
+  .of-herogrid .trust > div,
+  .of-hourshero .trust > div,
+  .of-venue .of-vstats > div { background: var(--shell); padding: 20px 22px 4px; }
+  /* Flush with the headline. The rail's alignment to the copy column matters
+     more than the symmetry of the first divider's gutter. Logical, so the
+     Arabic routes that render the same primitive flip for free. */
+  .of-herogrid .trust > div:first-child,
+  .of-hourshero .trust > div:first-child,
+  .of-venue .of-vstats > div:first-child { -webkit-padding-start: 0; padding-inline-start: 0; }
+  /* The oversized tabular numeral, the design's own device for a derived
+     figure. .num sets tabular-nums lining-nums and Rubik carries real tabular
+     figures, so column alignment costs no monospace font. */
+  .of-herogrid .trust b,
+  .of-hourshero .trust b,
+  .of-venue .of-vstats b { font-size: clamp(1.5rem, 2.2vw, 2.2rem); }
+
+  /* The rail closes the hero band under both columns. */
+  .of-herogrid .trust,
+  .of-hourshero .trust { grid-column: 1 / -1; grid-row: 3; }
+  /* The provenance line travels with the picture, in the picture's column. */
+  .of-herogrid .of-prov,
+  .of-hourshero .of-prov { grid-column: 2; grid-row: 2; margin: 0; }
+  /* The venue rail is markup `trust of-vstats`, so below 1100 it keeps globals'
+     flex-wrap .trust layout untouched and only becomes the hairline grid here.
+     margin-bottom separates it from the gallery that follows. */
+  .of-venue .of-vstats { margin-bottom: 30px; }
+
+  /* -------------------------------------------------------------------------
+     3. THE TOWER, on /offices
+     -------------------------------------------------------------------------
+     Scoped .of-tower, a wrapper added in offices/page.jsx and NOT inside
+     Tower.jsx — that component also renders on the adversarially-verified
+     homepage and on /ar, and an unscoped .towerwrap rule would land on both.
+
+     The base stays globals' clamp(190px,22vw,260px) 1fr with its own
+     max-width:820 collapse, untouched. */
+  .of-tower .towerwrap { grid-template-columns: clamp(220px, 20vw, 300px) minmax(0, 1fr); }
+  /* auto-fit, because the tier count varies per collection: The Collective has
+     three tiers, another may have two, and a fixed repeat(N) would leave holes
+     or collapse tracks depending on which floor is selected.
+     .tiergrid is declared TWICE in globals.css, at 531 and at 662; 662 wins and
+     is the hairline version, so this is styled against that one. */
+  .of-tower .tiergrid { grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); }
+  .of-tower .cfg2 { grid-template-columns: minmax(0, 1fr) clamp(260px, 24vw, 340px); }
+  /* NOTE: the add-on checkboxes inside .cfg2 are disabled until hydration and
+     are deliberately NOT restyled here to read as enabled. In the client's
+     static mirror they tick natively while the React-computed total does not
+     move, which showed a wrong monthly price in the only place the client
+     looks. A control either works with no JS or renders visibly disabled. */
+
+  /* -------------------------------------------------------------------------
+     4. THE SUPPORTING FRAMES, on /offices and /meeting-hours
+     -------------------------------------------------------------------------
+     repeat(2, 1fr) is marketing.css's own track past 560 and is retained; what
+     changes is the `sizes` on the frames, in the JSX. The declared crossover
+     was `(min-width: 1240px) 571px` — a MEASURED number, and the exact bug
+     class this system exists to kill. It is replaced by the literal expression
+     the CSS resolves: the container's own tokens, minus .mk-row's 10px gap,
+     halved. Nothing to add here; the note is the point. */
+
+  /* -------------------------------------------------------------------------
+     5. THE VENUE TEMPLATE
+     -------------------------------------------------------------------------
+     THE CONTAINER IS DERIVED, NOT DECIDED. page.jsx adds bound-wide only when
+     `photos.length || spaces.length`, so Diplomatic Area — which has neither —
+     stays at 1240 by the shared rule that a band earns 1360 when it carries a
+     grid of cells, a photograph or a stat rail. That is the whole answer to
+     Venue 34; it needs no special case. */
+  .of-venue .venuegrid {
+    grid-template-columns: minmax(0, 1fr) clamp(320px, 26vw, 380px);
+    column-gap: clamp(40px, 4vw, 56px);
+  }
+
+  /* --- the gallery -------------------------------------------------------
+     TWO BRANCHES, PICKED FROM THE FRAME THAT IS ACTUALLY THERE.
+     VenueGallery.jsx computes `thin` from the lead's DELIVERED intrinsic width
+     — min(manifest source width, the largest width that tree's ingest actually
+     wrote) — and emits .vgal-thin, and the SAME branch picks the `sizes`
+     string, so the class and the string cannot drift.
+
+     Al-Khobar's lead is /media/floors/14th-img_2136-1600.jpg, 1600x1200 on
+     disk: it goes 523 -> 600 CSS px, 2.67x at 2xDPR.
+     Fahdan's lead is /media/fahdan/2024-05-21-9-1600.jpg, and that file is
+     360x189 — every one of the eight Fahdan frames is 360px wide, and the
+     -400, -800 and -1600 names are three labels for one file. It goes
+     523 -> 360, i.e. 1:1 with the pixels that exist. SMALLER, deliberately,
+     and that is the correct direction: the shipped lead was a 1.45x upscale,
+     2.9x at 2xDPR.
+
+     BOTH TRACKS ARE EXPLICIT AND NEITHER IMAGE SITS IN AN fr. The second
+     track is `auto` with justify-content: start, so it is sized by the rail's
+     own explicit column below rather than by whatever is left over — the rail
+     is a photograph too, and a leftover track cannot be written into `sizes`
+     without restating it in different units. */
+  .of-venue .vgal-grid {
+    grid-template-columns: clamp(420px, 41vw, 600px) auto;
+    justify-content: start;
+    align-items: start;
+  }
+  .of-venue .vgal-rail { grid-template-columns: clamp(150px, 12vw, 200px); }
+  /* The thin grid is repeat(auto-fill, 360px) rather than two fixed tracks for
+     one measured reason: .venuemain is only 633px at a 1100px window, and
+     360 + 8 + 360 is 728. auto-fill drops to a single 360px column there and
+     the lead and the rail stack, which costs height and costs the frames
+     nothing; from about 1170 up it is two columns again. The `sizes` string is
+     a literal 360px in both cases, because the CELL never changes size — only
+     how many of them fit on a row. */
+  .of-venue .vgal-thin .vgal-grid { grid-template-columns: repeat(auto-fill, 360px); }
+  .of-venue .vgal-thin .vgal-rail { grid-template-columns: 360px; }
+
+  /* venue.css gives the lead `height: 100%` past 760 so it fills a row whose
+     height the stacked rail sets. With the rail now a narrow explicit column
+     that row is short, and height:100% would letterbox a 4/3 frame to roughly
+     2.3:1 — or, on the thin branch, stretch a 360x189 file to 360x620. So the
+     lead goes back to its own geometry here, per branch, and the row is
+     top-aligned. (0,3,0) and (0,4,0) beat venue.css's (0,2,0) outright, so this
+     does not depend on import order. */
+  .of-venue .vgal-lead { height: auto; }
+  .of-venue .vgal-lead img { height: auto; min-height: 0; aspect-ratio: 4 / 3; }
+  .of-venue .vgal-thin .vgal-lead img { aspect-ratio: 16 / 9; }
+
+  /* An explicit-width track instead of four fr, precisely so the string can be
+     written. auto-fill because the surplus count is data-driven: Al-Khobar and
+     Fahdan each have four frames past the rail cap, a third centre has none. */
+  .of-venue .vgal-more {
+    grid-template-columns: repeat(auto-fill, clamp(150px, 14vw, 200px));
+    justify-content: start;
+  }
+
+  /* .spaces / .specs inside VenueAvailability BELONG TO ANOTHER AREA and are
+     not written here. They stay at globals' auto-fill base on this page, which
+     widens correctly on its own. VenueAvailability.jsx carries a wrapper class
+     for that area to reach them by; see the report. */
+
+  /* -------------------------------------------------------------------------
+     6. THE HOURS METER, on /meeting-hours
+     -------------------------------------------------------------------------
+     Track 1 was minmax(120px, 1.1fr), so it absorbed every spare pixel: at 1440
+     the office NAME owned 822px while .pips was capped at 108px. Capping the
+     name at 24ch and giving the meter the 1fr turns 822px of dead label into a
+     row of the brand's own drop marks at the width it was drawn for.
+
+     FOUR tracks, not three. This page renders a price the homepage does not, so
+     globals' fourth `auto` is live and stays. That is also why .hm-hours
+     .hourrow could not simply be reused: it names three tracks, and its
+     selector cannot match here in any case. The DECLARATIONS are copied; the
+     selector is not.
+
+     justify-content MUST stay start. With space-between every row would end at
+     the same x and the meter would stop encoding anything at all. */
+  .of-hours .hourrow { grid-template-columns: minmax(0, 24ch) minmax(0, 1fr) auto auto; }
+  .of-hours .pips { max-width: none; justify-content: start; gap: clamp(2px, .55vw, 10px); }
+  .of-hours .pips i { width: 7px; height: 7px; }
+
+  /* Four across, fixed and complete: meeting-hours/page.jsx closes a short row
+     with a REAL link to a REAL page (the centre those rooms are in), the
+     .hm-roomall pattern, so no cell is ever left showing the grid's own
+     hairline ground as a block. repeat(N,1fr) and not auto-fit for exactly
+     that reason — the count is made complete in the markup. */
+  .of-hours .roomgrid { grid-template-columns: repeat(4, 1fr); }
+  .of-hours .of-roomall { background: var(--shell); justify-content: center; }
+
+  /* -------------------------------------------------------------------------
+     7. THE CENTRE CARDS, on /locations
+     -------------------------------------------------------------------------
+     The photograph moves to the END of .loccard in the JSX and is placed here
+     with grid-column / grid-row. It is never moved with `order`: that relocates
+     the box and not the tab sequence.
+
+     Two branches again, and for the same reason as the venue gallery. Adliya's
+     card lead is a 360px Fahdan frame and Al-Khobar's is a 1600px one, so the
+     track is picked per card from the frame that is on it. Both are a large
+     REDUCTION from the 1150px the bled figure rendered at today — a 3.2x
+     upscale of the Adliya frame, on the page whose whole subject is which
+     building a photograph is of.
+
+     The grid is on .of-locpic, which the JSX adds only to a card that HAS a
+     frame. A centre with none — Diplomatic Area today — stays in normal flow
+     rather than being handed a 420px column with nothing in it and having its
+     own text squeezed into what was left. */
+  .of-locs .of-locpic {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) clamp(300px, 30vw, 420px);
+    grid-column-gap: clamp(28px, 3vw, 44px);
+    column-gap: clamp(28px, 3vw, 44px);
+    align-items: start;
+  }
+  .of-locs .of-locthin { grid-template-columns: minmax(0, 1fr) 360px; }
+  .of-locs .of-locpic > * { grid-column: 1; }
+  .of-locs .of-locpic > .mk-loc-shot { grid-column: 2; grid-row: 1; }
+
+  /* marketing.css bleeds this figure sideways to the card edges with a -22px
+     side margin, which was right while it was a full-width block inside the
+     card. In a column it would bleed into the gutter on one side. The bleed is
+     dropped rather than re-aimed: negative margins are banned as layout here,
+     and a bordered frame is what the rest of the system uses anyway.
+     margin-inline / padding-inline, never left/right — StaticPage, FaqView and
+     the partner views each render in both locales and the rule is site-wide. */
+  .of-locs .mk-loc-shot {
+    margin: 0; border: 1px solid var(--line); border-radius: 4px; overflow: hidden;
+  }
+  .of-locs .mk-loc-shot figcaption { padding-inline: 12px; }
+
+  /* .locfacts is a bare <dl> of dt/dd pairs, already wrapped one pair per
+     <div> in the JSX, so it becomes the hairline stat rail with no markup
+     change. auto-fit because two of the four cells are conditional: Building
+     renders only where one is recorded, and Address renders "Not published"
+     where one is not. dd already carries .num. Same 1px-top-padding hairline
+     as the rails above, and the same reset of globals' own margins. */
+  .of-locs .locfacts {
+    display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+    grid-gap: 1px;
+    gap: 1px; background: var(--line-2); padding: 1px 0 0; margin: 18px 0 0;
+  }
+  .of-locs .locfacts > div { background: var(--shell); padding: 16px 18px 4px; }
+  .of-locs .locfacts > div:first-child { -webkit-padding-start: 0; padding-inline-start: 0; }
+
+  /* The 825px of empty row is gone as a side effect of the two-column card;
+     this states the alignment rather than inheriting it. start/end, never
+     flex-start, for the RTL routes. */
+  .of-locs .locactions { justify-content: start; }
+}
+
+/*!***************************************************************************************************************************************************************************************************************************************************************************!*\
+  !*** css ./node_modules/next/dist/build/webpack/loaders/css-loader/src/index.js??ruleSet[1].rules[14].oneOf[10].use[2]!./node_modules/next/dist/build/webpack/loaders/postcss-loader/src/index.js??ruleSet[1].rules[14].oneOf[10].use[3]!./app/styles/desktop-search.css ***!
+  \***************************************************************************************************************************************************************************************************************************************************************************/
+/* ===========================================================================
+   AREA B — the search and workspace-type pages, at desktop widths.
+   /workspaces · /workspaces?mode=hour · /workspaces?view=map
+   /spaces · /spaces/[family]                                     Prefix: sr-
+   ---------------------------------------------------------------------------
+   WHAT THIS FILE IS FOR. /workspaces already carried `bound bound-wide`, so the
+   container was never the problem — the grid inside it was. At 1240 the 250px
+   filter rail plus `repeat(auto-fill, minmax(280px, 1fr))` plus an 18px gap left
+   an 861px results column, three 280px tracks need 876px, and the row silently
+   dropped to two: cards ballooned 320 -> 421.5px and the page grew from 1,983 to
+   2,672px in month mode and from 2,925 to 4,339px in hour mode (+48%) for the
+   same eleven results. The map view was worse still — two `fr` tracks, a
+   full-width row per result, 4,796px of page and ONE photograph above the fold.
+   /spaces and /spaces/[family] were still on `.bound` with nothing beside the
+   prose at all.
+
+   THE THREE RULES THIS FILE OBEYS, each of which has already broken something.
+
+   1. EVERY SELECTOR THAT TOUCHES AN ELEMENT globals.css ALSO STYLES IS COMPOUND.
+      The @import block LEADS globals.css, so this sheet is EARLIER in source
+      order than globals' own rules. A bare `.spaces {}` here would tie
+      `.spaces {}` there at (0,1,0) and lose the tie on source order — silently,
+      with no error and nothing on screen. So it is `.sr-results .spaces`,
+      `.sr-search .searchlayout`, `.sr-spaceshero .trust`. New `.sr-*` names are
+      safe either way and are still written scoped.
+
+   2. EXACTLY ONE @media (min-width: 1100px) BLOCK, AND NOTHING ELSE. Not one
+      max-width block is added or edited, which is what makes "mobile must not
+      regress" structural rather than a promise. 1100 is not a new number —
+      `.resultsplit` and `.mappanel` already turn there. Nothing here goes near
+      720px, which is NAV_BREAKPOINT.
+
+   3. NOTHING BELOW NEEDS A SCRIPT. The client reviews this site as a static
+      export whose capture strips every <script>. The filter rail on /workspaces
+      is a native method="get" form and is THE one genuinely interactive control
+      on the site that survives that capture — it is widened and otherwise left
+      exactly alone. No :checked pattern replaces it, no combobox is added, and
+      the seven wishlist POST buttons (which do NOT survive the capture) gain no
+      prominence at all in the wider band.
+
+   OWNED SITE-WIDE BY THIS FILE (no other area writes them): .spaces .specs
+   .stile .stile-photo .stile-tag .famgrid .famgrid-quiet .fam .fam-empty
+   .famdef .famstate .typenames .searchlayout .frail .toolbar .modes
+   .resultsplit .spaces-split .mappanel*. Site chrome — .titleblock, .lede,
+   .sec, .crumbs, .note, .silent, .points — belongs to AREA C and is not
+   written here at any specificity, which is why the empty-state boxes below are
+   reached through this file's OWN `.sr-shot` class and never through `.silent`.
+=========================================================================== */
+
+/* ---------------------------------------------------------------------------
+   BASE LAYER. Only what the new elements need in order to exist at all on a
+   phone. Every desktop decision is in the single media query at the foot.
+--------------------------------------------------------------------------- */
+
+/* The family hero's photograph, and the stated absence that stands in the same
+   slot when there is none. Both carry .sr-shot so that PLACEMENT is on the
+   slot and not on the element type — `order` is never used anywhere below,
+   because it relocates the box without relocating the tab sequence and this
+   project's a11y gates are scripts that cannot see that desync. */
+.sr-famhero figure.sr-shot { margin: 22px 0 0; }
+/* 460px is the ceiling AT EVERY WIDTH, not just at the desktop track, and it is
+   the reason `sizes` below 1100 is a single expression for both geometries. Left
+   uncapped, the 1200x1472 portrait frames render 691x830 on a 768px tablet — a
+   whole screen of photograph above the definition the page exists to give. The
+   desktop track clamps to the same 460, so this never binds there. */
+.sr-famhero .sr-shot { max-width: 460px; }
+.sr-shot img {
+  /* height:auto is LOAD-BEARING. The width/height attributes on the <img> map
+     to presentational CSS and that height would beat aspect-ratio and stretch
+     the frame. The attributes stay because they are what reserves the box
+     before the file lands. Same note as .hm-shot img, same reason. */
+  display: block; width: 100%; height: auto;
+  object-fit: cover; object-position: center;
+  border-radius: 4px; background: var(--rose-deep);
+}
+/* Two geometries, because the library has two and the section is shaped around
+   the photography rather than the photography cropped into the section.
+   Verified from the JPEG SOF markers, not from the manifest:
+     /media/gh    1600x1200 landscape — 4/3 is its NATIVE frame, so the corridor
+                  keeps its timber ceiling and its tiled floor, uncropped.
+     /media/rooms 1200x1472 portrait  — 5/6 is the shipped homepage's answer for
+                  this tree (a 2.2% crop off 1200/1472) and is reused verbatim so
+                  a room frame is the same shape here as on the homepage rail.
+   The class is DERIVED from the url's tree in the page, never hand-set. */
+.sr-shot-wide img { aspect-ratio: 4 / 3; }
+.sr-shot-tall img { aspect-ratio: 5 / 6; }
+/* NO TEXT ON THE PHOTOGRAPH, here or anywhere in this pass. Contrast over an
+   arbitrary image cannot be computed, so it cannot be asserted, so it can never
+   meet this project's own standard. The caption sits BELOW the frame as --muted
+   on --shell, a pair scripts/contrast.mjs already vouches for — which is why
+   this pass, like the homepage pass before it, adds ZERO new assertions. */
+.sr-shotcap { padding-top: 9px; font-size: .85rem; color: var(--muted); line-height: 1.5; }
+
+/* ===========================================================================
+   DESKTOP. One boundary, already in the codebase, used by everything below.
+=========================================================================== */
+@media (min-width: 1100px) {
+
+  /* -----------------------------------------------------------------------
+     B1. THE 1240 COLUMN DROP — the highest-value fix in this area.
+     -----------------------------------------------------------------------
+     The rail becomes a clamp so it can give back the 40px that the third
+     results track needs at 1240, and the gap becomes a clamp for the same
+     reason. At 1240: rail 210 + gap 29.4 leaves 897.6, and three tracks fit at
+     287.2 each. At 1440: rail 242.25 + gap 34 leaves 995.75 and three tracks at
+     319.9. THREE COLUMNS AT BOTH WIDTHS, which is the whole point.
+
+     THE COST, STATED: globals.css records that a 232px rail put the amenity
+     labels onto two lines. At 1240 this rail is 210px, so they do wrap. The
+     rail is `position: sticky` and is not what sets the page height, and the
+     trade buys back ~690px of page in month mode and ~1,400px in hour mode.
+
+     DELIBERATELY NOT A HAIRLINE GRID. A results list is variable-length —
+     eleven results on three tracks leave a two-card last row, and the `gap: 1px
+     over --line-2` device would read as a closed table with a hole punched in
+     it. That device is for rows that are COMPLETE (a fixed count) or
+     CONDITIONAL (auto-fit). This is neither, so the 18px gap over the page
+     ground stays.
+
+     repeat(3, 1fr) and not auto-fill for one further reason: an auto-fill
+     track's width can only be described to the browser by restating it in
+     different units, and `sizes` on these tiles is written from this line
+     character for character. See SpaceTile's own header. */
+  .sr-search .searchlayout {
+    grid-template-columns: clamp(210px, 17vw, 250px) minmax(0, 1fr);
+    column-gap: clamp(24px, 2.4vw, 34px);
+  }
+  .sr-results .spaces { grid-template-columns: repeat(3, 1fr); gap: 18px; }
+
+  /* -----------------------------------------------------------------------
+     B4. THE TOOLBAR — 422 of 996px used, and three children.
+     -----------------------------------------------------------------------
+     Three tracks, not two: `minmax(0,1fr) auto` would have dropped the third
+     child (.rescount) onto a second row. The sort links carry
+     margin-inline-start:auto — LOGICAL, so the row reverses for free if this
+     toolbar is ever rendered under [dir="rtl"] — which puts the layout switch
+     hard left, the sort links and the count hard right, and nothing floating in
+     the middle of a 996px band. */
+  .sr-search .toolbar {
+    display: grid;
+    grid-template-columns: auto minmax(0, 1fr) auto;
+    align-items: baseline;
+    grid-column-gap: clamp(16px, 2vw, 28px);
+    column-gap: clamp(16px, 2vw, 28px);
+  }
+  .sr-search .toolbar .sortlinks { -webkit-margin-start: auto; margin-inline-start: auto; }
+
+  /* -----------------------------------------------------------------------
+     B3. THE MAP VIEW — 4,796px tall with ONE photograph above the fold.
+     -----------------------------------------------------------------------
+     globals gives .resultsplit `minmax(0,1fr) minmax(0,.9fr)` — TWO fr tracks,
+     so nothing inside either one has a writable `sizes`. The map panel is a
+     canvas and needs no `sizes` at all, so it is the one that takes the clamp
+     and the results column keeps the fr. That single swap is what makes the
+     thumbnail below expressible. */
+  .sr-map .resultsplit { grid-template-columns: minmax(0, 1fr) clamp(380px, 34vw, 520px); }
+
+  /* .spaces-split forces one column of full-width rows (globals, with
+     !important). Rather than fight it, the ROW becomes the layout: a fixed
+     thumbnail track and the copy beside it. Five text children, five explicit
+     rows, and the tile spans them — `1 / -1` resolves against the EXPLICIT
+     grid, which is why the rows are declared rather than left implicit.
+
+     The tile is FIRST in the DOM and stays first: on a phone a card reads
+     picture-then-name, and moving it would have been a mobile regression
+     dressed up as a desktop improvement. It reaches column 1 by placement
+     alone. */
+  .sr-map .spaces-split .space {
+    display: grid;
+    grid-template-columns: clamp(120px, 11vw, 160px) minmax(0, 1fr);
+    grid-template-rows: repeat(5, min-content);
+    grid-column-gap: clamp(14px, 1.4vw, 18px);
+    column-gap: clamp(14px, 1.4vw, 18px);
+    grid-row-gap: 8px;
+    row-gap: 8px;
+    align-items: start;
+  }
+  .sr-map .spaces-split .space > * { grid-column: 2; }
+  .sr-map .spaces-split .space > .stile {
+    grid-column: 1; grid-row: 1 / -1;
+    width: clamp(120px, 11vw, 160px);
+    /* globals bleeds the tile -1px into the card's padding on all four sides so
+       it sits flush with the card edge. In a row that bleed is wrong on the
+       inline-end side, and 0 on both sides is symmetric, so this stays
+       RTL-clean without a [dir] companion. */
+    margin: 0;
+  }
+  /* The foot is `margin-top: auto` in the card's flex layout. As a grid item in
+     a min-content row that auto resolves to nothing, so it is restated as the
+     rule the row actually wants. */
+  .sr-map .spaces-split .space > .foot { margin-top: 6px; }
+
+  /* .mappanel keeps globals' `position: sticky; top: 16px; height: calc(100vh -
+     120px)` untouched, and .mappanel-empty stays exactly as it is — it is the
+     honest "no coordinates supplied" device and nothing here should make it
+     look like a failed tile load. */
+
+  /* -----------------------------------------------------------------------
+     B6. /spaces — the index of workspace families.
+     -----------------------------------------------------------------------
+     NO HONEST PHOTOGRAPH EXISTS FOR THIS PAGE. Thirteen of the seventeen
+     families hold nothing, and no frame in the library is attached to a FAMILY;
+     a Media row attaches to a Venue or a Space and that is the only thing that
+     establishes what a photograph is of. So this page is upgraded by layout and
+     typography and a rail of DERIVED figures, and it is given no image at all —
+     not even a stand-in mark at hero size.
+
+     THE STAT RAIL is the system's signature device, copied under this file's
+     own ancestor from .hm-herogrid .trust. repeat(4, 1fr) and not auto-fit
+     because all four cells always render — a row that is FIXED AND COMPLETE.
+     Families, space types, families with inventory and live spaces are all read
+     off the same two queries the cards below render from; there is no fifth
+     cell because there is no fifth thing this page can honestly count.
+
+     THE 1px TOP PADDING *IS* THE TOP HAIRLINE — the --line-2 background shows
+     through it exactly as it shows through the 1px gaps. globals' padding-top:
+     22px and margin-top: 28px MUST be reset or they paint a 22px slab of
+     --line-2 across the band. */
+  .sr-spaceshero .trust {
+    display: grid; grid-template-columns: repeat(4, 1fr);
+    grid-gap: 1px;
+    gap: 1px; background: var(--line-2);
+    border-top: 0; padding: 1px 0 0; margin-top: 26px;
+  }
+  .sr-spaceshero .trust > div { background: var(--shell); padding: 20px 22px 4px; }
+  /* Flush with the headline. The rail's alignment to the copy matters more than
+     the symmetry of the first divider's gutter. */
+  .sr-spaceshero .trust > div:first-child { -webkit-padding-start: 0; padding-inline-start: 0; }
+  .sr-spaceshero .trust b { font-size: clamp(1.5rem, 2.2vw, 2.2rem); }
+
+  /* The four families that hold something. The track count is DERIVED from the
+     row count in the page (--fam-cols), because at 1360 globals' auto-fill
+     would open a fifth track and leave a visible hole beside the fourth card. */
+  .sr-spaces .famgrid { grid-template-columns: repeat(var(--fam-cols, 4), 1fr); }
+
+  /* The thirteen with nothing behind them. Thirteen cards on four fixed tracks
+     leaves row four holding one card and 873px of empty ground beside it. A
+     DATA-DRIVEN length is not a promise about future inventory, so it must not
+     be a fixed-track grid at all: a wrapping flex row lets the last row stretch
+     to fill and the structural hole disappears without inventing a closing
+     cell. (Compare .hm-cities, whose fourth track is empty ON PURPOSE because
+     that row IS a promise.) */
+  .sr-spaces .famgrid-quiet { display: flex; flex-wrap: wrap; gap: 12px; }
+  .sr-spaces .famgrid-quiet > * { flex: 1 1 200px; }
+
+  /* -----------------------------------------------------------------------
+     B7. /spaces/[family] — the family landing page.
+     -----------------------------------------------------------------------
+     The two-column shape, verbatim from the shipped homepage, under this
+     file's own scope. THE RIGHT TRACK IS A clamp() AND NEVER AN fr: an fr can
+     only be described to the browser by restating it in different units, which
+     is the mismatch that has shipped on this project three times. A clamp()
+     copies character for character into `sizes`. minmax(0, 1fr) on the left and
+     never a bare 1fr, whose min-width:auto lets one long string blow the track
+     out.
+
+     460px is the ceiling because the tallest source this page can draw is
+     /media/rooms at 1200w — 2.6x at 2xDPR — and /media/gh at 1600w clears it
+     comfortably. The frame is sized from the intrinsic widths outward, never
+     from the layout inward. */
+  .sr-famhero {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) clamp(300px, 30vw, 460px);
+    grid-column-gap: clamp(40px, 4vw, 56px);
+    column-gap: clamp(40px, 4vw, 56px);
+    grid-row-gap: clamp(30px, 3.4vw, 44px);
+    row-gap: clamp(30px, 3.4vw, 44px);
+    align-items: end;
+  }
+  .sr-famcopy { grid-column: 1; grid-row: 1; }
+  /* The figure AND the stated absence share this class, so the slot is what is
+     placed and not the element type. */
+  .sr-famhero .sr-shot { grid-column: 2; grid-row: 1; margin: 0; }
+  /* When the lookup returns nothing, the site's own empty state stands in the
+     same cell rather than a stand-in frame or a hole. No forced aspect-ratio:
+     there is no frame here, so there is no geometry to claim. */
+  .sr-shot-none { display: grid; align-content: center; }
+
+  /* Three tracks, fixed, so the tile's `sizes` is writable. globals' auto-fill
+     would open a fourth track at 1360 whose width can only be guessed at. */
+  .sr-family .spaces { grid-template-columns: repeat(3, 1fr); gap: 18px; }
+
+  /* "Other types we list" / "What Growth Hub does list". The count is DERIVED
+     from the rows the page found — event-spaces declared four tracks for three
+     cards before this. */
+  .sr-family .famgrid { grid-template-columns: repeat(var(--fam-cols, 4), 1fr); }
+
+  /* The prose on this page is already capped in `ch` by .famdef (62ch),
+     .famstate (66ch) and .silent (60ch), so widening the container cannot widen
+     the measure. The subtype NAMES stay a wrapping flex list and stay names:
+     /workspaces?type= returns nothing for every one of them, and a chip that
+     cannot do anything is a control that lies about being useful. */
+}
+
+/*!**************************************************************************************************************************************************************************************************************************************************************************!*\
+  !*** css ./node_modules/next/dist/build/webpack/loaders/css-loader/src/index.js??ruleSet[1].rules[14].oneOf[10].use[2]!./node_modules/next/dist/build/webpack/loaders/postcss-loader/src/index.js??ruleSet[1].rules[14].oneOf[10].use[3]!./app/styles/desktop-pages.css ***!
+  \**************************************************************************************************************************************************************************************************************************************************************************/
+/* ===========================================================================
+   AREA C — the remaining public pages, at desktop widths.  Prefix: pg- / ar-
+   ---------------------------------------------------------------------------
+   WHAT THIS FILE IS FOR. app/styles/home.css built a two-column hero, a
+   hairline stat rail and a set of wide bands on the homepage and proved them.
+   This sheet applies the SAME system — not a second one — to /membership,
+   /ecosystem, /what-we-publish, /about and every StaticPage, /contact, /faq,
+   /ar/faq, /blog, /blog/[slug], /partner, /partners, /ar/partners and /ar.
+
+   THREE RULES GOVERN EVERY SELECTOR BELOW, and all three are scars.
+
+   1. EVERY RULE THAT TOUCHES AN ELEMENT globals.css ALSO STYLES IS COMPOUND.
+      The @import block LEADS globals.css, so this sheet is EARLIER in source
+      order than globals' own rules. A bare `.lede {}` here would tie
+      `.lede {}` there at (0,1,0) and lose the tie on source order — silently,
+      with no error and no visible effect. So it is `.dk-page .lede`,
+      `.pg-membership .plangrid`, `.arherogrid .trust`.
+      The inverse holds and IS relied on: this sheet imports AFTER venue.css,
+      marketing.css, spaces.css, membership.css, arabic.css and ecosystem.css,
+      so `.pg-eco .ecoGrid` beats ecosystem.css's `.ecoGrid` and
+      `.arhero .display` beats arabic.css's `[dir="rtl"] .display` at equal
+      specificity. It never beats nav-mobile.css, which imports last.
+
+   2. EVERY DESKTOP RULE IS ADDITIVE INSIDE ONE @media (min-width: 1100px).
+      Not one max-width block is added or edited anywhere in this pass. That is
+      what makes "mobile must not regress" structural rather than a promise —
+      the client reviews a static export and nobody there will resize to catch
+      a regression. 1100 is already the site's desktop boundary (.resultsplit,
+      .mappanel in globals.css) so no new number enters, and nothing here goes
+      near 720px, which is NAV_BREAKPOINT.
+      The handful of declarations OUTSIDE the media query below are all on
+      class names that did not exist before this sheet (.pg-shot, .pg-cap,
+      .pg-contents, .arshot, .arcap, .pg-planclose). They are what those new
+      elements need in order to exist at all on a phone; they cannot regress
+      anything, because nothing on a phone wore them yesterday.
+
+   3. LOGICAL PROPERTIES ONLY. Five of the files this sheet styles — StaticPage,
+      FaqView, BlogIndex, BlogPost and PartnersView — render in BOTH locales
+      from one source, so a `padding-left` written for /faq lands on /ar/faq
+      pointing the wrong way. padding-inline-*, margin-inline-*, text-align:
+      start/end, justify-content: start/end, and the four logical
+      border-*-*-radius longhands. Exactly three things have no logical form
+      and carry an explicit [dir="rtl"] companion below: box-shadow offsets,
+      transform: rotate(), and px background-position.
+
+   ZERO JAVASCRIPT, and no text on any photograph. The client's static capture
+   strips every <script> unconditionally. Every control this sheet dresses is
+   a plain anchor or a native <details>. Every caption sits BELOW its frame as
+   --muted on --shell, a pair scripts/contrast.mjs already vouches for, which
+   is why this pass adds ZERO new contrast assertions.
+=========================================================================== */
+
+/* ---------------------------------------------------------------------------
+   BASE LAYER — new class names only.  See rule 2 above.
+--------------------------------------------------------------------------- */
+
+/* The figure treatment, copied from .hm-shot / .hm-cap. `height: auto` is
+   LOAD-BEARING: the width/height attributes on an <img> map to presentational
+   CSS, and that presentational height beats aspect-ratio and stretches the
+   frame. The attributes stay, because they are what reserves the box before
+   the file lands. --rose-deep is the pre-load ground, not decoration. */
+.pg-shot, .arshot { margin: 0; }
+.pg-shot img, .arshot img {
+  display: block; width: 100%; height: auto;
+  object-fit: cover; object-position: center;
+  border-radius: 4px; background: var(--rose-deep);
+}
+/* /media/gh/lounge-1 is 1600x1200 on disk. A 16:10 centre crop drops 10% of
+   ceiling and 10% of bare floor; the wall screens, both sofas, the four chairs
+   and both windows all survive it. Verified by opening the file. */
+.pg-shot img { aspect-ratio: 16 / 10; }
+/* /media/floors/14th-img_2136 is 1600x1200, cropped 16:10 exactly as the
+   English homepage crops the same frame — same file, same decision. */
+.arshot img { aspect-ratio: 16 / 10; }
+
+/* TEXT IS NEVER PLACED ON A PHOTOGRAPH, here or anywhere in this rollout.
+   Contrast over an arbitrary image cannot be computed, so it cannot be
+   asserted, so it can never meet this project's own standard. */
+.pg-cap, .arcap { padding-top: 9px; font-size: .85rem; color: var(--muted); }
+.pg-prov { display: block; margin-top: 10px; font-size: .82rem; line-height: 1.55; color: var(--muted); }
+.pg-prov a { color: var(--rose); font-weight: 600; }
+
+/* The contents rail on a prose page. It is a DESKTOP affordance: a list of
+   anchors printed AFTER the article it indexes is of no use on a phone, so it
+   is absent there rather than tacked on. display:none also takes it out of the
+   tab order, so nothing focusable is hidden. Zero JavaScript — plain
+   <a href="#id"> anchors, which is the whole point on a static capture. */
+.pg-contents { display: none; }
+
+/* The closing cell on /membership's plan grid: a REAL link to a REAL page,
+   never filler. It wears .plancard as well, so it is the same object as the
+   five beside it. */
+.pg-planclose { text-decoration: none; color: inherit; justify-content: center; }
+.pg-planclose b { display: block; font-size: 1.02rem; font-weight: 650; letter-spacing: -.015em; margin-bottom: 8px; }
+.pg-planclose span { color: var(--ink-2); font-size: .9rem; line-height: 1.55; }
+.pg-planclose .pg-go { display: block; margin-top: 12px; color: var(--rose); font-weight: 650; font-size: .88rem; }
+.pg-planclose:hover { border-color: var(--rose); }
+
+/* ===========================================================================
+   DESKTOP. One boundary, already in the codebase, used by everything below.
+=========================================================================== */
+@media (min-width: 1100px) {
+
+  /* -------------------------------------------------------------------------
+     C0. THE SHARED SITE CHROME.
+     -------------------------------------------------------------------------
+     .titleblock is on 18 files, .lede on 16, .note on 30, .crumbs on 12, and
+     .points/.point on 6 with NO CSS ANYWHERE on this project before this block
+     — not in globals.css, not in one area sheet. If three parallel builders
+     each wrote these, the last import would win and two would lose silently,
+     and the file split would not have protected against it. So AREA C ALONE
+     writes them, every <main> in the rollout wears .dk-page, and the other two
+     areas add the class and write nothing whose subject is any selector here.
+
+     Every selector is compound (0,2,0) or better, so it beats globals' (0,1,0)
+     despite this sheet importing first.
+  ------------------------------------------------------------------------- */
+  .dk-page .crumbs { padding-top: 22px; }
+  .dk-page .titleblock { padding: 18px 0 34px; }
+  /* MOVE THE CEILING, NEVER THE SLOPE. 3.4vw is globals' own ramp and is kept
+     verbatim; only the 2.5rem cap becomes 3.1rem. At 1240 that renders 41.7px
+     against today's 40px and at 1440 48.5px — bigger at BOTH, which a
+     re-ramped clamp would not have been. */
+  .dk-page .titleblock .h2 { font-size: clamp(1.7rem, 3.4vw, 3.1rem); max-width: 20ch; }
+  .dk-page .lede { max-width: 52ch; font-size: 1.14rem; }
+  .dk-page .deck { max-width: 54ch; }
+  .dk-page .prose { max-width: 66ch; }
+  .dk-page .note { max-width: 66ch; }
+  .dk-page .silentbox { max-width: 62ch; }
+
+  /* The first CSS .points and .point have ever had. The hairline cell grid is
+     the house pattern from .incl and .tiergrid: the 1px TOP PADDING IS the top
+     hairline — the --line-2 background shows through it exactly as it shows
+     through the 1px gaps. A border-top there would paint a second rule.
+     auto-fit and not repeat(N,1fr): the consumers carry two and three cells
+     and a fourth is one content edit away. */
+  .dk-page .points {
+    display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+    grid-gap: 1px;
+    gap: 1px; background: var(--line-2); padding: 1px 0 0; margin: 0 0 30px;
+  }
+  .dk-page .point { background: var(--shell); padding: 20px 22px 22px; }
+  .dk-page .point b { display: block; margin-bottom: 6px; font-size: 1.02rem; }
+  .dk-page .point > span { color: var(--ink-2); font-size: .93rem; line-height: 1.6; }
+
+  /* -------------------------------------------------------------------------
+     C2. THE PROSE PAGES — /about, every StaticPage slug, /blog/[slug].
+     -------------------------------------------------------------------------
+     These bands do NOT get bound-wide. Running prose earns 1240 or narrower by
+     the same rule that keeps six of the homepage's twelve bands narrow: a band
+     earns 1360 when it carries a grid of cells, a photograph or a stat rail.
+     /about lands near 87% of a 1440 viewport and that is the correct answer,
+     not a miss — widening it would only lengthen the measure.
+
+     NO PHOTOGRAPH IS AVAILABLE for any of these and none may be invented: the
+     Page model has no cover field and the Post model has none either. What
+     fills the second column is DERIVED from the content — the `## ` headings
+     StaticPage and BlogPost already split the body on — and renders only when
+     there are two or more of them.
+  ------------------------------------------------------------------------- */
+  .dk-page .pg-readbody {
+    display: grid;
+    grid-template-columns: minmax(0, 66ch) minmax(0, clamp(200px, 20vw, 280px));
+    grid-column-gap: clamp(40px, 4vw, 64px);
+    column-gap: clamp(40px, 4vw, 64px);
+    justify-content: space-between;
+    align-items: start;
+  }
+  /* The rail is LAST in the DOM and is moved by grid-column alone. `order` is
+     never used anywhere in this rollout: it relocates the box but not the tab
+     sequence, and this project's a11y gates are scripts that cannot see a
+     visual/focus desync. Grid column numbers are already flow-relative, so
+     column 2 is the LEFT-hand column on /ar/blog/[slug] for free. */
+  .dk-page .pg-readbody > .prose { grid-column: 1; grid-row: 1; }
+  .dk-page .pg-contents {
+    display: block; grid-column: 2; grid-row: 1;
+    position: -webkit-sticky;
+    position: sticky; top: 24px; align-self: start;
+    -webkit-border-start: 1px solid var(--line-2);
+            border-inline-start: 1px solid var(--line-2); -webkit-padding-start: 18px; padding-inline-start: 18px;
+  }
+  .dk-page .pg-contents ol { list-style: none; margin: 0; padding: 0; display: grid; grid-gap: 9px; gap: 9px; }
+  .dk-page .pg-contents a {
+    display: block; text-decoration: none;
+    color: var(--ink-2); font-size: .88rem; line-height: 1.4;
+  }
+  .dk-page .pg-contents a:hover { color: var(--rose); }
+
+  /* -------------------------------------------------------------------------
+     C3. /faq and /ar/faq — one FaqView edit, two locales.
+     -------------------------------------------------------------------------
+     Five <details> rows sat in 732px with 708px of the container empty.
+     FaqView already groups by category, so the groups become the columns.
+     Native <details>/<summary> is the CSS-only disclosure this site already
+     ships and it stays: CSS multicol was the other way to fill this space and
+     it fragments a <details> across a column break.
+  ------------------------------------------------------------------------- */
+  .pg-faq .faqgroups {
+    display: grid; grid-template-columns: repeat(2, 1fr);
+    grid-column-gap: clamp(32px, 3vw, 48px);
+    column-gap: clamp(32px, 3vw, 48px);
+    align-items: start;
+  }
+  .pg-faq .faqitem p { max-width: 62ch; }
+
+  /* -------------------------------------------------------------------------
+     C4. /contact — a form grid AND a photograph, so the band earns bound-wide.
+     -------------------------------------------------------------------------
+     The one honest frame on this page sat 834px down, BELOW the form it exists
+     to justify. It moves beside the form into a clamp() track, LAST in the DOM
+     and placed by grid-column only.
+
+     THE RIGHT TRACK IS A clamp() AND NEVER AN fr. That is the point, not a
+     preference: an fr can only be described to `sizes` by restating it in
+     different units, which is the mismatch that has shipped on this project
+     three times. A clamp() copies character-for-character into the attribute.
+     minmax(0, 1fr) on the left and never a bare 1fr, whose min-width:auto lets
+     one long string blow the track out.
+
+     align-items: start, not the homepage's `end`. Measured: the form is about
+     700px tall and the frame about 330px, so `end` would have parked the
+     photograph at the BOTTOM of the form — below the 900px fold, which is the
+     exact defect this section was moved to fix. */
+  .pg-contact .pg-contactgrid {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) clamp(380px, 34vw, 500px);
+    grid-column-gap: clamp(40px, 4vw, 56px);
+    column-gap: clamp(40px, 4vw, 56px);
+    grid-row-gap: clamp(30px, 3.4vw, 44px);
+    row-gap: clamp(30px, 3.4vw, 44px);
+    align-items: start;
+  }
+  .pg-contact .pg-contactgrid .aform { grid-column: 1; grid-row: 1; }
+  /* The empty state carries the SAME class as the figure, so the placement is
+     on the SLOT and not on the element type. */
+  .pg-contact .pg-shot { grid-column: 2; grid-row: 1; }
+  .pg-contact .silent.pg-shot { margin-top: 0; max-width: none; }
+
+  /* Two even columns instead of auto-fill's three ragged ones. Scoped to this
+     page: .aform-grid has 28 other consumers across /partner, /book, /account
+     and the whole admin panel, and an unscoped rule would land on every one.
+     The subject and message fields already carry .aform-wide (1 / -1). */
+  .pg-contact .aform-grid { grid-template-columns: repeat(2, 1fr); }
+
+  /* The centres row, on the same promise the English homepage makes: there are
+     three venues today and the fourth track sits empty on purpose, rather than
+     three cards stretching across space a fourth centre will occupy. Without
+     this the band's own auto-fill laid down SIX 202px tracks and left half the
+     row as ground. */
+  .pg-contact .citygrid { grid-template-columns: repeat(4, 1fr); }
+
+  /* -------------------------------------------------------------------------
+     C5. /membership.
+     -------------------------------------------------------------------------
+     .plangrid was five plans on four 276px tracks, with row 2 holding one card
+     and 876px of empty ground. Three tracks put five cards on two rows and
+     leave exactly one cell, which page.jsx closes with a REAL link to a REAL
+     page — never decorative filler, and rendered only when the arithmetic
+     actually leaves exactly one hole.
+  ------------------------------------------------------------------------- */
+  .pg-membership .plangrid { grid-template-columns: repeat(3, 1fr); }
+
+  /* The approved closing bubble geometry. The hard 14px offset shadow is
+     gen-2's ONLY shadow: it reads as a printed offset rather than as a SaaS
+     drop-shadow. It carries no text, so it adds no contrast assertion.
+
+     Written with the four LOGICAL radius longhands so one block serves the
+     English /membership bubble and the Arabic one below. box-shadow has no
+     logical form at all, which is why it needs the explicit companion at the
+     foot of this file. */
+  .pg-membership .closebub,
+  .ar-close .closebub {
+    border-start-start-radius: 60px;
+    border-start-end-radius: 60px;
+    border-end-end-radius: 60px;
+    border-end-start-radius: 6px;
+    max-width: 760px;
+    text-align: start;
+    box-shadow: 14px 14px 0 var(--rose-deep);
+  }
+  .pg-membership .closebub p,
+  .ar-close .closebub p { margin-inline: 0; }
+  /* Flow-relative, not flex-start: this same rule dresses the Arabic bubble. */
+  .pg-membership .closebtns,
+  .ar-close .closebtns { justify-content: start; }
+
+  /* -------------------------------------------------------------------------
+     C6. /ecosystem, /partners, /ar/partners.
+     -------------------------------------------------------------------------
+     Three .ecoGrid instances shared one four-track auto-fill template, so the
+     two two-partner tiers wasted 577px each. The count now comes from the DATA
+     — the page sets --eco-cols to min(4, partners in this tier) — rather than
+     from a number written here, so a tier that grows or shrinks re-tracks
+     itself and no cell is ever a hole.
+
+     NO "TRUSTED BY" READING. Wordmarks keep the weight PartnerMark gives them,
+     the partners with no artwork keep .ecoPending, none is hidden and none is
+     given a substitute mark. No count, no ranking, no popularity claim.
+  ------------------------------------------------------------------------- */
+  .pg-eco .ecoGrid { grid-template-columns: repeat(var(--eco-cols, 4), 1fr); }
+  /* The ten-partner tier leaves two cells on row 3. They are closed by the
+     page's own existing statement about the network — a real sentence with a
+     real link — moved into the grid rather than filled with a tile. */
+  .pg-eco .ecoGrid .ecoGapCell { grid-column: span var(--eco-span, 1); }
+  .pg-eco .ecoGrid .ecoGap {
+    margin: 0; height: 100%; max-width: none; border: 0;
+    box-shadow: 0 0 0 1px var(--line); background: var(--shell);
+    padding: 20px 18px 18px;
+  }
+
+  /* -------------------------------------------------------------------------
+     /partner — chrome, and an even field grid.
+     -------------------------------------------------------------------------
+     NOT bound-wide: the substance of this page is a thirteen-field application
+     form, and a form does not get easier to fill by being 1360px across. What
+     it takes is four even columns in place of auto-fill's five ragged tracks;
+     the three .aform-wide fields already span 1 / -1. Scoped, because
+     .aform-grid has 28 other consumers.
+  ------------------------------------------------------------------------- */
+  .pg-partner .aform-grid { grid-template-columns: repeat(4, 1fr); }
+
+  /* -------------------------------------------------------------------------
+     C7. /what-we-publish — TYPOGRAPHY ONLY, and deliberately not wide.
+     -------------------------------------------------------------------------
+     This page is the register of what the site does NOT know. Decorating it
+     undercuts the argument it makes, so there is no photograph here, no
+     illustration and no 1360 container. Nothing anywhere in this sheet may
+     make a row of it false.
+
+     table-layout: fixed so the three columns stop being redistributed by the
+     longest sentence in the body; the measure cap stays on the cell, where
+     globals already put one.
+  ------------------------------------------------------------------------- */
+  .pg-wwp .pubtable { table-layout: fixed; }
+  .pg-wwp .pubtable th:nth-child(1) { width: 28%; }
+  .pg-wwp .pubtable th:nth-child(2) { width: 14%; }
+  .pg-wwp .pubtable th:nth-child(3) { width: 58%; }
+  .pg-wwp .pubtable td.wh > span { display: block; max-width: 62ch; }
+
+  /* -------------------------------------------------------------------------
+     C8. /blog and /ar/blog — one BlogIndex, two locales.
+     -------------------------------------------------------------------------
+     The emptiest page on the site: one post, no grid, and the Post model has
+     NO COVER FIELD, so there is no image to add and none is invented. A
+     bounded track stops a single post being a 1152px slab; justify-content:
+     start is flow-relative and packs to the inline-start edge in both scripts.
+  ------------------------------------------------------------------------- */
+  .pg-blog .postgrid {
+    grid-template-columns: repeat(auto-fill, minmax(300px, 380px));
+    justify-content: start;
+  }
+
+  /* =========================================================================
+     C9. /ar — THE ARABIC HOMEPAGE.
+     -------------------------------------------------------------------------
+     886 lines of JSX with no desktop layer at all: arabic.css's only media
+     query is a max-width: 560px block, so above a phone this page had nothing.
+     The client sells in Bahrain and Saudi Arabia and this is the front door a
+     reviewer there lands on.
+
+     Grid column numbers and `grid-column: 1 / -1` are already flow-relative,
+     so column 1 IS the right-hand column under dir="rtl" and every placement
+     below flips for free. That is a second reason placement beats `order`.
+  ========================================================================= */
+
+  /* (a) THE HERO. The same shape as home.css:181-190, around the same
+     photograph. DOM order is copy -> buttons -> trust -> figure, which is the
+     order a phone should read it in, and the figure is LAST. */
+  .arherogrid {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) clamp(420px, 40vw, 560px);
+    grid-column-gap: clamp(40px, 4vw, 56px);
+    column-gap: clamp(40px, 4vw, 56px);
+    grid-row-gap: clamp(30px, 3.4vw, 44px);
+    row-gap: clamp(30px, 3.4vw, 44px);
+    align-items: end;
+  }
+  .arcopy { grid-column: 1; grid-row: 1; }
+  .arherogrid .arshot { grid-column: 2; grid-row: 1; }
+  .arherogrid .trust { grid-column: 1 / -1; grid-row: 2; }
+  /* A hole where a photograph was expected is worse than a stated absence, and
+     the empty state carries the SAME class as the figure so the placement is
+     on the slot. Compound so it beats globals' own .silent margins. */
+  .arhero .silent.arshot {
+    display: grid; align-content: center; aspect-ratio: 16 / 10;
+    margin-top: 0; max-width: none;
+  }
+
+  /* (c) TYPE. arabic.css sets [dir="rtl"] .display { line-height: 1.25;
+     max-width: 20ch } and that 20ch is an ARABIC decision about Arabic glyph
+     width — the English page's 13ch is not portable across scripts. This sheet
+     imports AFTER arabic.css and would win the tie at (0,2,0), which is
+     exactly why it declares the font-size and NOTHING else: the measure and
+     the line-height survive untouched. */
+  .arhero .display { font-size: clamp(3.2rem, 6vw, 4.6rem); }
+
+  /* (d) The four derived figures become the band's closing rail — the hairline
+     cell grid, copied from .hm-herogrid .trust. auto-fit is CORRECT here and
+     is not the collapsing-track bug: two of the four cells render
+     conditionally (no published price, no published hours), and auto-fit is
+     what makes three figures spread across three tracks instead of leaving a
+     gap where a fourth would have been.
+
+     The 1px TOP PADDING IS the top hairline. globals' padding-top: 22px and
+     margin-top: 28px are reset because either would paint a 22px slab of
+     --line-2 above the row. padding-inline-start on :first-child is already
+     logical and flips correctly. */
+  .arherogrid .trust {
+    display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    grid-gap: 1px;
+    gap: 1px; background: var(--line-2);
+    border-top: 0; padding: 1px 0 0; margin-top: 0;
+  }
+  .arherogrid .trust > div { background: var(--shell); padding: 20px 22px 4px; }
+  .arherogrid .trust > div:first-child { -webkit-padding-start: 0; padding-inline-start: 0; }
+  .arherogrid .trust b { font-size: clamp(1.5rem, 2.2vw, 2.2rem); }
+
+  /* (f) THE HOURS METER, re-scoped. Track 1 was minmax(120px, 1.1fr) and
+     absorbed every spare pixel: measured at 1240, the office NAME owned 881px
+     while .pips was capped at 108px. Capping the name and giving the meter the
+     1fr turns dead label into a row of the brand's own drop marks.
+
+     justify-content MUST stay start. It is flow-relative, so the meter grows
+     right-to-left here and left-to-right on /meeting-hours, and with
+     space-between every row would end at the same x and the meter would stop
+     encoding anything at all.
+
+     Scoped .arhours and not .hoursband: /meeting-hours renders .hourrow with a
+     FOURTH child (the price), which is why globals' 4th `auto` track is live
+     and stays, and the English homepage renders .hm-hours. */
+  .arhours .hourrow { grid-template-columns: minmax(0, 24ch) minmax(0, 1fr) auto; }
+  .arhours .pips { max-width: none; justify-content: start; gap: clamp(2px, .55vw, 10px); }
+  .arhours .pips i { width: 7px; height: 7px; }
+  /* THE PIP SHAPE IS PHYSICAL. border-radius takes four physical corners and
+     transform: rotate() a physical direction; neither has a logical form, so
+     the drop mark points the wrong way under dir="rtl" and reads as a
+     rendering fault. This is the mirror of globals' 50% 50% 50% 0 / -45deg.
+     A pip carries NO TEXT, which is the only reason --rose-brand is allowed to
+     fill it: #D2758B measures 4.489:1 on --night and may never carry text. */
+  [dir="rtl"] .arhours .pips i {
+    border-radius: 50% 50% 0 50%;
+    transform: rotate(45deg);
+  }
+
+  /* (g) repeat(4, 1fr) is the approved cities track and is the same promise the
+     English homepage makes: there are three venues today, so the fourth track
+     sits empty on purpose rather than stretching three cards across the space
+     a fourth centre will occupy.
+
+     .arcolls, .artiers, .loccards and .typechips are deliberately NOT given
+     fixed counts. Their lengths are data — collections, tiers, venues, live
+     families — and are not promises about future inventory, so auto-fit and a
+     wrapping flex row are what the rule asks for and what they already do. */
+  .arcities .citygrid { grid-template-columns: repeat(4, 1fr); }
+
+  /* box-shadow has NO logical form: the 14px x-offset points away from the
+     bubble's squared corner in LTR and into it in RTL. arabic.css already
+     flips .closebub's radius for the same reason. */
+  [dir="rtl"] .ar-close .closebub { box-shadow: -14px 14px 0 var(--rose-deep); }
+}
+
 /*!***********************************************************************************************************************************************************************************************************************************************************************!*\
   !*** css ./node_modules/next/dist/build/webpack/loaders/css-loader/src/index.js??ruleSet[1].rules[14].oneOf[10].use[2]!./node_modules/next/dist/build/webpack/loaders/postcss-loader/src/index.js??ruleSet[1].rules[14].oneOf[10].use[3]!./app/styles/nav-mobile.css ***!
   \***********************************************************************************************************************************************************************************************************************************************************************/
@@ -2148,6 +3283,8 @@
    an element this file also styles is COMPOUND, because an imported sheet is
    EARLIER in source order than the rules below and would lose a specificity tie
    silently — see the header of that file. */
+/* The desktop rollout, one sheet per work area so parallel passes own
+   separate files and cannot collide in a shared one. */
 /* Last, so that where it and an earlier sheet name the same element (the
    Arabic .navlang group) the phone rules win the tie on source order. It
    never relies on that against globals.css itself — see the header of the
