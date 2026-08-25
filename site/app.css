@@ -3664,6 +3664,35 @@ h1, h2, h3 { margin: 0; text-wrap: balance; }
 
 /* cards */
 .spaces { display: grid; grid-gap: 18px; gap: 18px; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); margin-top: 26px; }
+
+/* PINNED TRACK COUNTS BELOW 1100, so the `sizes` strings on these two grids can
+   be DERIVED from a stated count instead of from auto-fill's crossover.
+   auto-fill's crossover is not expressible in CSS - it moves with the scrollbar
+   width - so a `sizes` branch that hardcodes a breakpoint to describe an
+   auto-fill grid is wrong on one side of it by construction. Both grids were:
+     .sr-family .spaces  described as two tracks from 640 while auto-fill had
+       already reached three from ~969, so at 1099 a 282px tile asked for 458px
+       and got the 800w file; at 1100 the same tile asked for 287px. 3 tracks
+       from 1000 is what auto-fill already drew there, so nothing moves on
+       screen and the string becomes derivable. Unbounded above 1100 on purpose:
+       desktop-search.css declares the identical `repeat(3, 1fr)` there, so the
+       tie this wins on source order changes nothing.
+     .sr-results .spaces  the OPPOSITE failure, and the one that cost quality
+       rather than bytes. Inside the 250px filter rail auto-fill fits only ONE
+       280px column until ~945px, while GRID_TILE_SIZES claimed two from 900 -
+       measured at 900 the tile renders 499px and the string resolved to 229px,
+       so the browser served the 400w file into a 499px box and upscaled it on
+       the site's main results page. Two tracks is what that string, and the
+       comment above it, always said the band was. BOUNDED at 1099.98 because
+       desktop-search.css declares repeat(3, 1fr) from 1100 and globals wins a
+       specificity tie on source order - unbounded, this would silently drop
+       /workspaces from three columns to two at every desktop width. */
+@media (min-width: 1000px) {
+  .sr-family .spaces { grid-template-columns: repeat(3, 1fr); }
+}
+@media (min-width: 900px) and (max-width: 1099.98px) {
+  .sr-results .spaces { grid-template-columns: repeat(2, 1fr); }
+}
 .space { border: 1px solid var(--line); background: var(--paper); display: flex; flex-direction: column; padding: 18px 19px; gap: 10px; }
 .space h3 { font-size: 1.05rem; font-weight: 650; letter-spacing: -.015em; }
 .space .loc { font-family: var(--label); font-size: 10.5px; color: var(--muted); letter-spacing: .04em; }
@@ -3912,7 +3941,17 @@ h2.sec { font-weight: 650; letter-spacing: -.018em; font-size: 1.15rem; margin: 
 .allowbox-quiet { background: var(--shell); border-color: var(--line); }
 .allowbox-quiet b { color: var(--ink); }
 .allowbox-quiet span { color: var(--ink-2); }
-.sla-note { font-family: var(--label); font-size: 10.5px; color: var(--muted); letter-spacing: .03em; line-height: 1.7; margin: 12px 0 0; }
+/* CAPPED IN THE BASE LAYER, not in desktop-pages' measure block beside .note,
+   because this note is over-wide at EVERY width above a phone rather than only
+   past 1100. Uncapped it measured 958px at 1099 and 1114px at 1440 on /partner
+   — the widest running text on the site, and the desktop layer made it worse
+   rather than better (the four-column .aform-grid widened the form it sits
+   under). A cap here fixes 768 through 1920 with one declaration; a copy inside
+   the 1100 query would leave the tablet band uncapped and say the same thing
+   twice. ch, not px: on /contact the note sits in a fluid copy column, so the
+   1440 measure was WIDER than the 1240 one and only a text-relative cap holds
+   both. 66ch matches .note and .prose. */
+.sla-note { font-family: var(--label); font-size: 10.5px; color: var(--muted); letter-spacing: .03em; line-height: 1.7; margin: 12px 0 0; max-width: 66ch; }
 .sla-note b { color: var(--green); }
 
 /* ---------- P3: loyalty ---------- */
@@ -4165,7 +4204,7 @@ h2.sec { font-weight: 650; letter-spacing: -.018em; font-size: 1.15rem; margin: 
 .towertabs { position: absolute; inset: 0; }
 .towertab { position: absolute; margin: 0; padding: 0; border: 0; background: transparent;
   cursor: pointer; -webkit-appearance: none; -moz-appearance: none; appearance: none; }
-.towertab:hover + .towertab, .towertab:hover { background: rgba(210,117,139,.16); }
+.towertab:hover:not(:disabled) + .towertab, .towertab:hover:not(:disabled) { background: rgba(210,117,139,.16); }
 .towertab:focus-visible { outline: 2.5px solid var(--rose); outline-offset: 2px; }
 .tower .flr rect.f { transition: fill .18s cubic-bezier(.4,0,.2,1); }
 .tower .flr text { font-family: var(--sans); font-size: 9px; font-weight: 500; fill: var(--muted); letter-spacing: .06em; text-transform: uppercase; }
@@ -4182,7 +4221,19 @@ h2.sec { font-weight: 650; letter-spacing: -.018em; font-size: 1.15rem; margin: 
 
 .tiergrid { display: grid; grid-template-columns: repeat(auto-fit,minmax(196px,1fr)); grid-gap: 1px; gap: 1px; background: var(--line); border: 1px solid var(--line); }
 .tiercard2 { background: var(--paper); border: 0; text-align: start; padding: 18px 16px 20px; display: flex; flex-direction: column; gap: 9px; cursor: pointer; font: inherit; color: inherit; transition: background .16s; }
-.tiercard2:hover { background: var(--rose-wash); }
+.tiercard2:hover:not(:disabled) { background: var(--rose-wash); }
+
+/* THE ONLY :disabled RULE IN THE SHEET, and the half of Tower's fix that was
+   missing. Tower.jsx disables the floor tabs, the tier cards and the add-on
+   checkboxes until it has hydrated, because with scripts stripped they ticked
+   while the total stood still and showed a price nobody had quoted. The
+   attribute was there and correct; nothing in any of the sixteen stylesheets
+   acknowledged it, so a .tiercard2 rendered at full body ink on a white card
+   with cursor:pointer — pixel-identical to a live one — and both hover rules
+   above were still armed on a control that cannot act. It no longer ticked,
+   but it still advertised that it would. Cursor and opacity only: no colour
+   change, so the dimmed text stays above its contrast floor. */
+.tiercard2:disabled, .towertab:disabled { cursor: default; opacity: .55; }
 .tiercard2.on { background: var(--rose-wash); box-shadow: inset 3px 0 0 var(--rose); }
 .tiercard2 h3 { font-size: 1.02rem; font-weight: 600; margin: 0; letter-spacing: -.015em; }
 .tprice { font-size: 1.28rem; font-weight: 600; letter-spacing: -.02em; }
