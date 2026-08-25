@@ -621,7 +621,6 @@
   "/account/bookings?show=confirmed",
   "/account/bookings?show=past",
   "/account/bookings?show=pending",
-  "/account/bookings?show=upcoming",
   "/account/login?next=%2Faccount",
   "/account/login?next=%2Fmembership",
   "/account/register?next=%2Faccount",

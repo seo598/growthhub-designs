@@ -422,6 +422,44 @@ for (const [r, { html, area }] of raw) {
     return `href="#" data-live-only="${clean}"`;
   });
 
+  // FORM ACTIONS. The href pass above never touched `action`, so every GET form
+  // in the mirror submitted to a ROOT-absolute path — the hero search posted to
+  // seo598.github.io/workspaces, outside the project, and returned 404. The form
+  // itself is fine and needs no JavaScript; only the base path was missing.
+  //
+  // The query it appends still cannot filter: a static host serves
+  // /workspaces/index.html whatever comes after the "?", and the per-city pages
+  // this capture writes live at /workspaces/city-al-khobar/, a path no <form> can
+  // produce. So Search lands on the unfiltered search page, where the city and
+  // type filters ARE real links that work. That is the honest ceiling here, and
+  // it is better than a 404 pretending to be a search.
+  out = out.replace(/action="([^"]*)"/g, (full, action) => {
+    if (!action.startsWith("/")) return full;              // "" posts to self — correct
+    const clean = action.split("?")[0].split("#")[0];
+    if (MAP[clean]) return `action="${urlFor(clean)}"`;
+    return `action="#" data-live-only="${clean}"`;
+  });
+
+  // A NEUTRALISED FORM MUST NOT KEEP A LIVE SUBMIT BUTTON.
+  //
+  // The rewrite above sends an unservable action to "#", which left the venue
+  // booking rail with a fully enabled "Continue" that did nothing — worse than the
+  // 404 it replaced, because a 404 at least tells you something happened. /book is
+  // a router: it only ever redirects to /book/{id}, so it renders no page and can
+  // never be captured, and no amount of base-pathing will make that form work in a
+  // static export.
+  //
+  // So the form declares its own truth, exactly as Tower.jsx's controls do: the
+  // submit is disabled and says why. A control that cannot act should look like a
+  // control that cannot act.
+  out = out.replace(/<form[^>]*data-live-only="[^"]*"[^>]*>[\s\S]*?<\/form>/g, (block) =>
+    block
+      .replace(/<button(?![^>]*disabled)([^>]*type="submit"[^>]*)>/g,
+        '<button$1 disabled title="Live-only: this form needs the running app">')
+      .replace(/<input(?![^>]*disabled)([^>]*type="submit"[^>]*)>/g,
+        '<input$1 disabled title="Live-only: this form needs the running app">')
+  );
+
   const bar = `<div style="background:#2B2B2B;color:#fff;font:13px/1.5 system-ui,sans-serif;padding:9px 16px;display:flex;gap:14px;flex-wrap:wrap;align-items:center">
 <a href="${BASE_PATH}/" style="color:#fff;font-weight:700;text-decoration:none">&#8962; Home</a><a href="${BASE_PATH}/all-pages.html" style="color:#fff;text-decoration:none;opacity:.75">All pages</a>
 <span style="opacity:.65">${LABEL[area]}</span><code style="opacity:.8">${r}</code>
@@ -457,6 +495,55 @@ for (const [dir, rel, canonical, line] of RETIRED) {
     `</body></html>`, "utf8");
 }
 console.log(`wrote ${RETIRED.length} retired-route stub(s)`);
+
+/* ---------- the index every page links to ---------- */
+// Every captured page carries a review toolbar whose second link is
+// "All pages" -> BASE_PATH/all-pages.html, and that href is explicitly exempted
+// from the neutralising pass above so it survives as a real link. Nothing ever
+// wrote the file. So 123 pages shipped a link, deliberately preserved, to a 404
+// — the same reachability class as the "&amp;" route and the unreferenced
+// srcset derivatives. The exemption was the tell: you only exempt an href you
+// intend to work.
+const byArea = new Map();
+for (const [r, { area }] of raw) {
+  if (!byArea.has(area)) byArea.set(area, []);
+  byArea.get(area).push(r);
+}
+const linkFor = (r) => `${BASE_PATH}/${MAP[r]}`.replace(/index\.html$/, "");
+const sections = [...byArea.entries()]
+  .sort((a, b) => ["public", "account", "admin"].indexOf(a[0]) - ["public", "account", "admin"].indexOf(b[0]))
+  .map(([area, routes]) => {
+    const items = routes.sort().map((r) =>
+      `<li><a href="${linkFor(r)}">${r.replace(/&/g, "&amp;")}</a></li>`).join("");
+    return `<section><h2>${LABEL[area]} <span class="n">${routes.length}</span></h2><ul>${items}</ul></section>`;
+  }).join("");
+
+writeFileSync(join(OUT, "all-pages.html"),
+  `<!doctype html><html lang="en"><head><meta charset="utf-8">` +
+  `<meta name="viewport" content="width=device-width,initial-scale=1">` +
+  `<meta name="robots" content="noindex">` +
+  `<title>All pages — GrowthHub static capture</title><style>` +
+  `body{font:15px/1.6 system-ui,sans-serif;margin:0;background:#fff;color:#1a1a1a}` +
+  `header{background:#2B2B2B;color:#fff;padding:9px 16px;font-size:13px}` +
+  `header a{color:#fff;text-decoration:none;font-weight:700}` +
+  `main{max-width:1100px;margin:0 auto;padding:28px 20px 60px}` +
+  `h1{font-size:26px;margin:0 0 6px}` +
+  `.lede{color:#666;margin:0 0 30px}` +
+  `section{margin:0 0 32px}` +
+  `h2{font-size:15px;text-transform:uppercase;letter-spacing:.06em;color:#A9425A;` +
+  `border-bottom:1px solid #e6e6e6;padding-bottom:7px;margin:0 0 12px}` +
+  `.n{color:#999;font-weight:400;letter-spacing:0}` +
+  `ul{list-style:none;margin:0;padding:0;columns:2;column-gap:34px}` +
+  `@media(max-width:640px){ul{columns:1}}` +
+  `li{break-inside:avoid;margin:0 0 5px}` +
+  `a{color:#1a1a1a}a:hover{color:#A9425A}` +
+  `</style></head><body>` +
+  `<header><a href="${BASE_PATH}/">&#8962; Home</a></header><main>` +
+  `<h1>All pages</h1>` +
+  `<p class="lede">Every route in this capture — ${raw.size ?? [...raw].length} pages. ` +
+  `Forms and sign-in are live-only; a link that goes nowhere was neutralised on purpose.</p>` +
+  sections + `</main></body></html>`, "utf8");
+console.log(`wrote all-pages.html (${[...byArea].map(([a, r]) => `${a}:${r.length}`).join(", ")})`);
 
 /* ---------- cleanup ---------- */
 await db.session.deleteMany({ where: { id: adminTok } });

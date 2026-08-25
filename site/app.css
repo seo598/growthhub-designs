@@ -1681,10 +1681,12 @@
      the frame. The attributes stay because they are what reserves the box
      before the file lands. Same note as .galstrip img, same reason.
 
-     16/10, not the frame's native 4/3: a centre crop of 1600x1200 to 16:10
-     drops 100px of timber ceiling and 100px of bare floor. The sign sits at
-     about y=400/1200 and the armchair, the shelving and the planting all
-     survive it. Verified by opening the file, not by trusting the manifest. */
+     var(--frame) is 4/3, and this comment used to argue for 16/10 — "a centre
+     crop of 1600x1200 to 16:10 drops 100px of timber ceiling and 100px of bare
+     floor". The declaration changed to the token and the argument for the old
+     value was left standing above it, still reading as the reason for the line
+     underneath. The frame this slot resolves to today is 14th-img_2136 at
+     1600x1200, so 4/3 crops it NOTHING, which is the actual reason. */
   display: block; width: 100%; height: auto;
   aspect-ratio: var(--frame); object-fit: cover; object-position: center;
   border-radius: 4px; background: var(--rose-deep);
@@ -1732,6 +1734,16 @@
   display: block; width: 100%; height: auto;
   aspect-ratio: var(--frame-tall); object-fit: cover; background: var(--rose-deep);
 }
+/* THE ONE FRAME THE SHARED BOX CANNOT HOLD. /media/rooms is 1200x1472 for
+   thirteen of its sixteen files, and 5/6 costs those 2.2%. It is not for
+   spark-1, which is 1200x1170 and effectively LANDSCAPE — and spark-1 is the
+   Spark card on this rail, sortOrder 0 and captioned, so cover was throwing
+   away 18.8% of it, 9.4% off each side, on the live homepage. The class is
+   derived per file from the manifest ratio in page.jsx, never from the url's
+   tree; aspect-ratio:auto hands the box back to the width/height attributes,
+   which carry that file's real pixels. Compound so it beats the rule above
+   regardless of source order. */
+.hm-room img.hm-roomfree { aspect-ratio: auto; }
 /* Huddle has no photograph. It gets the SAME card, the same ground and the same
    height with its name set in type — PartnerMark's rule verbatim. Five of the
    seventeen active spaces have no frame at all, so a design that assumed one
@@ -1811,7 +1823,16 @@
      exactly the width the client reviews at. The ceiling moves; the slope does
      not. */
   .hm-hero .display { font-size: clamp(3.2rem, 6vw, 4.6rem); max-width: 13ch; }
-  .hm-hero .lede { max-width: 48ch; }
+  /* `.hm-hero .lede { max-width: 48ch }` STOOD HERE and has been deleted.
+     desktop-pages.css owns .lede site-wide — its own C0 header says AREA C
+     alone writes it, precisely so three parallel builders could not fork it —
+     and it declares 52ch/1.14rem for all seventeen other public routes. This
+     rule could exist beside it only because page.jsx's <main> carried no
+     `dk-page`, so the shared rule never reached the homepage. <main> now
+     carries it and the fork is gone: one rule, one value.
+     The copy column is minmax(0, 1fr) beside var(--col-image), so at 1100 it is
+     1012 - 440 - 44 = 528px and at 1240 about 540px, against a 52ch lede of
+     roughly 473px at 1.14rem. It fits at both, and nothing below 1100 moves. */
 
   /* The line that kills the dead canvas beside the search: 444px of it at
      1440. The search is a full-width rail under both columns now, so the 860px
@@ -1838,7 +1859,7 @@
     gap: 1px; background: var(--line-2);
     border-top: 0; padding: 1px 0 0; margin-top: 0;
   }
-  .hm-herogrid .trust > div { background: var(--shell); padding: 20px 22px 4px; }
+  .hm-herogrid .trust > div { background: var(--shell); padding: var(--rail-cell); }
   /* Flush left with the headline. The rail's alignment to the copy column
      matters more than the symmetry of the first divider's gutter. */
   .hm-herogrid .trust > div:first-child { -webkit-padding-start: 0; padding-inline-start: 0; }
@@ -2049,7 +2070,7 @@
      any consumer needed is strictly the safest and costs zero pixels. */
   .of-herogrid .trust > div,
   .of-hourshero .trust > div,
-  .of-venue .of-vstats > div { background: var(--shell); padding: 20px 22px 4px; }
+  .of-venue .of-vstats > div { background: var(--shell); padding: var(--rail-cell); }
   /* Flush with the headline. The rail's alignment to the copy column matters
      more than the symmetry of the first divider's gutter. Logical, so the
      Arabic routes that render the same primitive flip for free. */
@@ -2148,7 +2169,7 @@
     justify-content: start;
     align-items: start;
   }
-  .of-venue .vgal-rail { grid-template-columns: clamp(150px, 12vw, 200px); }
+  .of-venue .vgal-rail { grid-template-columns: var(--col-thumb); }
   /* The thin grid is repeat(auto-fill, 360px) rather than two fixed tracks for
      one measured reason: .venuemain is only 633px at a 1100px window, and
      360 + 8 + 360 is 728. auto-fill drops to a single 360px column there and
@@ -2168,13 +2189,25 @@
      does not depend on import order. */
   .of-venue .vgal-lead { height: auto; }
   .of-venue .vgal-lead img { height: auto; min-height: 0; aspect-ratio: var(--frame); }
-  .of-venue .vgal-thin .vgal-lead img { aspect-ratio: 16 / 9; }
+  /* The token, not a sixth literal. This line was a bare `16 / 9` written
+     INSIDE one of the four sheets the consolidation existed to collapse, while
+     the same value sat spelled out four more times in venue.css and
+     marketing.css. Both of those files are outside this pass's remit, so the
+     token is declared in globals and used here; the four there are reported.
+     NOTE, AND IT IS NOT FIXED HERE: the thin lead is Fahdan's 2024-05-21-9,
+     which the SOF marker reads as 360x189 (1.905), so 16/9 still crops it 6.6%
+     — above the 5% that makes a frame "free" everywhere else in this pass. The
+     honest fix is width/height attributes plus aspect-ratio:auto, but this
+     <img> carries no width/height, so releasing the ratio here would trade a
+     6.6% crop for an unreserved box, and the base rule that owns this shape
+     lives in venue.css. Left as one declaration of a real token. */
+  .of-venue .vgal-thin .vgal-lead img { aspect-ratio: var(--frame-wide); }
 
   /* An explicit-width track instead of four fr, precisely so the string can be
      written. auto-fill because the surplus count is data-driven: Al-Khobar and
      Fahdan each have four frames past the rail cap, a third centre has none. */
   .of-venue .vgal-more {
-    grid-template-columns: repeat(auto-fill, clamp(150px, 14vw, 200px));
+    grid-template-columns: repeat(auto-fill, var(--col-thumb));
     justify-content: start;
   }
 
@@ -2285,9 +2318,13 @@
   .of-locs .locfacts {
     display: grid; grid-template-columns: repeat(auto-fit, minmax(var(--rail-min), 1fr));
     grid-gap: 1px;
-    gap: 1px; background: var(--line-2); padding: 1px 0 0; margin: 18px 0 0;
+    gap: 1px; background: var(--line-2);
+    /* border-top: 0 on ALL six rails now, not four. globals' .locfacts is a bare
+       flex row with no border, so this resets nothing and computes identically —
+       but the next reader could not tell a harmless omission from a missed one. */
+    border-top: 0; padding: 1px 0 0; margin: 18px 0 0;
   }
-  .of-locs .locfacts > div { background: var(--shell); padding: 16px 18px 4px; }
+  .of-locs .locfacts > div { background: var(--shell); padding: var(--rail-cell); }
   .of-locs .locfacts > div:first-child { -webkit-padding-start: 0; padding-inline-start: 0; }
 
   /* The 825px of empty row is gone as a side effect of the two-column card;
@@ -2374,17 +2411,27 @@
   object-fit: cover; object-position: center;
   border-radius: 4px; background: var(--rose-deep);
 }
-/* Two geometries, because the library has two and the section is shaped around
-   the photography rather than the photography cropped into the section.
-   Verified from the JPEG SOF markers, not from the manifest:
-     /media/gh    1600x1200 landscape — 4/3 is its NATIVE frame, so the corridor
-                  keeps its timber ceiling and its tiled floor, uncropped.
-     /media/rooms 1200x1472 portrait  — 5/6 is the shipped homepage's answer for
-                  this tree (a 2.2% crop off 1200/1472) and is reused verbatim so
-                  a room frame is the same shape here as on the homepage rail.
-   The class is DERIVED from the url's tree in the page, never hand-set. */
+/* THREE geometries, because the library does not have two. Read from the JPEG
+   SOF markers, not from the tree name:
+     /media/gh    NINETEEN of thirty-seven files are 1600x1200 — for those 4/3
+                  is the NATIVE frame and the corridor keeps its timber ceiling
+                  and its tiled floor, uncropped. Seventeen are ~16:9
+                  (1600x903 through 1600x941) and one is portrait at 1600x2844.
+     /media/rooms THIRTEEN of sixteen are 1200x1472 portrait, which 5/6 costs
+                  2.2% — the shipped homepage's answer for those, reused
+                  verbatim so a room frame is the same shape on both pages.
+                  spark-1 is 1200x1170 (effectively LANDSCAPE), spark-2
+                  1200x1266, spark-3 1200x1318.
+   .sr-shot-free is the third answer, for any file neither shared box can hold
+   for under 5%. It declares NO ratio: the <img>'s own width/height attributes
+   reserve the real box, height:auto above keeps them from beating anything, and
+   cover has nothing left to crop. Under the old tree-prefix rule spark-1 sat in
+   a 5/6 box and lost 18.8% of itself, 9.4% off each side.
+   The class is DERIVED PER FILE from the manifest in the page, never hand-set
+   and never from the url's prefix. */
 .sr-shot-wide img { aspect-ratio: var(--frame); }
 .sr-shot-tall img { aspect-ratio: var(--frame-tall); }
+.sr-shot-free img { aspect-ratio: auto; }
 /* NO TEXT ON THE PHOTOGRAPH, here or anywhere in this pass. Contrast over an
    arbitrary image cannot be computed, so it cannot be asserted, so it can never
    meet this project's own standard. The caption sits BELOW the frame as --muted
@@ -2538,7 +2585,7 @@
     gap: 1px; background: var(--line-2);
     border-top: 0; padding: 1px 0 0; margin-top: 26px;
   }
-  .sr-spaceshero .trust > div { background: var(--shell); padding: 20px 22px 4px; }
+  .sr-spaceshero .trust > div { background: var(--shell); padding: var(--rail-cell); }
   /* Flush with the headline. The rail's alignment to the copy matters more than
      the symmetry of the first divider's gutter. */
   .sr-spaceshero .trust > div:first-child { -webkit-padding-start: 0; padding-inline-start: 0; }
@@ -2596,7 +2643,21 @@
      but because a dead declaration in a sheet that lectures about dead
      declarations will be trusted by the next reader. */
   .sr-famhero figure.sr-shot { grid-column: 2; grid-row: 1; margin: 0; }
-  .sr-famhero .sr-shot { grid-column: 2; grid-row: 1; }
+  /* `margin: 0` IS BACK ON THIS RULE, and removing it was a regression.
+     The stated absence is not a figure — page.jsx renders
+     `<div className="silent sr-shot sr-shot-none">` — so the figure-only rule
+     above cannot match it. This class-only rule at (0,2,0) was the ONLY thing
+     zeroing globals.css `.silent { margin-top: 22px }` at (0,1,0) for that div.
+     Split into two rules with the margin left on the figure branch, the div
+     regained 22px inside an align-items:end band, changing the height it
+     contributes to the hero row on every family variant with no photograph —
+     five of the seventeen active spaces have none. The split's own comment says
+     its motive was to stop a dead declaration misleading the next reader; it
+     killed a live one four lines away. Both rules are needed: the figure branch
+     must out-specify the base-layer `.sr-famhero figure.sr-shot` at (0,2,1),
+     which this (0,2,0) cannot, and this one must reach the div, which the
+     figure branch cannot. */
+  .sr-famhero .sr-shot { grid-column: 2; grid-row: 1; margin: 0; }
   /* When the lookup returns nothing, the site's own empty state stands in the
      same cell rather than a stand-in frame or a hole. No forced aspect-ratio:
      there is no frame here, so there is no geometry to claim. */
@@ -2760,9 +2821,18 @@
   .dk-page .points {
     display: grid; grid-template-columns: repeat(auto-fit, minmax(var(--rail-min), 1fr));
     grid-gap: 1px;
-    gap: 1px; background: var(--line-2); padding: 1px 0 0; margin: 0 0 30px;
+    gap: 1px; background: var(--line-2);
+    /* border-top: 0 on ALL six rails now, not four. globals has no `.points`
+       rule at all, so this one resets nothing and computes identically — but a
+       reader could not previously tell the harmless omission from a missed one,
+       and that ambiguity is the defect. */
+    border-top: 0; padding: 1px 0 0; margin: 0 0 30px;
   }
-  .dk-page .point { background: var(--shell); padding: 20px 22px 22px; }
+  /* The one rail cell that genuinely differs, stated as ONE declaration of
+     difference rather than a second full spelling of the cell. Its content is a
+     `b` plus a paragraph, not a `b` plus a micro-label, so it needs the taller
+     bottom pad; everything else about it is the shared cell. */
+  .dk-page .point { background: var(--shell); padding: var(--rail-cell); padding-bottom: 22px; }
   .dk-page .point b { display: block; margin-bottom: 6px; font-size: 1.02rem; }
   .dk-page .point > span { color: var(--ink-2); font-size: .93rem; line-height: 1.6; }
 
@@ -3045,7 +3115,7 @@
     gap: 1px; background: var(--line-2);
     border-top: 0; padding: 1px 0 0; margin-top: 0;
   }
-  .arherogrid .trust > div { background: var(--shell); padding: 20px 22px 4px; }
+  .arherogrid .trust > div { background: var(--shell); padding: var(--rail-cell); }
   .arherogrid .trust > div:first-child { -webkit-padding-start: 0; padding-inline-start: 0; }
   .arherogrid .trust b { font-size: clamp(1.5rem, 2.2vw, 2.2rem); }
 
@@ -3428,18 +3498,57 @@
          .../[slug]/VenueGallery.jsx          --col-image
          app/(site)/locations/page.jsx        --col-image-narrow
          app/(site)/spaces/[family]/page.jsx  --col-image-narrow
+         .../[slug]/VenueGallery.jsx          --col-thumb, TWICE — the
+                                              .vgal-rail row and the
+                                              .vgal-more row. They carry the
+                                              SAME literal now because they
+                                              carry the same track; before
+                                              this pass they were 12vw and
+                                              14vw and each forced its own
+                                              hand-copied string.
      That comment is the enforcement. The token is only the record.
   ===================================================================== */
 
-  /* FRAME GEOMETRY — from the files, never from the layout.
-     Every landscape source under /media/gh and /media/floors is 4:3
-     (verified live: offices-glass-corridor-2-1600 renders 1011x758 = 1.334).
-     A 4/3 frame in a 4/3 slot crops nothing. 16/10 discarded 16.7% of every
-     frame, 3/2 11.1%, 16/9 25% — and none of them made the frame wider,
-     only shorter. */
+  /* FRAME GEOMETRY — from the FILES, never from the layout and never from a
+     tree name. Read from the JPEG SOF markers of every file on disk:
+
+       /media/floors  clean. 22 landscape at 1600x1200, 18 portrait at
+                      1600x2133. 4/3 crops its landscape half nothing.
+       /media/gh      NOT one shape. 37 slugs: 19 at 1600x1200 (4:3), 17 at
+                      ~16:9 (1600x903 through 1600x941 — boardroom-2,
+                      corridor-art-1, corridor-outlook-1/2, event-room-theatre-1,
+                      lounge-3, office-glazed-1, office-single-desk-1..5,
+                      office-twin-desk-1/2, pantry-2, pantry-3, washroom-1),
+                      and one portrait at 1600x2844.
+       /media/rooms   NOT one shape. 13 of 16 at 1200x1472 (0.815), which 5/6
+                      costs 2.2%. spark-1 is 1200x1170 (1.026 — effectively
+                      LANDSCAPE), spark-2 1200x1266, spark-3 1200x1318.
+       /media/fahdan  360px wide, ALL of it, in three ratios.
+
+     THE EARLIER VERSION OF THIS COMMENT CLAIMED "every landscape source under
+     /media/gh and /media/floors is 4:3", from ONE file measured live. That is
+     the generalisation this project's own rules forbid, and it is false for 17
+     of 37 gh files. For those, 4/3 cover crops 24% of the width where the 16/10
+     it replaced cropped 9% — the change made cropping WORSE for them while
+     recording the opposite.
+
+     THE GUARD, so the claim cannot go stale again: no slot picks a frame by
+     tree. lib/photoLibrary.js#frameShapeFor measures each file against both
+     boxes and returns "free" for anything neither can hold for under 5%, and
+     the pages set the class from that. A file that matches nothing keeps its
+     own geometry instead of being cropped into a token. */
   --frame: 4 / 3;
-  /* /media/rooms is 1200x1472 portrait (0.815); 5/6 costs 2.2%. */
+  /* The portrait box. Thirteen of the sixteen /media/rooms files are 1200x1472
+     (0.815) and 5/6 costs those 2.2%. It is NOT a statement about the tree:
+     spark-1/2/3 are outside it and take .hm-roomfree / .sr-shot-free instead,
+     which is why 5/6 may stay the value it is. */
   --frame-tall: 5 / 6;
+  /* The wide box, for frames that are genuinely ~16:9 rather than 4:3. It was
+     five separate literals — venue.css:23/47/58, marketing.css:35 and a bare
+     `16 / 9` written INSIDE desktop-offices.css, one of the four sheets this
+     consolidation was meant to collapse. Those two files are outside this
+     pass's remit; the sheets it does own point here. */
+  --frame-wide: 16 / 9;
 
   /* THE IMAGE COLUMN. Two values, not one: the hero band and the secondary
      band genuinely differ in what the copy beside them weighs. The narrow
@@ -3447,6 +3556,18 @@
      every width — a 560 track would render 100px of itself empty. */
   --col-image: clamp(420px, 40vw, 560px);
   --col-image-narrow: clamp(300px, 30vw, 460px);
+
+  /* THE THUMBNAIL TRACK, for the two photograph rows inside VenueGallery.
+     .vgal-rail was clamp(150px, 12vw, 200px) and .vgal-more was
+     clamp(150px, 14vw, 200px) — same floor, same ceiling, different slope, for
+     no stated reason, twenty-six lines apart in one file. Identical at both
+     ends and divergent in the middle: at 1240 the rail computed 148.8px (floored
+     to 150) against the surplus row's 173.6px, a 16% difference between two rows
+     of the SAME thumbnails. desktop-offices.css:257 removed exactly this defect
+     from the hero column in the same pass — "a 1vw slope difference from the
+     hero column for no stated reason. It joins --col-image" — and left this one
+     standing. 13vw is the midpoint; both rows are bounded 150-200 either way. */
+  --col-thumb: clamp(150px, 13vw, 200px);
 
   /* THE TWO-COLUMN BAND GUTTER. Six declarations already agreed on it. */
   --gap-band: clamp(40px, 4vw, 56px);
@@ -3457,6 +3578,16 @@
      larger one WRAPS, so the lowest floor any consumer needed is strictly
      the safest and costs zero pixels. */
   --rail-min: 150px;
+  /* AND THE CELL, which the same pass left at three spellings across six rails.
+     The floor genuinely consolidated to one token; everything wrapped around it
+     did not — `20px 22px 4px` on four rails, `16px 18px 4px` on .of-locs
+     .locfacts, `20px 22px 22px` on .dk-page .point. A device named as the
+     consolidation's signature shipped with three cell paddings.
+     .dk-page .point is the ONE real exception: its cell is a `b` plus a
+     paragraph rather than a `b` plus a label, so it needs the taller bottom pad.
+     It states that as one overriding declaration, not as a second full
+     spelling. */
+  --rail-cell: 20px 22px 4px;
   --sans: "Rubik", var(--font-rubik), -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
   --serif: "Iowan Old Style", "Palatino Linotype", Palatino, "Book Antiqua", Georgia, serif;
   --mono: ui-monospace, "Cascadia Mono", SFMono-Regular, Consolas, "Liberation Mono", monospace;
@@ -4480,7 +4611,7 @@ h2.sec { font-weight: 650; letter-spacing: -.018em; font-size: 1.15rem; margin: 
      presentational CSS, and that 600px would win over aspect-ratio and stretch
      every frame to double height. The attributes stay because they are what
      reserves the right box before the image arrives. */
-  display: block; width: 100%; height: auto; aspect-ratio: 4 / 3; object-fit: cover;
+  display: block; width: 100%; height: auto; aspect-ratio: var(--frame); object-fit: cover;
   border-radius: 4px; background: var(--rose-deep);
 }
 .galstrip figcaption { padding-top: 8px; font-size: .85rem; color: var(--muted); }
