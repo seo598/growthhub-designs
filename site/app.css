@@ -3071,6 +3071,47 @@ body:has(.vgal-light:target) .vgal > *:not(.vgal-light) {
 }
 .savebtn.savebtn-guest:hover { color: var(--rose); }
 
+/* ---- The travelling search -------------------------------------------
+   Collapsed it is a single quiet row; open it is the same search panel the
+   home page uses. The marker is drawn rather than left to the UA triangle,
+   which differs between engines and cannot take the brand rose.
+
+   `.srchdisc-now` states the search this page currently represents, so the
+   summary is a status line and not just a label. It is the one part that
+   changes per page, which is why the two spans are separated rather than
+   run together as one string. */
+.srchdisc {
+  border: 1px solid var(--line);
+  border-radius: 4px;
+  background: var(--shell);
+  margin-top: 14px;
+}
+.srchdisc-sum {
+  display: flex; align-items: baseline; flex-wrap: wrap; gap: 6px 14px;
+  padding: 11px 16px;
+  cursor: pointer;
+  list-style: none;
+  font-family: var(--label);
+  font-size: 11.5px; letter-spacing: .07em; text-transform: uppercase;
+}
+/* Safari still paints its own triangle without this, on top of the one below. */
+.srchdisc-sum::-webkit-details-marker { display: none; }
+.srchdisc-sum::after {
+  content: "+";
+  margin-left: auto;
+  font-family: var(--sans, inherit);
+  font-size: 16px; line-height: 1; letter-spacing: 0;
+  color: var(--rose);
+}
+.srchdisc[open] .srchdisc-sum::after { content: "\2212"; }
+.srchdisc-sum:focus-visible { outline: 2.5px solid var(--rose); outline-offset: -2px; }
+.srchdisc-lbl { color: var(--rose); font-weight: 700; }
+.srchdisc-now { color: var(--ink-2); letter-spacing: .04em; text-transform: none; }
+.srchdisc-body { padding: 0 16px 16px; border-top: 1px solid var(--line); padding-top: 16px; }
+/* The panel inside was written for a page-width hero, so its own outer frame
+   would be a second box drawn inside this one. */
+.srchdisc-body .herosearch { margin: 0; box-shadow: none; }
+
 /*!**************************************************************************************************************************************************************************************************************************************************************************!*\
   !*** css ./node_modules/next/dist/build/webpack/loaders/css-loader/src/index.js??ruleSet[1].rules[14].oneOf[10].use[2]!./node_modules/next/dist/build/webpack/loaders/postcss-loader/src/index.js??ruleSet[1].rules[14].oneOf[10].use[3]!./app/styles/desktop-pages.css ***!
   \**************************************************************************************************************************************************************************************************************************************************************************/
