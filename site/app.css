@@ -338,6 +338,173 @@
 .vgal-more li { position: relative; margin: 0; border: 1px solid var(--line); border-radius: 6px; overflow: hidden; background: var(--shell); }
 .vgal-more img { display: block; width: 100%; height: auto; aspect-ratio: 16 / 9; object-fit: cover; }
 
+/* ---- expanding a frame --------------------------------------------------
+   PURE CSS, BECAUSE THE REVIEW MIRROR STRIPS EVERY <script>. Three mechanisms
+   could have carried this and the choice is not obvious, so it is written down.
+
+   <details>/<summary> is the house idiom — app/(site)/layout.jsx's NavToggle,
+   FaqView, HomeSections — and in isolation it is the better control: a real
+   button, keyboard-operable, announcing expanded/collapsed with no ARIA at all.
+   It cannot do THIS job. An inline <details> expands INSIDE its grid cell, and
+   past 760px a rail frame sits in a single var(--col-thumb) track, 150 to
+   200px, so "expanding" one would enlarge it to 200px. Escaping the cell needs
+   `grid-column: 1 / -1` on an [open] wrapper, which reflows the whole gallery
+   under the reader's cursor.
+
+   A hidden checkbox plus <label> avoids the history entry :target costs, and
+   lost on the keyboard: the focusable element is the input, the input has to be
+   an immediate sibling of the panel it reveals, and that puts all eight
+   controls at the END of the section instead of on the photographs they belong
+   to. Tab would have run the whole gallery and then eight bare boxes.
+
+   So the thumbnail is an <a> to a fragment — in place, in document order, a
+   real focus stop — and the panel it opens is a sibling AFTER the grid. It has
+   to be outside: .vgal-lead, .vgal-rail li and .vgal-more li all carry
+   `overflow: hidden` and would clip a panel rendered within them.
+
+   WHAT :target COSTS, PLAINLY. One history entry per frame opened, so the
+   browser's Back button becomes Close — right behaviour, but three frames
+   opened is three presses of Back to leave the page. There is no
+   Escape-to-close. There is no native expanded/collapsed announcement, so both
+   controls are named in words instead: "… — open a larger view" and "Close". */
+
+.vgal-open { display: block; position: relative; text-decoration: none; border-radius: 6px; }
+/* THE LEAD ONLY, and the restriction matters. venue.css gives .vgal-lead
+   `height: 100%` past 760 so it fills a row whose height the stacked rail sets,
+   and `.vgal-lead img { height: 100% }` used to read that height directly. The
+   anchor now sits between them, and a percentage height against an auto-height
+   parent computes to auto — which would put the pale --shell panel back under
+   every lead photograph, the exact defect the note further up this file
+   describes. So the lead's anchor carries the height through.
+   A rail or surplus li must NOT get this: those cells hold the frame AND a
+   .vgal-cap line beneath it, they are stretched grid items with a definite
+   height, and an anchor at 100% of that would push the caption out of a box
+   that clips. */
+@media (min-width: 760px) { .vgal-lead .vgal-open { height: 100%; } }
+
+/* The visible cue that a frame opens. Solid paper on a photograph rather than
+   a translucent wash, for the same reason .vgal-tag is: a glyph over an image
+   has no contrast guarantee at all. Bottom-end corner, because .vgal-tag
+   already owns the top-start one. The svg inside is 1em. */
+.vgal-open-mark {
+  position: absolute; inset-block-end: 8px; inset-inline-end: 8px;
+  display: grid; place-items: center; width: 26px; height: 26px;
+  border: 1px solid var(--line); border-radius: 3px;
+  background: var(--paper); color: var(--rose); font-size: 13px;
+}
+.vgal-open:hover .vgal-open-mark { background: var(--rose); border-color: var(--rose); color: #fff; }
+
+/* THE FOCUS RING IS DRAWN INWARD, and that is not a taste decision. Every frame
+   sits in a cell with `overflow: hidden`, so globals.css's `outline-offset: 2px`
+   would be clipped away entirely and this control would have no visible focus
+   state at all. The outline is pulled inside instead, and a paper band is
+   painted beneath it by a pseudo-element so the rose reads against any
+   photograph. An inset box-shadow on the anchor itself cannot do that job — the
+   <img> child paints over it — but an outline paints above everything in the
+   element, so the paper band and the rose ring stack in the right order.
+   border-radius is restated because globals.css's bare `:focus-visible` sets
+   2px, ties this file on specificity and wins on source order: venue.css is
+   @import-ed at the top of globals.css, so every rule there is later than
+   every rule here. */
+.vgal-open:focus-visible { outline: 3px solid var(--rose); outline-offset: -3px; border-radius: 6px; }
+.vgal-open:focus-visible::after {
+  content: ""; position: absolute; inset: 0; pointer-events: none;
+  border-radius: inherit; box-shadow: inset 0 0 0 3px var(--paper);
+}
+
+/* The panel. `display: none` and not visibility or an off-screen box: none is
+   what keeps a closed panel out of the accessibility tree AND what stops
+   `loading="lazy"` on its <img> from ever firing, so a reader who opens nothing
+   downloads nothing. */
+.vgal-light {
+  display: none;
+  position: fixed; inset: 0; z-index: 60;
+  padding: clamp(12px, 4vw, 40px);
+  /* --ink at 92%. Nothing else in this project sets z-index at all, so 60 is
+     simply above the two `position: sticky` panels — .brail on this very page,
+     .mappanel on search — that would otherwise paint over a fixed overlay. */
+  background: rgba(43, 43, 43, .92);
+  justify-content: center;
+  align-items: center;
+  /* Declared twice on purpose: `safe` falls back to flex-start instead of
+     centring a panel taller than the window, which would push its top edge out
+     of reach. Engines that do not know the keyword keep the plain line above. */
+  align-items: safe center;
+  overflow: auto;
+  overscroll-behavior: contain;
+}
+.vgal-light:target { display: flex; }
+
+/* THE PANEL CARRIES NO max-width OF ITS OWN. It arrives inline, per frame, as
+   the min() of three ceilings — the window's width, the file's delivered pixel
+   width, and the window's HEIGHT converted to a width through that frame's
+   aspect ratio. That third term is what keeps the paper hugging the picture: a
+   panel capped only on width would keep its width when the height cap bit, and
+   at 1440x900 a 4/3 frame would sit in ~400px of paper bands. lightMaxWidth()
+   in VenueGallery.jsx builds it, and lightSizes() emits the identical
+   expression as the <img>'s `sizes` — one function, so the declaration and the
+   box cannot disagree. */
+.vgal-light-panel {
+  margin: 0; width: 100%;
+  background: var(--paper); border-radius: 6px; overflow: hidden;
+}
+.vgal-light-shut { display: block; position: relative; text-decoration: none; }
+.vgal-light-img {
+  display: block; width: 100%; height: auto;
+  /* THE NET FOR THE THIRD BRANCH. Where a frame's ratio is not on file — an
+     operator's /admin upload, which has no manifest entry — the panel above
+     cannot be capped by the window's height, so the image is capped here
+     instead: the window, less the overlay's padding top and bottom, less the
+     caption strip's allowance. The same two literals VenueGallery.jsx restates.
+     object-fit only bites in that branch, and in the hairline case where the
+     manifest's ratio rounds a pixel away from the file's own.
+     A caption that wraps past the 96px allowance scrolls the overlay rather
+     than being clipped — that is what `overflow: auto` and `safe center` are
+     for above. */
+  max-height: max(180px, calc(100vh - 2 * clamp(12px, 4vw, 40px) - 96px));
+  object-fit: contain;
+}
+.vgal-light-shut-txt {
+  position: absolute; inset-block-start: 10px; inset-inline-end: 10px;
+  background: var(--paper); color: var(--rose); border: 1px solid var(--line);
+  border-radius: 3px; padding: 5px 11px;
+  font-size: 11px; font-weight: 700; letter-spacing: .06em; text-transform: uppercase;
+}
+.vgal-light-shut:hover .vgal-light-shut-txt { background: var(--rose); border-color: var(--rose); color: #fff; }
+/* Same inward ring, same reason: .vgal-light-panel clips at its own radius. */
+.vgal-light-shut:focus-visible { outline: 3px solid var(--rose); outline-offset: -3px; border-radius: 0; }
+.vgal-light-shut:focus-visible::after {
+  content: ""; position: absolute; inset: 0; pointer-events: none;
+  box-shadow: inset 0 0 0 3px var(--paper);
+}
+
+/* The caption the thumbnail could not carry. Its vertical budget — the 96px
+   subtracted in the two expressions above — is padding 26 plus a title line
+   plus a room line plus, on a small frame, the two-line note about why it
+   opened small. Overrun scrolls; it does not clip. */
+.vgal-light-cap {
+  display: grid; grid-gap: 3px; gap: 3px;
+  padding: 12px 16px 14px; border-top: 1px solid var(--line);
+}
+.vgal-light-cap b { font-size: .95rem; font-weight: 650; color: var(--ink); }
+.vgal-light-tag { font-size: .82rem; color: var(--muted); letter-spacing: .01em; }
+.vgal-light-px { font-size: .78rem; color: var(--muted); line-height: 1.5; }
+
+@media (prefers-reduced-motion: no-preference) {
+  /* `display: none` to `display: flex` cannot transition, so opening is a
+     one-shot animation on the :target rule itself. A reader who has asked for
+     less motion gets no animation at all and the panel simply appears — the
+     same shape as the one existing precedent in this project, the
+     scroll-behavior guard on .galstrip in globals.css. */
+  .vgal-light:target { animation: vgal-light-in 150ms ease-out both; }
+  .vgal-light:target .vgal-light-panel { animation: vgal-light-rise 170ms ease-out both; }
+  @keyframes vgal-light-in { from { opacity: 0; } to { opacity: 1; } }
+  @keyframes vgal-light-rise {
+    from { opacity: 0; transform: scale(.985); }
+    to { opacity: 1; transform: none; }
+  }
+}
+
 /* ---- availability -------------------------------------------------------
    A read-only calendar. Nothing here is a button: every cell is a fact about
    rows in the booking table, and a control that looked clickable but did
@@ -388,6 +555,13 @@
 .vcal-item { display: block; font-size: .87rem; color: var(--muted); letter-spacing: .01em; }
 .vcal-hours { font-size: .9rem; }
 .vcal-hours b { color: var(--ink); font-weight: 650; }
+/* The "Private offices are not on this calendar" card used to close this
+   column, and `.vcal-detail p { margin: 0 0 12px }` was trailing space between
+   the last paragraph and that card. With the card removed the paragraph is the
+   last child and the 12px became a hanging gap under the column. Ties
+   `.vcal-detail p` on specificity (0,1,1) and wins on source order, which is
+   why it sits below it rather than above. */
+.vcal-detail p:last-child { margin-bottom: 0; }
 
 /* ---- location -----------------------------------------------------------
    No map is drawn. The panel that would hold one holds the reason there isn't
@@ -398,6 +572,12 @@
 .vloc-map {
   border: 1px solid var(--line); border-radius: 8px; background: var(--shell);
   padding: 20px; display: grid; align-content: center;
+  /* Only bites in the two-child state — the map link plus the "the pin is
+     exact; the street address is not" card. .vloc-map .silent zeroes that
+     card's own margin-top, so before this the two boxes touched, which now
+     that .vloc-open carries a radius would read as one clipped panel. */
+  grid-gap: 14px;
+  gap: 14px;
 }
 .vloc-map .silent { margin: 0; background: var(--paper); max-width: none; }
 
@@ -410,15 +590,94 @@
 
 /* The located state. A link rather than an embedded map: an iframe does not
    survive the static capture the client reviews, and a keyed static-image API
-   is a dependency this does not need in order to point at a door. */
+   is a dependency this does not need in order to point at a door.
+
+   ROW, NOT COLUMN, AND THAT IS A CONSEQUENCE OF THE CONTENT CHANGE. This rule
+   was `flex-direction: column; gap: 4px` because the anchor held two stacked
+   lines, the second of which was the raw "26.28421, 50.19992". That line is
+   gone from the page. The anchor is now [pin chip][two lines of text] across,
+   so the axis had to turn with it or the icon would have sat above the label.
+
+   THE BACKGROUND IS GRAPH PAPER, AND THAT IS THE WHOLE POINT OF IT. The brief
+   asked for a background treatment that makes this read as a map affordance
+   rather than a bare link, and the obvious move — something that looks like
+   cartography — is the one thing this panel may not do: a drawn map of a
+   building whose street address we have not confirmed is an invented fact
+   wearing a texture. So the treatment is a UNIFORM square grid in --rose-100
+   (#F8E7EB on white, the faintest token in the set): no roads, no labels, no
+   marker dropped anywhere on it. That reads as plotting paper, which is a
+   surface rather than a claim. The pin sits in a solid chip at the start of the
+   row and never on the grid, precisely so nothing here can be misread as a pin
+   dropped at a location. */
 .vloc-open {
-  display: flex; flex-direction: column; gap: 4px;
-  padding: 16px 18px; text-decoration: none;
-  background: var(--paper); border: 1px solid var(--line); border-left: 3px solid var(--rose);
+  display: flex; align-items: center; gap: 13px;
+  padding: 15px 18px; text-decoration: none; border-radius: 6px;
+  border: 1px solid var(--line); border-left: 3px solid var(--rose);
+  /* background-color and background-image are set separately and the
+     `background` shorthand is deliberately not used: the shorthand resets
+     background-image, so a hover rule written as `background: ...` would wipe
+     the grid without saying so. */
+  background-color: var(--paper);
+  background-image:
+    repeating-linear-gradient(0deg, var(--rose-100) 0 1px, transparent 1px 21px),
+    repeating-linear-gradient(90deg, var(--rose-100) 0 1px, transparent 1px 21px);
 }
-.vloc-open:hover, .vloc-open:focus-visible { border-left-color: var(--rose-deep); }
+/* border-radius is restated on focus because globals.css's bare
+   `:focus-visible` rule sets `border-radius: 2px`, ties this file on
+   specificity, and wins on source order — venue.css is @import-ed at the top of
+   globals.css, so every rule in globals is later than every rule here. Without
+   this line the panel squares off the moment it takes keyboard focus. */
+.vloc-open:hover,
+.vloc-open:focus-visible {
+  border-left-color: var(--rose-deep); background-color: var(--rose-wash); border-radius: 6px;
+}
+
+/* The pin's chip. White glyph on --rose is 5.81:1 — the same ratio --rose has
+   on white, inverted — and a non-text graphic needs 3:1, so this clears it
+   with room. The svg inside is drawn at 1em, which makes this font-size the
+   icon's size and nothing else's. */
+.vloc-open-pin {
+  flex: none; display: grid; place-items: center;
+  width: 36px; height: 36px; border-radius: 50%;
+  background: var(--rose); color: #fff; font-size: 20px;
+}
+.vloc-open-text { display: flex; flex-direction: column; gap: 2px; min-width: 0; }
 .vloc-open-label { color: var(--rose); font-weight: 600; }
-.vloc-coords { font-family: var(--label, monospace); font-size: .8rem; color: var(--muted); font-feature-settings: "tnum"; font-variant-numeric: tabular-nums; }
+/* The second line, where .vloc-coords used to print the raw numbers. Same
+   --muted on --paper pairing that rule carried; only the content changed, from
+   a fact about the building to a fact about the link. */
+.vloc-open-sub { font-size: .8rem; color: var(--muted); }
+
+/* ---- What sits behind an opened frame ---------------------------------
+   :target can enlarge a photograph without JavaScript, but it cannot trap
+   focus, and an opaque fixed overlay does not stop the Tab key. Left alone,
+   a keyboard or screen-reader user tabs straight off the open frame into the
+   nav, the booking rail and the thumbnails they just came from — all of them
+   invisible under the scrim, all of them still announced and still clickable.
+
+   `visibility: hidden` is the fix rather than `opacity` or a scrim, because it
+   is the one property that removes an element from BOTH the tab order and the
+   accessibility tree. `inert` would be tidier and would need no list at all,
+   but it is an attribute, and setting it needs the script this panel exists to
+   do without.
+
+   The regions are named explicitly instead of derived with a universal
+   `:has()` chain: the chain reads elegantly and then asks the engine to
+   evaluate :has() against every element on the page, and this list is short,
+   stable and obvious to update.
+
+   RESIDUAL, stated rather than hidden: a focusable element added to the venue
+   page outside these regions would still be reachable behind an open frame.
+   Escape does not close either — that also needs script. Both are the price of
+   a lightbox that works with no JavaScript at all, and both disappear on the
+   deployed site where the enhancement can run. */
+body:has(.vgal-light:target) .nav,
+body:has(.vgal-light:target) .ft,
+body:has(.vgal-light:target) .newsband,
+body:has(.vgal-light:target) .brail,
+body:has(.vgal-light:target) .vgal > *:not(.vgal-light) {
+  visibility: hidden;
+}
 
 /*!************************************************************************************************************************************************************************************************************************************************************************!*\
   !*** css ./node_modules/next/dist/build/webpack/loaders/css-loader/src/index.js??ruleSet[1].rules[14].oneOf[10].use[2]!./node_modules/next/dist/build/webpack/loaders/postcss-loader/src/index.js??ruleSet[1].rules[14].oneOf[10].use[3]!./app/styles/account-nav.css ***!
@@ -1619,17 +1878,37 @@
    685px inside a 1225px container — 56% — and the right half of the canvas was
    empty on a workspace marketplace whose first photograph sat 3,416px down the
    page. This sheet builds the two-column hero that homepage-v2's own .hero-grid
-   describes but the build never implemented, and gives four more bands the
+   describes but the build never implemented, and gives the bands below it the
    width they were drawn for.
+
+   IT IS NOW A SHORTER SHEET THAN IT WAS. The client has since had four of the
+   page's sections removed — the derived hero figures, the office tower, the
+   dark hours meter and the popular-cities grid — and the rules that existed
+   only to lay those out have gone with their markup, each replaced in place by
+   a note saying what stood there and which sheet still owns the class. Nothing
+   in globals.css was touched for any of them: every one of those classes is
+   still rendered by another route.
 
    TWO RULES GOVERN EVERY SELECTOR BELOW, and both are scars.
 
-   1. EVERY RULE THAT TOUCHES AN ELEMENT globals.css ALSO STYLES IS COMPOUND.
+   1. EVERY RULE THAT TOUCHES AN ELEMENT ANOTHER SHEET ALSO STYLES IS COMPOUND,
+      AND HAS TO BEAT THAT SHEET RATHER THAN TIE IT.
       The @import block leads globals.css, so an imported sheet is EARLIER in
-      source order than globals' own rules. A bare `.trust {}` here would tie
-      `.trust {}` there on specificity (0,1,0) and lose the tie on source
+      source order than globals' own rules. A bare `.silent {}` here would tie
+      `.silent {}` there on specificity (0,1,0) and lose the tie on source
       order — silently, with no error and no visible effect. So it is
-      `.hm-herogrid .trust` (0,2,0), `.hm-hero .hsearch`, `.hm-hours .hourrow`.
+      `.hm-hero .silent` (0,2,0), `.hm-hero .hsearch`, `.hm-hero .display`.
+
+      (0,2,0) IS NOT ALWAYS ENOUGH, and that is the newer half of this scar. The
+      same @import block loads this file BEFORE desktop-pages.css, whose C0
+      block owns the shared site chrome at (0,2,0) — `.dk-page .deck`,
+      `.dk-page .lede`, `.dk-page .note`. A `.hm-rooms .deck` written here would
+      TIE `.dk-page .deck` there and lose on source order in exactly the same
+      silent way, so the one rule below that widens a deck is written
+      `.dk-page .hm-rooms .deck` (0,3,0). Widening it in desktop-pages.css
+      instead is not an option: that sheet's own header says AREA C ALONE writes
+      `.deck`, and its value is shared by seventeen other public routes.
+
       New `.hm-*` names that globals.css has never heard of are safe either way,
       and are still written scoped where they sit inside a component.
 
@@ -1652,12 +1931,18 @@
 /* ---------------------------------------------------------------------------
    1. THE HERO
    ---------------------------------------------------------------------------
-   DOM ORDER IS copy -> search -> trust -> figure, and `order` is never used
-   anywhere below. That order is chosen so the BASE layer reproduces today's
-   phone sequence exactly — h1, lede, buttons, search, figures — with the
-   photograph appended at the end of the band. Desktop moves the figure up
-   beside the copy with grid-column / grid-row, which relocates the box without
-   touching tab order. `order` would have desynced the two.
+   DOM ORDER IS copy -> search -> figure, and `order` is never used anywhere
+   below. That order is chosen so the BASE layer reproduces today's phone
+   sequence exactly — h1, lede, buttons, search — with the photograph appended
+   at the end of the band. Desktop moves the figure up beside the copy with
+   grid-column / grid-row, which relocates the box without touching tab order.
+   `order` would have desynced the two.
+
+   A FOURTH CHILD, `.trust`, sat between the search and the figure: the four
+   derived hero figures. The client asked for it off the page, so its markup is
+   gone from page.jsx and its rules are gone from the desktop block below.
+   globals.css:245 `.trust` STAYS — /spaces, /offices, /meeting-hours, /ar and
+   the venue page all still render it, and this sheet never owned it.
 --------------------------------------------------------------------------- */
 .hm-herogrid { display: grid; grid-gap: clamp(26px, 3.4vw, 42px); gap: clamp(26px, 3.4vw, 42px); }
 
@@ -1812,7 +2097,8 @@
   .hm-copy       { grid-column: 1; grid-row: 1; }
   .hm-shot       { grid-column: 2; grid-row: 1; }
   .hm-searchrail { grid-column: 1 / -1; grid-row: 2; }
-  .hm-herogrid .trust { grid-column: 1 / -1; grid-row: 3; }
+  /* Row 3 was `.hm-herogrid .trust`, the derived figures rail. Removed with the
+     markup — see the note at the top of section 1. */
 
   /* 13ch is homepage-v2's own cap; 4.6rem sits between the build's 4.2 and the
      mockup's 5, because the headline now shares its row with a photograph.
@@ -1841,47 +2127,19 @@
      margin-top goes to 0 because row-gap now does that job. */
   .hm-hero .hsearch { max-width: none; margin-top: 0; }
 
-  /* The four derived figures become the band's closing rail: a hairline cell
-     grid, the house pattern from .incl and .tiergrid.
+  /* THE DERIVED-FIGURES RAIL and THE HOURS METER were declared here, and both
+     are gone with the markup they styled: `.hm-herogrid .trust` (the hairline
+     cell grid for the four hero figures) and `.hm-hours .hourrow / .pips /
+     .pips i` (the per-office dot chart in the dark hours band).
 
-     auto-fit is CORRECT here and is not the collapsing-track bug: two of the
-     four cells render conditionally (no published price, no published hours),
-     and auto-fit is exactly what makes three figures spread across three tracks
-     instead of leaving a gap where the fourth would have been.
-
-     The 1px top padding IS the top hairline — the background shows through it,
-     the same way it shows through the 1px gaps. globals' 22px padding-top and
-     28px margin-top are reset because both would paint as a 22px slab of
-     --line-2 above the row. */
-  .hm-herogrid .trust {
-    display: grid; grid-template-columns: repeat(auto-fit, minmax(var(--rail-min), 1fr));
-    grid-gap: 1px;
-    gap: 1px; background: var(--line-2);
-    border-top: 0; padding: 1px 0 0; margin-top: 0;
-  }
-  .hm-herogrid .trust > div { background: var(--shell); padding: var(--rail-cell); }
-  /* Flush left with the headline. The rail's alignment to the copy column
-     matters more than the symmetry of the first divider's gutter. */
-  .hm-herogrid .trust > div:first-child { -webkit-padding-start: 0; padding-inline-start: 0; }
-  /* The oversized tabular numeral, the design's own device for a derived figure. */
-  .hm-herogrid .trust b { font-size: clamp(1.5rem, 2.2vw, 2.2rem); }
-
-  /* --- the hours meter --------------------------------------------------
-     Track 1 was minmax(120px, 1.1fr), so it absorbed every spare pixel: at
-     1440 the office NAME owned 822px while .pips was capped at 108px. Capping
-     the name at 24ch and giving the meter the 1fr turns 822px of dead label
-     into an 800px row of the brand's own drop marks — the design's vocabulary,
-     used at the width.
-
-     justify-content MUST stay start. With space-between every row would end at
-     the same x and the meter would stop encoding anything at all.
-
-     Scoped .hm-hours, not .hoursband: the Arabic homepage renders the same
-     band, and /meeting-hours renders .hourrow with a FOURTH child (the price),
-     which is why the 4th `auto` track in globals.css is live and stays. */
-  .hm-hours .hourrow { grid-template-columns: minmax(0, 24ch) minmax(0, 1fr) auto; }
-  .hm-hours .pips { max-width: none; justify-content: start; gap: clamp(2px, .55vw, 10px); }
-  .hm-hours .pips i { width: 7px; height: 7px; }
+     NOTHING IN globals.css MOVED FOR EITHER. `.trust` and `.hoursband /
+     .hoursmeter / .hourrow` are still rendered by /spaces, /offices,
+     /meeting-hours and /ar, so both blocks there stay live — including the
+     FOURTH `auto` track on globals' `.hourrow`, which /meeting-hours needs for
+     its price cell. Two comments in sheets this pass does not own still cite
+     the English homepage as a reason those rules exist
+     (desktop-pages.css:440, desktop-offices.css:319) and are now out of date;
+     the rules themselves are not. */
 
   /* --- the rooms rail becomes the signature hairline grid ---------------
      Explicit repeat(4, 1fr), not auto-fit, so no track can collapse: the card
@@ -1895,12 +2153,27 @@
   .hm-rooms .hm-roomrail > li { flex: none; }
   .hm-rooms .hm-room { border: 0; }
 
-  /* --- popular cities ---------------------------------------------------
-     repeat(4, 1fr) is gen-1 homepage.html's approved .cities track. There are
-     three venues today, so the fourth track sits empty — which is correct and
-     not a bug: the row does not stretch three cards across space that a fourth
-     centre will occupy. */
-  .hm-cities .citygrid { grid-template-columns: repeat(4, 1fr); }
+  /* The intro paragraph, widened: the client's note was that the right side of
+     this line was empty. The cap it is escaping is `.dk-page .deck`
+     (max-width: 54ch) in desktop-pages.css, over globals' 58ch base.
+
+     THREE PARTS, NOT TWO. `.hm-rooms .deck` would be (0,2,0) — a TIE with
+     `.dk-page .deck`, lost on source order because this sheet imports first —
+     and the widening would silently do nothing. `.dk-page .hm-rooms .deck` is
+     (0,3,0) and wins outright. See rule 1 in this file's header.
+
+     74ch and not `none`: at .deck's 1.05rem that is roughly 620px inside a
+     1272px content row, which is the top of a readable measure rather than a
+     full-bleed line of body copy. It cannot fill the row on its own — with the
+     second sentence deleted the paragraph is about 84 characters, so it wraps
+     at any cap below ~86ch and stops changing above it. Filling the row is a
+     copy decision, not a CSS one. */
+  .dk-page .hm-rooms .deck { max-width: 74ch; }
+
+  /* `.hm-cities .citygrid` was declared here, the 4-track approved .cities
+     grid. "Popular cities." has been removed from the homepage, so the only
+     element it could match is gone. globals.css:450 `.citygrid` / `.citycard`
+     stays live via /contact and /ar and is untouched. */
 }
 
 /*!****************************************************************************************************************************************************************************************************************************************************************************!*\
@@ -2376,6 +2649,21 @@
       the seven wishlist POST buttons (which do NOT survive the capture) gain no
       prominence at all in the wider band.
 
+      STILL TRUE AFTER B8 AND B9 BELOW, and it is worth stating exactly how,
+      because both of those rules exist BECAUSE of a script.
+        .fauto  is the sentence the auto-apply enhancement adds to the rail. It
+                is rendered only once that script has hydrated, so in the capture
+                the element does not exist at all and the rail is the same native
+                form with the same real Apply button it has always been. This
+                sheet styles a sentence; it does not style a control.
+        .mapbase is the OPPOSITE case and the reason the pair is worth reading
+                together: it is the map panel's server-rendered content, present
+                in the capture, and it is what the canvas paints OVER once a
+                script has run. Nothing here depends on the script running — the
+                script's arrival is what REMOVES it.
+      Neither rule replaces a control with a CSS trick, and neither leaves
+      something on screen that looks operable and is not.
+
    OWNED SITE-WIDE BY THIS FILE (no other area writes them): .spaces .specs
    .stile .stile-photo .stile-tag .famgrid .famgrid-quiet .fam .fam-empty
    .famdef .famstate .typenames .searchlayout .frail .toolbar .modes
@@ -2438,6 +2726,88 @@
    on --shell, a pair scripts/contrast.mjs already vouches for — which is why
    this pass, like the homepage pass before it, adds ZERO new assertions. */
 .sr-shotcap { padding-top: 9px; font-size: .85rem; color: var(--muted); line-height: 1.5; }
+
+/* ---------------------------------------------------------------------------
+   B8. THE FILTER RAIL'S AUTO-APPLY SENTENCE.
+   ---------------------------------------------------------------------------
+   One line, above the Apply button, and it exists ONLY where the promise it
+   makes is kept: FilterAutoApply renders null until it has hydrated, so this
+   element is absent from the server HTML and absent from the capture. The rail
+   in the mirror is the same native form with the same real submit button.
+   NOT styled as a control, on purpose. It is a note in the rail's own quiet
+   register — the same --muted-on-var(--paper) pairing .fclear already uses two
+   lines below it in globals — because anything button-shaped here would read as
+   a second thing to press.
+--------------------------------------------------------------------------- */
+.frail .fauto {
+  margin: 0 0 10px;
+  font-size: .8rem;
+  line-height: 1.5;
+  color: var(--muted);
+}
+
+/* ---------------------------------------------------------------------------
+   B9. THE MAP PANEL'S BASE LAYER — what stands there before the canvas draws.
+   ---------------------------------------------------------------------------
+   THE PROBLEM THIS SOLVES. MapPanel paints every pixel inside a useEffect. The
+   review capture strips every <script>, so React never hydrates, the effect
+   never runs, and the <canvas> sits in the HTML undrawn. globals gives
+   .mappanel `background: var(--shell)` and `min-height: 420px`, and .maplegend
+   `position: absolute; bottom: 12px` — which is exactly, and completely, the
+   "blank coloured box with a little legend floating in it" the client reported
+   as a broken map. The drawing code is not broken; there is simply no script.
+
+   THE ANSWER IS NOT A PICTURE OF A MAP and it is not the word "soon". It is the
+   real venue rows the pins would be drawn from, rendered as text on the server,
+   which the canvas then covers. Same data, no invention, and it degrades in the
+   only direction that is honest: less detail, never a false claim.
+
+   WHY THE CANVAS BECOMES ABSOLUTE. It has to sit ON TOP of the base layer, and
+   it cannot do that in normal flow. The override is deliberate and is the one
+   globals rule this block touches: globals' `.mappanel canvas { display: block;
+   width: 100%; height: 100% }` at (0,1,1) is beaten by (0,2,1) here.
+   IT ALSO FIXES A SECOND, UNRELATED DEFECT, on the live site, with scripts
+   running. Below 1100px .mappanel has only a `min-height`, never a height, so a
+   percentage height on a child resolved against `auto` and the canvas fell back
+   to its intrinsic 150px inside a 420px box — MapPanel read clientHeight, drew a
+   150px map, and left ~270px of bare --shell under it on every phone and tablet.
+   An absolutely positioned box with `inset: 0` takes its height from the used
+   height of its containing block, which is definite at every width. The fix is
+   here rather than in globals.css because this sheet's area owns .mappanel*'s
+   interior; the `min-height` itself is globals' and is left alone.
+
+   pointer-events: none because the canvas is decoration over readable text —
+   with no drawing on it, a transparent overlay that eats text selection would
+   be a second small lie. */
+.sr-map .mappanel canvas { position: absolute; inset: 0; pointer-events: none; }
+
+/* In normal flow, so IT is what gives the panel its height until it is hidden.
+   --muted on --shell, the pairing globals' own .mappanel-empty p already uses
+   in this exact box, so this adds no new contrast assertion. */
+.sr-map .mappanel .mapbase {
+  position: relative;
+  padding: 22px 24px;
+  font-size: .9rem;
+  line-height: 1.55;
+  color: var(--muted);
+}
+.sr-map .mappanel .mapbase > b { display: block; color: var(--ink); font-size: 1rem; margin-bottom: 6px; }
+.sr-map .mappanel .mapbase > p { margin: 0; max-width: 46ch; }
+.sr-map .mappanel .mapbase ul { list-style: none; margin: 16px 0 0; padding: 0; display: grid; grid-gap: 1px; gap: 1px; background: var(--line); border-block: 1px solid var(--line); }
+.sr-map .mappanel .mapbase li { background: var(--shell); display: flex; flex-wrap: wrap; align-items: baseline; gap: 4px 10px; padding: 9px 0; }
+.sr-map .mappanel .mapbase li > b { color: var(--ink); font-weight: 650; letter-spacing: -.015em; }
+.sr-map .mappanel .mapbase li > span { font-family: var(--label); font-size: 10.5px; letter-spacing: .05em; }
+/* `> p.mapbase-missing` and not a bare `.mapbase-missing`: this element IS one
+   of the paragraphs the (0,3,1) rule above zeroes the margin on, so a (0,3,0)
+   selector would lose the tie and the margin-top would be dead. The same trap
+   the .sr-famhero figure rules further down record springing on themselves. */
+.sr-map .mappanel .mapbase > p.mapbase-missing { margin-top: 14px; font-size: .85rem; }
+/* The drawing exists, so the text it stood in for goes. display:none and not a
+   visually-hidden clip: the canvas carries the same rows in its own aria-label
+   (see MapPanel), and two copies of one list in the accessibility tree is worse
+   than none. Same specificity as the rules above and written after them, which
+   is what lets it win. */
+.sr-map .mappanel .mapbase-off { display: none; }
 
 /* ===========================================================================
    DESKTOP. One boundary, already in the codebase, used by everything below.
@@ -2552,7 +2922,13 @@
   /* .mappanel keeps globals' `position: sticky; top: 16px; height: calc(100vh -
      120px)` untouched, and .mappanel-empty stays exactly as it is — it is the
      honest "no coordinates supplied" device and nothing here should make it
-     look like a failed tile load. */
+     look like a failed tile load. THAT DISTINCTION IS NOW LOAD-BEARING: B9 in
+     the base layer adds .mapbase for a DIFFERENT absence — "the script that
+     draws the map has not run" — and the two must never be conflated, the same
+     way spaces.css keeps .silent (unknown) apart from .famstate (nought).
+     .mappanel itself is still not written here at any specificity. B9 reaches
+     only .mappanel's own children, and the one globals rule it does override
+     (`.mappanel canvas`) is documented at the rule. */
 
   /* -----------------------------------------------------------------------
      B6. /spaces — the index of workspace families.
@@ -2678,6 +3054,22 @@
      /workspaces?type= returns nothing for every one of them, and a chip that
      cannot do anything is a control that lies about being useful. */
 }
+
+/* ---- Save, signed out ------------------------------------------------
+   The guest Save is an <a>, not a <button>, because a link needs neither
+   JavaScript nor a server and therefore survives the static capture. It
+   reuses .savebtn wholesale so the two states are visually identical — a
+   visitor should not be able to tell that signing in is pending from the
+   control's appearance, only from what happens when they use it.
+
+   Two classes, so this beats the single-class .savebtn in globals on a
+   specificity tie rather than relying on source order across the @import
+   boundary, where this sheet would otherwise lose. */
+.savebtn.savebtn-guest {
+  text-decoration: none;
+  color: var(--ink-2);
+}
+.savebtn.savebtn-guest:hover { color: var(--rose); }
 
 /*!**************************************************************************************************************************************************************************************************************************************************************************!*\
   !*** css ./node_modules/next/dist/build/webpack/loaders/css-loader/src/index.js??ruleSet[1].rules[14].oneOf[10].use[2]!./node_modules/next/dist/build/webpack/loaders/postcss-loader/src/index.js??ruleSet[1].rules[14].oneOf[10].use[3]!./app/styles/desktop-pages.css ***!
@@ -3202,8 +3594,22 @@
        .navtoggle[open] ~ .nav-links
 
    which depends on nothing but the attribute selector. Desktop never consults
-   the details at all: outside the media query below, this sheet does not
-   touch .nav-links, .nav-in or .logo, and the toggle is display:none.
+   the details at all: OUTSIDE ANY MEDIA QUERY this sheet does not touch
+   .nav-links, .nav-in or .logo, and the toggle is display:none.
+
+   WHY THERE IS NOW A DESKTOP BLOCK AT THE FOOT OF THIS FILE
+   This file used to be phone-only, and the sentence above used to read
+   "outside the media query below". The bar's desktop geometry — full-bleed,
+   logo in the left corner, CTA in the right — had nowhere else it could
+   legally live. globals.css owns .bound / .nav-in / .nav-links and is closed
+   to this work; a brand-new sheet would need a line added to globals.css's
+   @import block to apply at all, and an unimported sheet fails SILENTLY,
+   which is the one failure mode worth avoiding above all others here. So the
+   rules are at the bottom of this file, inside a media query that is the
+   exact complement of the phone one. The invariant the guard actually
+   enforces is unchanged and is the one that matters: NOTHING outside a media
+   query in this file reaches the desktop bar. If a nav-header sheet is ever
+   created and imported, move that block into it whole.
 
    WHY THE SELECTORS ARE COMPOUND
    globals.css @imports this file at the TOP and then declares
@@ -3217,8 +3623,11 @@
    than trusting the next editor to remember it. */
 
 /* Desktop is the default state and is stated here, not inside a media query,
-   so that above 720px this sheet contributes exactly two declarations and
-   changes no measurement. */
+   so that UNCONDITIONALLY this sheet contributes exactly two declarations.
+   test/mobileNav.test.mjs asserts that list verbatim — adding a third
+   declaration above the first @media fails `npm test`, which is why the
+   desktop geometry at the foot of this file is inside a media query even
+   though half of it would be inert at phone widths anyway. */
 .nav-in > .navtoggle,
 .nav-in > .navbar-cta { display: none; }
 
@@ -3244,19 +3653,26 @@
   .nav-in > .logo .logo-mark { height: 26px; }
 
   /* The auto margin is what makes "My account" (English) and the
-     بالإنجليزية group (Arabic) sit at the far end of the DESKTOP bar. In a
-     stacked panel it would shrink the item to its text and shove it to one
-     side, so it is cancelled rather than inherited. */
+     بالإنجليزية group (Arabic) sit at the far end of the DESKTOP bar — but
+     only in company with `.nav .nav-links { flex: 1 1 auto }` at the foot of
+     this file, which is what gives it free space to absorb. In a stacked
+     panel it would shrink the item to its text and shove it to one side, so
+     it is cancelled rather than inherited. */
   .nav-in .nav-push { -webkit-margin-start: 0; margin-inline-start: 0; }
 
   /* ---- what stays visible when the panel is shut ---------------------- */
 
-  /* "Book a viewing" is the site's primary call to action and the only thing
+  /* "Book a Visit" is the site's primary call to action and the only thing
      a cold phone visitor is being asked to do, so it stays on the bar. "My
      account" goes inside: it is a returning customer's action, and a
      returning customer will open a menu for it. The panel's own copy of the
-     CTA is hidden below so exactly ONE "Book a viewing" exists at any width —
-     two identical links in the tree is a screen-reader defect, not a detail. */
+     CTA is hidden below so exactly ONE "Book a Visit" exists at any width —
+     two identical links in the tree is a screen-reader defect, not a detail.
+
+     The label itself is enChrome.bookViewing / arChrome.bookViewing in
+     lib/i18n.js, which this pass does not own: until those two constants are
+     changed the button still renders "Book a viewing". The quoted words above
+     are the agreed new label, not what ships today. */
   .nav-in > .navbar-cta { display: inline-flex; }
   .nav-in .nav-links .nav-cta { display: none; }
 
@@ -3416,6 +3832,73 @@
   }
   /* No text to sit beside, so no gap — and the glyph centres in its box. */
   .navtoggle > summary { gap: 0; padding-inline: 12px; }
+}
+
+/* ---- The header bar above the phone breakpoint ------------------------ *
+
+   THE DEFECT THIS FIXES
+   Both shells wrapped the whole bar in `.bound`, which is
+   `max-width: 1240px; margin: 0 auto; padding-inline: var(--pad)`. On any
+   viewport wider than 1240px the logo therefore started at the CONTAINER's
+   left edge and the tail of the bar ended at its right edge, so the header
+   sat as a centred column with empty page either side of it — the "floating
+   in the middle" the client reported. Every other band on the site is meant
+   to read that way; the header is the one that is not.
+
+   The second half of the defect was quieter. Both shells' comments claimed
+   `.nav-push { margin-inline-start: auto }` was what put "My account" + the
+   CTA (English) and the بالإنجليزية group (Arabic) at the far end of the
+   desktop bar. It did not. `.nav-links` is a flex ITEM of `.nav-in` with no
+   flex-grow, so its used width was its CONTENT width, the auto margin had
+   zero free space to absorb, and the whole nine-item cluster packed hard to
+   the left. Widening the bar alone would only have made that cluster wider,
+   not moved the CTA anywhere. Both rules below are needed; either one on its
+   own leaves the client's request half done.
+
+   WHY `max-width: none` AND NOT `padding-inline` ON A BARE .nav-in
+   `.bound` STAYS on the header div and only its cap is lifted. Dropping the
+   class instead would take the --pad gutter with it, putting the wordmark
+   hard against the viewport edge and the CTA's 1.5px border flush with it,
+   which reads as a clipped page rather than a corner-anchored bar. Lifting
+   only the cap keeps one gutter definition for the whole site.
+
+   WHY THE MEDIA QUERY IS WRITTEN THIS WAY
+   `not all and (max-width: 720px)` is the exact complement of the phone
+   block: at every width, fractional ones included, precisely one of the two
+   applies. `min-width: 721px` would leave 720.01–720.99 matching neither and
+   the bar unpinned on a display that reports a fractional viewport. The 720
+   here is THE SAME BOUNDARY as the block above — CSS has no custom media, so
+   the number is written twice and the two must be changed together.
+   lib/navGuard.js counts `@media (max-width: …)` blocks and this form is not
+   one, so the guard still sees exactly one 720px block, which is correct: it
+   is one boundary, stated from both sides.
+
+   RE-MEASURE AFTER LABEL CHANGES. `.nav-links` still carries flex-wrap and
+   nine children, and it already ran to two rows between roughly 720px and
+   1150px. "Business Directory" is nine characters longer than "Ecosystem",
+   which pushes the single-row threshold up by roughly a label's width; the
+   full-bleed gain above 1240px offsets it there but not below. Two rows is
+   survivable — globals.css gives .nav-in a min-HEIGHT, so the bar grows
+   rather than clipping its first row, which is the defect that rule exists
+   for — but it is worth knowing before another label is added.
+
+   flex-grow changes nothing about where it wraps: flex-shrink stays at its
+   default 1, so a cramped bar shrinks and wraps exactly as it did, and grow
+   only spends slack that by definition was not causing a wrap. */
+@media not all and (max-width: 720px) {
+  /* Lifts .bound's 1240px cap on the header only. Compound, because .bound
+     is a single class declared in globals.css AFTER the @import of this
+     file: a bare `.nav-full` would lose the tie on source order and never
+     apply — silently, which is the failure mode this sheet's header warns
+     about. Inert below 1240px, where the cap was doing nothing anyway. */
+  .nav .nav-full { max-width: none; }
+
+  /* Gives the auto margin on .nav-push something to absorb. flex-basis stays
+     `auto` so the links are content-sized when the bar is tight; grow spends
+     only what is left over after the logo. Compound for the same reason, and
+     because globals.css declares `.nav-links { display: flex }` below the
+     @import — lib/navGuard.js fails the build on a single-class form. */
+  .nav .nav-links { flex: 1 1 auto; }
 }
 
 /*!*************************************************************************************************************************************************************************************************************************************************************!*\
