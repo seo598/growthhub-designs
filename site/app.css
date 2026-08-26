@@ -3942,6 +3942,65 @@ body:has(.vgal-light:target) .vgal > *:not(.vgal-light) {
   .nav .nav-links { flex: 1 1 auto; }
 }
 
+/* ---- The language chooser ---------------------------------------------
+   A <details> used as a dropdown. Two things have to be true at once: on the
+   desktop bar the panel must float over the page without moving the row, and
+   inside the phone panel — where .nav-links is already a stacked column — it
+   must sit in the flow, because a floating layer anchored to a row in a
+   scrolling column lands in the wrong place as soon as the column scrolls.
+   The base rules below are the PHONE case (in flow); the desktop block lifts
+   it out. Base-first, so a width that matches no query still works. */
+.langmenu { position: relative; }
+.langmenu-btn {
+  display: inline-flex; align-items: center; gap: 7px;
+  cursor: pointer;
+  list-style: none;
+  white-space: nowrap;
+}
+.langmenu-btn::-webkit-details-marker { display: none; }
+.langmenu-btn:focus-visible { outline: 2.5px solid var(--rose); outline-offset: 3px; border-radius: 2px; }
+.langmenu-globe { width: 19px; height: 19px; flex: none; }
+/* Clipped, never removed: a <summary> takes its accessible name from its text,
+   so this span has to stay in the markup at every width. */
+.langmenu-txt { overflow: hidden; }
+
+.langmenu-panel {
+  display: grid; grid-gap: 2px; gap: 2px;
+  margin-top: 8px;
+  padding: 12px 14px;
+  background: var(--paper);
+  border: 1px solid var(--line);
+  border-radius: 4px;
+}
+.langmenu-lbl {
+  font-family: var(--label);
+  font-size: 10.5px; letter-spacing: .1em; text-transform: uppercase;
+  color: var(--ink-3, var(--ink-2));
+  margin-bottom: 4px;
+}
+/* The current language is not a link, so it must not look like one. */
+.langmenu-now { color: var(--ink-2); cursor: default; }
+.langmenu-opt { color: var(--rose); text-decoration: none; padding: 2px 0; }
+.langmenu-opt:hover { text-decoration: underline; }
+.langmenu-opt:focus-visible { outline: 2.5px solid var(--rose); outline-offset: 2px; }
+
+@media not all and (max-width: 720px) {
+  /* Out of the flow, so opening it does not push the bar taller. Anchored to
+     the inline-end edge, which is the right one here and the left one in the
+     Arabic shell without a second rule. */
+  .langmenu-panel {
+    position: absolute;
+    inset-inline-end: 0;
+    top: 100%;
+    margin-top: 10px;
+    min-width: 190px;
+    box-shadow: 0 10px 30px -12px rgba(43, 43, 43, .3);
+    /* Above the sticky booking rail and the results map, which are the two
+       things on this site that would otherwise paint over it. */
+    z-index: 70;
+  }
+}
+
 /*!*************************************************************************************************************************************************************************************************************************************************************!*\
   !*** css ./node_modules/next/dist/build/webpack/loaders/css-loader/src/index.js??ruleSet[1].rules[14].oneOf[10].use[2]!./node_modules/next/dist/build/webpack/loaders/postcss-loader/src/index.js??ruleSet[1].rules[14].oneOf[10].use[3]!./app/globals.css ***!
   \*************************************************************************************************************************************************************************************************************************************************************/
