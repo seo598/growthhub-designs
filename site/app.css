@@ -2176,6 +2176,32 @@ body:has(.vgal-light:target) .vgal > *:not(.vgal-light) {
      stays live via /contact and /ar and is untouched. */
 }
 
+/* ---- Seams the removals took away -------------------------------------
+   Seven sections came off this page, and two of the joins they used to
+   separate are now white against white: the rooms rail runs into the
+   photography strip, and the closing card ran into Browse by type.
+
+   Neither was a spacing problem — there is 148px and 168px of padding at
+   those joins. The problem is that all of it is the same colour, so a
+   reader sees one long void rather than the end of one section and the
+   start of the next.
+
+   BROWSE BY TYPE takes the shell background, which is what it always had
+   next to it: the "Popular cities" band directly above it was
+   `band band-shell`, and removing that left this section the only thing
+   between a white closing card and the shell newsletter. It butts against
+   .newsband, which draws its own 1px top border, so the two shells do not
+   merge.
+
+   THE GALLERY takes a hairline instead of a background. It could have taken
+   the shell too, but that would put three shell bands in a row through the
+   middle of the page and turn the alternation into the exception. The
+   hairline is the same device .faqsec and .newsband already use to mark a
+   change of section, so this borrows an idiom rather than inventing one. */
+.hm-rooms + .gallery {
+  border-top: 1px solid var(--line);
+}
+
 /*!****************************************************************************************************************************************************************************************************************************************************************************!*\
   !*** css ./node_modules/next/dist/build/webpack/loaders/css-loader/src/index.js??ruleSet[1].rules[14].oneOf[10].use[2]!./node_modules/next/dist/build/webpack/loaders/postcss-loader/src/index.js??ruleSet[1].rules[14].oneOf[10].use[3]!./app/styles/desktop-offices.css ***!
   \****************************************************************************************************************************************************************************************************************************************************************************/
@@ -3108,9 +3134,18 @@ body:has(.vgal-light:target) .vgal > *:not(.vgal-light) {
 .srchdisc-lbl { color: var(--rose); font-weight: 700; }
 .srchdisc-now { color: var(--ink-2); letter-spacing: .04em; text-transform: none; }
 .srchdisc-body { padding: 0 16px 16px; border-top: 1px solid var(--line); padding-top: 16px; }
-/* The panel inside was written for a page-width hero, so its own outer frame
-   would be a second box drawn inside this one. */
-.srchdisc-body .herosearch { margin: 0; box-shadow: none; }
+/* The panel inside was written for a page-width hero and brings two of its
+   own rules with it: globals' `.hsearch { margin-top: 26px; max-width: 860px }`.
+   Inside this disclosure the margin stacks on .srchdisc-body's own padding-top,
+   and the 860px cap leaves the panel short of the right edge of a container that
+   runs to 1360px.
+
+   The class is `hsearch`. This rule said `.herosearch` — the React component is
+   named HeroSearch, and the component name got written where the class name
+   belonged, so the selector matched nothing and neither leftover was reset.
+   Two classes, so it beats globals' single-class rule whichever way the
+   @import order falls. */
+.srchdisc-body .hsearch { margin: 0; max-width: none; }
 
 /*!**************************************************************************************************************************************************************************************************************************************************************************!*\
   !*** css ./node_modules/next/dist/build/webpack/loaders/css-loader/src/index.js??ruleSet[1].rules[14].oneOf[10].use[2]!./node_modules/next/dist/build/webpack/loaders/postcss-loader/src/index.js??ruleSet[1].rules[14].oneOf[10].use[3]!./app/styles/desktop-pages.css ***!
