@@ -1881,11 +1881,13 @@ body:has(.vgal-light:target) .vgal > *:not(.vgal-light) {
    describes but the build never implemented, and gives the bands below it the
    width they were drawn for.
 
-   IT IS NOW A SHORTER SHEET THAN IT WAS. The client has since had four of the
-   page's sections removed — the derived hero figures, the office tower, the
-   dark hours meter and the popular-cities grid — and the rules that existed
-   only to lay those out have gone with their markup, each replaced in place by
-   a note saying what stood there and which sheet still owns the class. Nothing
+   IT IS NOW A SHORTER SHEET THAN IT WAS. The client has since had SEVEN of the
+   page's sections removed. Three of them had rules in this sheet — the derived
+   hero figures, the dark hours meter and the popular-cities grid — and those
+   rules have gone with their markup, each replaced in place by a note saying
+   what stood there and which sheet still owns the class. The other four (the
+   office tower, the ecosystem wall, the publish register and the locations
+   grid) were laid out entirely from globals.css and never had a rule here. Nothing
    in globals.css was touched for any of them: every one of those classes is
    still rendered by another route.
 
@@ -2136,10 +2138,10 @@ body:has(.vgal-light:target) .vgal > *:not(.vgal-light) {
      .hoursmeter / .hourrow` are still rendered by /spaces, /offices,
      /meeting-hours and /ar, so both blocks there stay live — including the
      FOURTH `auto` track on globals' `.hourrow`, which /meeting-hours needs for
-     its price cell. Two comments in sheets this pass does not own still cite
-     the English homepage as a reason those rules exist
-     (desktop-pages.css:440, desktop-offices.css:319) and are now out of date;
-     the rules themselves are not. */
+     its price cell. Comments in the neighbouring sheets used to cite the
+     English homepage as a reason those rules exist; they have since been
+     reworded to name a surface that still renders them. The rules themselves
+     never changed. */
 
   /* --- the rooms rail becomes the signature hairline grid ---------------
      Explicit repeat(4, 1fr), not auto-fit, so no track can collapse: the card
@@ -2305,9 +2307,9 @@ body:has(.vgal-light:target) .vgal > *:not(.vgal-light) {
   /* -------------------------------------------------------------------------
      1. THE HERO, on /offices and /meeting-hours
      -------------------------------------------------------------------------
-     The homepage's own shape, reproduced under this area's scope rather than
-     borrowed by selector: .hm-herogrid cannot match here, so the DECLARATIONS
-     are copied and the selector is not.
+     The homepage hero's shape, reproduced under this area's scope rather than
+     borrowed by selector: that grid's own class cannot match here, so the
+     DECLARATIONS are copied and the selector is not.
 
      THE RIGHT TRACK IS A clamp() AND NEVER AN fr. That is the point, not a
      preference: an fr can only be described to the browser by restating it in
@@ -2523,11 +2525,10 @@ body:has(.vgal-light:target) .vgal > *:not(.vgal-light) {
      name at 24ch and giving the meter the 1fr turns 822px of dead label into a
      row of the brand's own drop marks at the width it was drawn for.
 
-     FOUR tracks, not three. This page renders a price the homepage does not, so
-     globals' fourth `auto` is live and stays. That is also why .hm-hours
-     .hourrow could not simply be reused: it names three tracks, and its
-     selector cannot match here in any case. The DECLARATIONS are copied; the
-     selector is not.
+     FOUR tracks, not three. This page renders a price the other hours surfaces
+     do not, so globals' fourth `auto` is live and stays. A three-track rule
+     could not simply be reused here in any case — its selector cannot match
+     under this scope. The DECLARATIONS are copied; the selector is not.
 
      justify-content MUST stay start. With space-between every row would end at
      the same x and the meter would stop encoding anything at all. */
@@ -2967,7 +2968,7 @@ body:has(.vgal-light:target) .vgal > *:not(.vgal-light) {
      not even a stand-in mark at hero size.
 
      THE STAT RAIL is the system's signature device, copied under this file's
-     own ancestor from .hm-herogrid .trust. repeat(4, 1fr) and not auto-fit
+     own ancestor from globals' `.trust`. repeat(4, 1fr) and not auto-fit
      because all four cells always render — a row that is FIXED AND COMPLETE.
      Families, space types, families with inventory and live spaces are all read
      off the same two queries the cards below render from; there is no fifth
@@ -3003,8 +3004,8 @@ body:has(.vgal-light:target) .vgal > *:not(.vgal-light) {
      DATA-DRIVEN length is not a promise about future inventory, so it must not
      be a fixed-track grid at all: a wrapping flex row lets the last row stretch
      to fill and the structural hole disappears without inventing a closing
-     cell. (Compare .hm-cities, whose fourth track is empty ON PURPOSE because
-     that row IS a promise.) */
+     cell. (Compare the centres rows on /contact and /ar, whose fourth track is
+     empty ON PURPOSE because that row IS a promise.) */
   .sr-spaces .famgrid-quiet { display: flex; flex-wrap: wrap; gap: 12px; }
   .sr-spaces .famgrid-quiet > * { flex: 1 1 200px; }
 
@@ -3414,9 +3415,11 @@ body:has(.vgal-light:target) .vgal > *:not(.vgal-light) {
      The subject and message fields already carry .aform-wide (1 / -1). */
   .pg-contact .aform-grid { grid-template-columns: repeat(2, 1fr); }
 
-  /* The centres row, on the same promise the English homepage makes: there are
-     three venues today and the fourth track sits empty on purpose, rather than
-     three cards stretching across space a fourth centre will occupy. Without
+  /* The centres row makes a promise, and the empty fourth track IS the
+     promise: there are three venues today, and the fourth sits empty on
+     purpose rather than three cards stretching across space a fourth centre
+     will occupy. (/ar and this page are the two surfaces that still say this;
+     the English homepage said it too until its locations grid was removed.) Without
      this the band's own auto-fill laid down SIX 202px tracks and left half the
      row as ground. */
   .pg-contact .citygrid { grid-template-columns: repeat(4, 1fr); }
@@ -3567,7 +3570,9 @@ body:has(.vgal-light:target) .vgal > *:not(.vgal-light) {
   .arhero .display { font-size: clamp(3.2rem, 6vw, 4.6rem); }
 
   /* (d) The four derived figures become the band's closing rail — the hairline
-     cell grid, copied from .hm-herogrid .trust. auto-fit is CORRECT here and
+     cell grid. The declarations came from the English homepage's own figures
+     rail, which has since been removed from that page; globals' `.trust` is
+     still the live base, rendered by /spaces, /offices and /meeting-hours. auto-fit is CORRECT here and
      is not the collapsing-track bug: two of the four cells render
      conditionally (no published price, no published hours), and auto-fit is
      what makes three figures spread across three tracks instead of leaving a
@@ -3599,7 +3604,9 @@ body:has(.vgal-light:target) .vgal > *:not(.vgal-light) {
 
      Scoped .arhours and not .hoursband: /meeting-hours renders .hourrow with a
      FOURTH child (the price), which is why globals' 4th `auto` track is live
-     and stays, and the English homepage renders .hm-hours. */
+     and stays. (The English homepage used to render .hm-hours and was the
+     second reason for the scope; that band has been removed from it, and
+     /meeting-hours alone still requires the track.) */
   .arhours .hourrow { grid-template-columns: minmax(0, 24ch) minmax(0, 1fr) auto; }
   .arhours .pips { max-width: none; justify-content: start; gap: clamp(2px, .55vw, 10px); }
   .arhours .pips i { width: 7px; height: 7px; }
@@ -3614,10 +3621,10 @@ body:has(.vgal-light:target) .vgal > *:not(.vgal-light) {
     transform: rotate(45deg);
   }
 
-  /* (g) repeat(4, 1fr) is the approved cities track and is the same promise the
-     English homepage makes: there are three venues today, so the fourth track
-     sits empty on purpose rather than stretching three cards across the space
-     a fourth centre will occupy.
+  /* (g) repeat(4, 1fr) is the approved cities track, and the empty fourth is
+     the promise: there are three venues today, so that track sits empty on
+     purpose rather than stretching three cards across the space a fourth
+     centre will occupy. Same reasoning as .pg-contact's centres row above.
 
      .arcolls, .artiers, .loccards and .typechips are deliberately NOT given
      fixed counts. Their lengths are data — collections, tiers, venues, live
@@ -4266,7 +4273,10 @@ h1, h2, h3 { margin: 0; text-wrap: balance; }
 .hero { background: var(--shell); border-bottom: 1px solid var(--line); padding: clamp(44px, 6vw, 72px) 0; }
 .display { font-weight: 700; letter-spacing: -.035em; line-height: .98; font-size: clamp(2.4rem, 6vw, 4.2rem); margin-bottom: 18px; max-width: 15ch; }
 .display em { font-family: var(--serif); font-style: italic; font-weight: 400; color: var(--rose); }
-.hero-ar { font-family: var(--sans); direction: rtl; unicode-bidi: -webkit-isolate; unicode-bidi: isolate; text-align: left; font-size: 1.2rem; color: var(--rose-deep); font-weight: 600; margin: 0 0 16px; }
+/* `.hero-ar` STOOD HERE and has been deleted. It styled an Arabic strapline
+   inside the ENGLISH hero; that strapline is gone, and /ar sets its own hero
+   direction through .arhero and the [dir=rtl] rules in desktop-pages.css and
+   arabic.css. Nothing in the repo emitted this class. */
 .lede { font-size: 1.08rem; color: var(--ink-2); max-width: 56ch; margin: 0 0 26px; }
 .trust { display: flex; flex-wrap: wrap; gap: 8px 26px; padding-top: 22px; border-top: 1px solid var(--line-2); margin-top: 28px; }
 .trust div { font-family: var(--label); font-size: 11px; letter-spacing: .05em; color: var(--muted); }
