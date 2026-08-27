@@ -3866,14 +3866,16 @@ body:has(.vgal-light:target) .vgal > *:not(.vgal-light) {
      on an invisible element and left a stray rule above the header's own
      border. Top rules need no exception, and the first one doubles as the
      line under the bar. */
-  .nav-in > .nav-links a {
+  /* :not(.btn) for the same reason as globals — the CTA is an <a> in here too,
+     and a full-width row with a top rule is a nav row's shape, not a button's. */
+  .nav-in > .nav-links a:not(.btn) {
     display: block; padding: 12px 2px; font-size: .95rem; line-height: 1.4;
     border-top: 1px solid var(--line); border-bottom-color: transparent;
   }
   /* The desktop hover draws a 2px rose underline; on a full-width row that
      reads as a divider that moved, so the row tints instead. --ink on
      --rose-wash is 13:1. */
-  .nav-in > .nav-links a:hover {
+  .nav-in > .nav-links a:not(.btn):hover {
     border-bottom-color: transparent; background: var(--rose-wash); color: var(--ink);
   }
 
@@ -4259,8 +4261,17 @@ h1, h2, h3 { margin: 0; text-wrap: balance; }
 .admin-logo, .admin-logo .logo-mark { color: var(--night-ink); }
 .admin-logo .logo-mark { height: 29px; }
 .nav-links { display: flex; gap: 22px; margin-left: 10px; flex-wrap: wrap; }
-.nav-links a { text-decoration: none; font-size: .92rem; font-weight: 550; color: var(--ink-2); padding: 6px 0; border-bottom: 2px solid transparent; }
-.nav-links a:hover { color: var(--ink); border-bottom-color: var(--rose); }
+/* `:not(.btn)` IS LOAD BEARING, and its absence shipped from the first commit.
+   The header's call to action is an <a class="btn btn-primary"> INSIDE .nav-links.
+   `.nav-links a` is (0,1,1); `.btn-primary` is (0,1,0). The nav rule therefore won,
+   and the site's primary button rendered --ink-2 on --rose: 1.51:1, against a 4.5
+   requirement. The phone-bar copy of the same button sits outside .nav-links and was
+   always correct at 5.81:1, which is why it read as fine at the width most people
+   look at it.
+   Excluding the match is the fix, not out-specifying it: a `.nav-links a.btn-primary`
+   override would have to be repeated for every button variant the bar ever carries. */
+.nav-links a:not(.btn) { text-decoration: none; font-size: .92rem; font-weight: 550; color: var(--ink-2); padding: 6px 0; border-bottom: 2px solid transparent; }
+.nav-links a:not(.btn):hover { color: var(--ink); border-bottom-color: var(--rose); }
 
 /* buttons */
 .btn { display: inline-flex; align-items: center; gap: 8px; padding: 11px 18px; border-radius: 2px; border: 1.5px solid transparent; font-weight: 640; font-size: .92rem; text-decoration: none; background: none; cursor: pointer; font-family: inherit; color: inherit; }
