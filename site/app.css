@@ -5246,7 +5246,12 @@ h2.sec { font-weight: 650; letter-spacing: -.018em; font-size: 1.15rem; margin: 
 .ledgerall a { color: var(--rose); font-weight: 600; }
 
 .faqsec { padding: clamp(48px, 7vw, 84px) 0; background: var(--shell); border-top: 1px solid var(--line); }
-.faqbound { max-width: 860px; }
+/* `.faqbound` STOOD HERE. It gave the two homepage FAQ blocks an 860px
+   column of their own, which made them the narrowest thing on either page
+   and moved the content edge by 250px in the middle of a scroll. Both now
+   share the page's own column; the answers keep their 68ch cap, so the
+   reading measure the class was protecting is still protected — by the
+   rule that actually governs the text. */
 .faqsec details { border-bottom: 1px solid var(--line); }
 .faqsec summary {
   cursor: pointer; padding: 18px 0; font-weight: 600; font-size: 1.02rem;
