@@ -2077,6 +2077,45 @@ body:has(.vgal-light:target) .vgal > *:not(.vgal-light) {
 .hm-close .closebub p { margin-inline: 0; }
 .hm-close .closebtns { justify-content: flex-start; }
 
+/* The hero search's Search button HAS NO VISIBLE FOCUS RING without this.
+
+   `.hsearch-fields` (globals.css) is a grid whose 1px gaps are the container's
+   own background showing through, and its `overflow: hidden` is what rounds the
+   joined cells' outer corners — the clip is load bearing, so the fix is to draw
+   the ring inward rather than to remove it. `.hsearch-go` is the last cell and
+   carries `border-radius: 0; align-self: stretch`, which leaves three of its
+   edges coincident with that clipper's padding box. Measured on / at 1400px:
+   button {t:705.30, r:1327.50, b:773.09} against padding box {t:705.30,
+   r:1327.50, b:773.09} — identical. globals.css draws `:focus-visible` at
+   `outline-offset: 2px`, so top, right and bottom land 4.5px OUTSIDE the clip
+   and are painted away; only the left segment survives, over the neighbouring
+   cell, where it reads as one of the grid's own dividers.
+
+   BASE LAYER, NOT THE DESKTOP BLOCK BELOW, because the defect is not a desktop
+   one. Measured again at 375px, where `.hsearch-fields` collapses to a single
+   column and the button is the last ROW: left, right and bottom are the three
+   clipped sides there. A rule inside the 1100px block would have left every
+   phone and tablet exactly as it was.
+
+   WHITE, NOT --rose. This is `.btn-primary`, whose fill IS --rose (measured
+   rgb(169, 66, 90) on the live button), so a rose ring inside a rose button is
+   invisible. #fff on --rose is 5.81:1 — well past the 3:1 a focus indicator
+   needs, and higher still on the --rose-deep hover fill.
+
+   SCOPED TO .hm-hero at (0,3,0), which beats globals' `:focus-visible` (0,1,0)
+   outright, so the @import position is irrelevant — the same argument as
+   `.hm-hero .hsearch` below. The travelling copy of this component on
+   /workspaces has the identical defect and is fixed identically in
+   app/styles/desktop-search.css, scoped to `.srchdisc-body`: two rules rather
+   than one because `.hsearch-go` is declared in globals.css and neither area
+   sheet owns it. One `.hsearch-go:focus-visible` beside the other `.hsearch-*`
+   focus rules in globals.css would replace both. */
+.hm-hero .hsearch-go:focus-visible {
+  outline: 2.5px solid #fff;
+  outline-offset: -3px;
+  border-radius: 0;
+}
+
 /* ===========================================================================
    DESKTOP. One boundary, already in the codebase, used by everything below.
 =========================================================================== */
@@ -3148,6 +3187,70 @@ body:has(.vgal-light:target) .vgal > *:not(.vgal-light) {
    @import order falls. */
 .srchdisc-body .hsearch { margin: 0; max-width: none; }
 
+/* The Search button inside this panel HAS NO VISIBLE FOCUS RING without the
+   rule below, and neither does its twin in the homepage hero.
+
+   `.hsearch-fields` (globals.css) is a grid whose 1px gaps are the container's
+   own background showing through, and `overflow: hidden` is what rounds the
+   joined cells' outer corners — so the clip is load bearing and cannot simply
+   be dropped. The Search button is the LAST cell and carries `.hsearch-go
+   { border-radius: 0; align-self: stretch }`, which leaves three of its edges
+   coincident with that clipper's padding box. Measured on /workspaces at
+   1400px with the disclosure open: button {t:228.78, r:1310.50, b:296.58}
+   against padding box {t:228.78, r:1310.50, b:296.58} — identical to the
+   hundredth of a pixel. globals.css draws `:focus-visible` at
+   `outline-offset: 2px`, so top, right and bottom all land 4.5px OUTSIDE the
+   clip and are painted away; only the left segment survives, over the
+   neighbouring "People" cell. At 375px the grid is one column and it is the
+   left, right and bottom segments that go instead — which is why this sits in
+   the base layer and not in the media query at the head of the file.
+
+   DRAWN INWARD, which is the remedy `.srchdisc-sum:focus-visible` above already
+   uses at -2px and app/styles/venue.css:116 documents for `.vgal-open`. -3px
+   against a 2.5px stroke puts the whole ring inside the button's border box,
+   clear of the clipper.
+
+   WHITE, NOT --rose. This is `.btn-primary`, whose fill IS --rose — measured
+   rgb(169, 66, 90) on the live button — so a rose ring drawn inside a rose
+   button is invisible. #fff on --rose is 5.81:1, well past the 3:1 a focus
+   indicator needs, and 8.9:1 against the --rose-deep hover fill.
+
+   THE HOMEPAGE COPY IS THE SAME COMPONENT WITH THE SAME DEFECT and is fixed
+   identically in app/styles/home.css, scoped to `.hm-hero`. Two rules rather
+   than one because `.hsearch-go` is declared in globals.css, which neither
+   area sheet owns; if they are ever merged, one `.hsearch-go:focus-visible`
+   beside the other `.hsearch-*` focus rules in globals.css replaces both. */
+.srchdisc-body .hsearch-go:focus-visible {
+  outline: 2.5px solid #fff;
+  outline-offset: -3px;
+  border-radius: 0;
+}
+
+/* ---- The Grid / Split·Map toggle -------------------------------------
+   THE SAME CLIP, THE SAME INVISIBLE RING, one control along the toolbar.
+   `.views` in globals.css is `display: flex; border: 1px solid var(--line-2);
+   overflow: hidden`, and `.view` is a flex item with no margin, so the two
+   halves fill the clipper's padding box edge to edge. Measured on /workspaces
+   at 1400px against padding box {l:341.09, t:373.81, r:492.44, b:404.61}:
+     "Grid"        {l:341.09, r:396.59} — ring 4.5px outside on LEFT, TOP, BOTTOM
+     "Split · Map" {l:396.59, r:492.44} — ring 4.5px outside on TOP, RIGHT, BOTTOM
+   Whichever half a keyboard lands on, three of four sides are clipped away and
+   the only surviving segment is painted over the sibling, where it reads as a
+   divider rather than as focus. Inward again, and the clip stays: it is what
+   rounds the joined segmented control.
+
+   TWO COLOURS, BECAUSE THE TWO HALVES SIT ON DIFFERENT GROUNDS. The inactive
+   half is --paper, where --rose is 5.81:1. The active half is
+   `.view.on { background: var(--night) }` (measured rgb(43, 43, 43)), where
+   --rose does not read — --night-rose is the token globals.css:66 records as
+   AA on charcoal at 5.88:1, and it is what the dark hours band already uses. */
+.toolbar .views .view:focus-visible {
+  outline: 2.5px solid var(--rose);
+  outline-offset: -3px;
+  border-radius: 0;
+}
+.toolbar .views .view.on:focus-visible { outline-color: var(--night-rose); }
+
 /*!**************************************************************************************************************************************************************************************************************************************************************************!*\
   !*** css ./node_modules/next/dist/build/webpack/loaders/css-loader/src/index.js??ruleSet[1].rules[14].oneOf[10].use[2]!./node_modules/next/dist/build/webpack/loaders/postcss-loader/src/index.js??ruleSet[1].rules[14].oneOf[10].use[3]!./app/styles/desktop-pages.css ***!
   \**************************************************************************************************************************************************************************************************************************************************************************/
@@ -4028,6 +4131,29 @@ body:has(.vgal-light:target) .vgal > *:not(.vgal-light) {
 .langmenu-opt:hover { text-decoration: underline; }
 .langmenu-opt:focus-visible { outline: 2.5px solid var(--rose); outline-offset: 2px; }
 
+/* THE ONE ROW THAT DOES SOMETHING HAS TO LOOK LIKE IT.
+   `.langmenu-opt` above is (0,1,0). The panel sits inside .nav-links, so
+   globals' `.nav-links a:not(.btn)` — (0,2,1) — reached in and repainted it
+   --ink-2: the exact token the INERT current-language row uses. The two rows
+   were then identical, and nothing on screen distinguished the link you can
+   follow from the label you cannot.
+   Out-specified here at (0,3,1) rather than by loosening the globals rule,
+   whose own comment records what the last change to it cost. `:not(.btn)` is
+   mandatory and not decorative: lib/navGuard.js fails the build for any
+   `.nav-links` descendant rule that sets a colour without it, which is the
+   guard added after that rule silently repainted the header's call to action. */
+.nav-links a.langmenu-opt:not(.btn) {
+  color: var(--rose);
+  font-size: inherit;
+  font-weight: inherit;
+  padding: 2px 0;
+  border-bottom: 0;
+}
+.nav-links a.langmenu-opt:not(.btn):hover {
+  color: var(--rose);
+  text-decoration: underline;
+}
+
 @media not all and (max-width: 720px) {
   /* Out of the flow, so opening it does not push the bar taller. Anchored to
      the inline-end edge, which is the right one here and the left one in the
@@ -4727,7 +4853,14 @@ h2.sec { font-weight: 650; letter-spacing: -.018em; font-size: 1.15rem; margin: 
 
 /* ---------- S5: CRM, calendar, forms ---------- */
 .aform textarea { border: 1px solid var(--line-2); border-radius: 2px; padding: 9px 10px; font-family: var(--sans); font-size: .92rem; width: 100%; box-sizing: border-box; resize: vertical; background: var(--paper); color: var(--ink); }
-.tiergrid { display: grid; grid-gap: 14px; gap: 14px; grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); margin-bottom: 32px; }
+/* RENAMED FROM .tiergrid. Two unrelated components carried that one class:
+   /partner's tier cards and the Tower's floor panel, each with its own
+   definition in this file. The Tower's came second and won on source
+   order, so /partner's 14px card grid was being drawn as the Tower's 1px
+   hairline grid with a border and a filled ground — a component silently
+   wearing another component's design. Nothing selected between them
+   because nothing knew there were two. */
+.partner-tiergrid { display: grid; grid-gap: 14px; gap: 14px; grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); margin-bottom: 32px; }
 .tiercard { border: 1px solid var(--line); background: var(--paper); padding: 18px; display: flex; flex-direction: column; gap: 10px; }
 .tiercard-live { border-color: var(--rose); background: var(--rose-wash); }
 .tiercard .tn { font-family: var(--label); font-size: 10px; letter-spacing: .13em; text-transform: uppercase; color: var(--rose); }
