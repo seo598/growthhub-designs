@@ -4841,6 +4841,34 @@ h2.sec { font-weight: 650; letter-spacing: -.018em; font-size: 1.15rem; margin: 
 .ft-cols a, .ft-cols span { display: block; font-size: .88rem; letter-spacing: 0; margin-bottom: 6px; text-decoration: none; font-family: var(--sans); }
 .ft-cols a:hover { color: var(--night-ink); }
 .ft-base { border-top: 1px solid #463539; padding-top: 18px; }
+
+/* ---- Footer taps on a phone ------------------------------------------
+   The column links render 23px tall with a 6px margin — a 29px pitch. That
+   PASSES WCAG 2.2 SC 2.5.8: every pair clears the spacing exception, which is
+   why nothing flagged it. It is still a small target for a thumb, and the
+   platform guidance both vendors publish is 44px.
+
+   So the padding is added, and the column count is raised with it. On its own,
+   44px rows would have added roughly 280px to a footer already 949px tall on
+   an 812px screen — taller taps bought with a longer scroll. Dropping the
+   track minimum to 150px fits two columns at 375 instead of one, which more
+   than pays for the extra height: the same links, bigger targets, and a
+   SHORTER footer than before.
+
+   Scoped to .ft-cols, not `.ft a`. The language switch and the copyright sit
+   outside it and are inline inside a sentence; giving those block padding
+   would break the line they belong to.
+
+   `padding-block`, not `padding`: these rows are also the Arabic footer's, and
+   the logical property keeps the inline edge alone under RTL. */
+@media (max-width: 720px) {
+  .ft-cols { grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); }
+  .ft-cols a {
+    /* 22.5px line + 22px padding = 44.5px, against a 44px target. */
+    padding-block: 11px;
+    margin-bottom: 0;
+  }
+}
 .cmstabs { display: flex; flex-wrap: wrap; gap: 4px; margin-bottom: 18px; border-bottom: 1px solid var(--line); }
 .cmstab { padding: 9px 15px; font-size: .92rem; font-weight: 600; color: var(--ink-2); text-decoration: none; border-bottom: 2.5px solid transparent; margin-bottom: -1px; }
 .cmstab:hover { color: var(--rose-deep); border-bottom-color: var(--rose); }
