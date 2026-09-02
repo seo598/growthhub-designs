@@ -86,16 +86,6 @@
    "file": "workspaces/city-al-khobar/index.html"
   },
   {
-   "route": "/workspaces?city=adliya",
-   "area": "public",
-   "file": "workspaces/city-adliya/index.html"
-  },
-  {
-   "route": "/workspaces?city=manama",
-   "area": "public",
-   "file": "workspaces/city-manama/index.html"
-  },
-  {
    "route": "/blog",
    "area": "public",
    "file": "blog/index.html"
@@ -219,16 +209,6 @@
    "route": "/workspaces/saudi-arabia/al-khobar/growth-hub-al-khobar",
    "area": "public",
    "file": "workspaces/saudi-arabia/al-khobar/growth-hub-al-khobar/index.html"
-  },
-  {
-   "route": "/workspaces/bahrain/adliya/fahdan",
-   "area": "public",
-   "file": "workspaces/bahrain/adliya/fahdan/index.html"
-  },
-  {
-   "route": "/workspaces/bahrain/manama/growth-hub-diplomatic-area",
-   "area": "public",
-   "file": "workspaces/bahrain/manama/growth-hub-diplomatic-area/index.html"
   },
   {
    "route": "/blog/what-is-included-in-a-growth-hub-office",
@@ -581,16 +561,6 @@
    "file": "admin/venues/32/index.html"
   },
   {
-   "route": "/admin/venues/33",
-   "area": "admin",
-   "file": "admin/venues/33/index.html"
-  },
-  {
-   "route": "/admin/venues/34",
-   "area": "admin",
-   "file": "admin/venues/34/index.html"
-  },
-  {
    "route": "/admin/spaces/112",
    "area": "admin",
    "file": "admin/spaces/112/index.html"
@@ -614,6 +584,11 @@
    "route": "/admin/customers/13",
    "area": "admin",
    "file": "admin/customers/13/index.html"
+  },
+  {
+   "route": "/admin/customers/45",
+   "area": "admin",
+   "file": "admin/customers/45/index.html"
   }
  ],
  "failed": [],
@@ -754,19 +729,13 @@
   "/admin/spaces/132",
   "/admin/spaces/133",
   "/admin/spaces/134",
+  "/admin/venues/33",
+  "/admin/venues/34",
   "/api/v1/reports/bookings",
-  "/workspaces?city=adliya&sort=asc",
-  "/workspaces?city=adliya&sort=newest",
-  "/workspaces?city=adliya&view=map",
   "/workspaces?city=al-khobar&sort=asc",
   "/workspaces?city=al-khobar&sort=newest",
   "/workspaces?city=al-khobar&view=map",
-  "/workspaces?city=manama&sort=asc",
-  "/workspaces?city=manama&sort=newest",
-  "/workspaces?city=manama&view=map",
-  "/workspaces?mode=hour&city=adliya",
   "/workspaces?mode=hour&city=al-khobar",
-  "/workspaces?mode=hour&city=manama",
   "/workspaces?mode=hour&sort=asc",
   "/workspaces?mode=hour&sort=asc&view=map",
   "/workspaces?mode=hour&sort=newest",
